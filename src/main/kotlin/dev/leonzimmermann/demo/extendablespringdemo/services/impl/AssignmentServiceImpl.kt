@@ -43,19 +43,16 @@ class AssignmentServiceImpl : AssignmentService {
     return getDiscrepanciesBetweenResultSets(solutionResult, usersResult)
   }
 
-  private fun executeQuery(queryString: String): List<Any> {
+  private fun executeQuery(queryString: String): List<Any?> {
     logger.debug("Executing query: $queryString")
-    // TODO Implement
-    /*
-    val query = entityManager.createQuery(queryString)
-    return query.resultList
-     */
-    return emptyList()
+    val result = entityManager.createQuery(queryString).resultList
+    logger.debug("Result of query is: $result")
+    return result.toList()
   }
 
   private fun getDiscrepanciesBetweenResultSets(
-    solutionResult: List<Any>,
-    usersResult: List<Any>
+    solutionResult: List<Any?>,
+    usersResult: List<Any?>
   ): List<String> {
     // TODO Implement
     return emptyList()

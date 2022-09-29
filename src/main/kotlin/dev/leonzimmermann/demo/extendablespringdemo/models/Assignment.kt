@@ -7,7 +7,7 @@ import javax.persistence.Id
 import javax.persistence.Table
 
 @Entity
-@Table(name = "assignment")
+@Table(name = "Assignment")
 data class Assignment(
   @Id @GeneratedValue val objectId: Long = 0,
   @Column(name = "stem", nullable = false) val stem: String,

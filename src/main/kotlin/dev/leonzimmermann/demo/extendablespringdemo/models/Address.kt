@@ -3,7 +3,7 @@ package dev.leonzimmermann.demo.extendablespringdemo.models
 import javax.persistence.*
 
 @Entity
-@Table(name = "address")
+@Table(name = "Address")
 data class Address(
   @Id @GeneratedValue val id: Long = 0,
   @Column(name = "street") val street: String,
