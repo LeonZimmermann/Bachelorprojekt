@@ -19,12 +19,20 @@ class AssignmentController {
   }
 
   @PostMapping("/solve/{objectId}")
-  fun solveAssignment(@RequestParam("objectId") objectId: Int, @RequestBody solution: String): ResponseEntity<Any> {
-    val listOfDiscrepancies = assignmentService.solveAssignmentAndReturnListOfDiscrepancies(objectId, solution)
-    return if (listOfDiscrepancies.isEmpty()) {
-      ResponseEntity("Correct!", HttpStatus.OK)
-    } else {
-      ResponseEntity(listOfDiscrepancies.joinToString(", ", "False... [", "]"), HttpStatus.OK)
+  fun solveAssignment(
+    @RequestParam("objectId") objectId: Long,
+    @RequestBody solution: String
+  ): ResponseEntity<Any> {
+    return try {
+      val listOfDiscrepancies =
+        assignmentService.solveAssignmentAndReturnListOfDiscrepancies(objectId, solution)
+      if (listOfDiscrepancies.isEmpty()) {
+        ResponseEntity("Correct!", HttpStatus.OK)
+      } else {
+        ResponseEntity(listOfDiscrepancies.joinToString(", ", "False... [", "]"), HttpStatus.OK)
+      }
+    } catch (e: Exception) {
+      ResponseEntity(e.localizedMessage, HttpStatus.BAD_REQUEST)
     }
   }
 
