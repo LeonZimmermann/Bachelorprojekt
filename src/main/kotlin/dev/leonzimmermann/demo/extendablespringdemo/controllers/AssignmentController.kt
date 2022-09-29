@@ -33,7 +33,7 @@ class AssignmentController {
       if (listOfDiscrepancies.isEmpty()) {
         ResponseEntity("Correct!", HttpStatus.OK)
       } else {
-        ResponseEntity(listOfDiscrepancies.joinToString(", ", "False... [", "]"), HttpStatus.OK)
+        ResponseEntity(listOfDiscrepancies.joinToString(". ", "False... [", "]"), HttpStatus.OK)
       }
     } catch (e: QueryException) {
       logger.error(e.stackTraceToString())

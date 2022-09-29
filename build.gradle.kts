@@ -20,18 +20,21 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-  testImplementation("org.springframework.boot:spring-boot-starter-test")
   runtimeOnly("org.postgresql:postgresql")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-
   implementation("org.springdoc:springdoc-openapi-ui:1.6.11")
+
+  testImplementation("org.springframework.boot:spring-boot-starter-test")
+  testImplementation("junit:junit:4.13.2")
+  testImplementation("org.assertj:assertj-core:3.23.1")
+  testImplementation("org.mockito:mockito-core:4.8.0")
 }
 
 tasks.withType<KotlinCompile> {
   kotlinOptions {
     freeCompilerArgs = listOf("-Xjsr305=strict")
-    jvmTarget = "17"
+    jvmTarget = "1.8"
   }
 }
 

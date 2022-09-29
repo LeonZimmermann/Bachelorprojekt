@@ -1,7 +1,9 @@
 package dev.leonzimmermann.demo.extendablespringdemo.services.impl
 
 import dev.leonzimmermann.demo.extendablespringdemo.models.Assignment
-import dev.leonzimmermann.demo.extendablespringdemo.repositories.AssignmentRepository
+import dev.leonzimmermann.demo.extendablespringdemo.models.rules.AssignmentValidationRule
+import dev.leonzimmermann.demo.extendablespringdemo.models.rules.NumberOfRowsValidationRule
+import dev.leonzimmermann.demo.extendablespringdemo.models.rules.ResultIsTheSameValidationRule
 import dev.leonzimmermann.demo.extendablespringdemo.services.AssignmentService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -13,8 +15,8 @@ class AssignmentServiceImpl : AssignmentService {
 
   private val logger = LoggerFactory.getLogger(javaClass.name)
 
-  @Autowired
-  private lateinit var assignmentRepository: AssignmentRepository
+  private var counter = 0L
+  private val listOfAssignments = mutableMapOf<Long, Assignment>()
 
   @Autowired
   private lateinit var entityManager: EntityManager
@@ -25,10 +27,11 @@ class AssignmentServiceImpl : AssignmentService {
       solution = """
       SELECT DISTINCT street FROM Address
       WHERE city = 'Essen'
-    """.trimIndent()
+    """.trimIndent(),
+      validationRules = arrayOf(ResultIsTheSameValidationRule, NumberOfRowsValidationRule)
     )
     logger.debug("Generated new assignment: $assignment")
-    return assignmentRepository.save(assignment)
+    return listOfAssignments.put(counter++, assignment)!!
   }
 
   override fun solveAssignmentAndReturnListOfDiscrepancies(
@@ -36,11 +39,11 @@ class AssignmentServiceImpl : AssignmentService {
     answer: String
   ): List<String> {
     logger.debug("Solving assignment with objectId $objectId")
-    val assignment = assignmentRepository.findById(objectId)
-      .orElseThrow { IllegalArgumentException("Could not find objectId $objectId") }
+    val assignment = listOfAssignments[objectId]
+      ?: throw IllegalArgumentException("Could not find objectId $objectId")
     val solutionResult = executeQuery(assignment.solution)
     val usersResult = executeQuery(answer)
-    return getDiscrepanciesBetweenResultSets(solutionResult, usersResult)
+    return assignment.validationRules.flatMap { it.validate(solutionResult, usersResult) }
   }
 
   private fun executeQuery(queryString: String): List<Any?> {
@@ -48,16 +51,5 @@ class AssignmentServiceImpl : AssignmentService {
     val result = entityManager.createQuery(queryString).resultList
     logger.debug("Result of query is: $result")
     return result.toList()
-  }
-
-  private fun getDiscrepanciesBetweenResultSets(
-    solutionResult: List<Any?>,
-    usersResult: List<Any?>
-  ): List<String> {
-    return if (solutionResult == usersResult) {
-      emptyList()
-    } else {
-      listOf("results are different")
-    }
   }
 }
