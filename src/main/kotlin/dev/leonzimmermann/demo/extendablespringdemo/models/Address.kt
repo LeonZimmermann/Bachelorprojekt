@@ -1,11 +1,9 @@
 package dev.leonzimmermann.demo.extendablespringdemo.models
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
+import javax.persistence.*
 
-@Entity(name = "Address")
+@Entity
+@Table(name = "address")
 data class Address(
   @Id @GeneratedValue val id: Int? = null,
   @Column(name = "street") val street: String? = null,

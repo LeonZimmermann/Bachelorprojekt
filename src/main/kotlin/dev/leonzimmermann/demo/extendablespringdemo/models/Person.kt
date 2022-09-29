@@ -1,13 +1,9 @@
 package dev.leonzimmermann.demo.extendablespringdemo.models
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.MapsId
-import javax.persistence.OneToOne
+import javax.persistence.*
 
-@Entity(name = "Person")
+@Entity
+@Table(name = "Person")
 data class Person(
   @Id @GeneratedValue var id: Int,
   @Column(name = "firstname", nullable = false) var firstname: String,
