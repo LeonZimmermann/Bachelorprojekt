@@ -23,8 +23,8 @@ class AssignmentServiceImpl : AssignmentService {
     val assignment = Assignment(
       stem = "Get all streets in the city of Essen",
       solution = """
-      SELECT street FROM address
-      WHERE address.city = "Essen"
+      SELECT DISTINCT street FROM Address
+      WHERE city = 'Essen'
     """.trimIndent()
     )
     logger.debug("Generated new assignment: $assignment")
@@ -54,7 +54,10 @@ class AssignmentServiceImpl : AssignmentService {
     solutionResult: List<Any?>,
     usersResult: List<Any?>
   ): List<String> {
-    // TODO Implement
-    return emptyList()
+    return if (solutionResult == usersResult) {
+      emptyList()
+    } else {
+      listOf("results are different")
+    }
   }
 }
