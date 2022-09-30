@@ -1,6 +1,6 @@
 package dev.leonzimmermann.demo.extendablespringdemo.controllers
 
-import dev.leonzimmermann.demo.extendablespringdemo.services.impl.AssignmentServiceImpl
+import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.impl.AssignmentServiceImpl
 import org.hibernate.QueryException
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired

@@ -1,4 +1,4 @@
-package dev.leonzimmermann.demo.extendablespringdemo.models.fixedDatabase
+package dev.leonzimmermann.demo.extendablespringdemo.models
 
 import javax.persistence.*
 
