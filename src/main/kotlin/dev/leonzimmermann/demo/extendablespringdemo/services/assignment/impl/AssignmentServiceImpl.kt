@@ -8,6 +8,9 @@ import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.sql.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import simplenlg.framework.NLGFactory
+import simplenlg.lexicon.Lexicon
+import simplenlg.realiser.english.Realiser
 import javax.persistence.EntityManager
 
 @Service
@@ -21,18 +24,26 @@ class AssignmentServiceImpl : AssignmentService {
   @Autowired
   private lateinit var entityManager: EntityManager
 
+  private val lexicon = Lexicon.getDefaultLexicon()
+  private val nlgFactory = NLGFactory(lexicon)
+  private val realiser = Realiser(lexicon)
+
   override fun generateNewAssignment(): Assignment {
-    val assignment = Assignment(
-      stem = "Get all streets in the city of Essen", solution = SelectStatement(
-        selectProperties = arrayOf(SQLProperty("street")),
-        fromStatement = FromStatement(SQLTable("Address")),
-        whereClause = WhereClause(
-          EqualsExpression(
-            BooleanExpressionProperty(SQLProperty("city")),
-            BooleanExpressionLiteral(SQLLiteral("'Essen'"))
-          )
+    val solution = SelectStatement(
+      selectProperties = SQLEnumeration(SQLProperty("street", "Straße")),
+      fromStatement = FromStatement(SQLTable("Address")),
+      whereClause = WhereClause(
+        EqualsExpression(
+          BooleanExpressionProperty(SQLProperty("city")),
+          BooleanExpressionLiteral(SQLLiteral("'Essen'"))
         )
-      ), validationRules = arrayOf(ResultIsTheSameValidationRule, NumberOfRowsValidationRule)
+      )
+    )
+    val stem = realiser.realiseSentence(solution.toStemText(nlgFactory))
+    val assignment = Assignment(
+      stem = stem,
+      solution = solution,
+      validationRules = arrayOf(ResultIsTheSameValidationRule, NumberOfRowsValidationRule)
     )
     logger.debug("Generated new assignment: $assignment")
     listOfAssignments[counter++] = assignment

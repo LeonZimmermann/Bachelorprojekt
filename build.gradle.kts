@@ -14,6 +14,13 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
   mavenCentral()
+  maven {
+    setUrl("https://clojars.org/repo/")
+  }
+  maven {
+    setUrl("https://jitpack.io")
+  }
+  google()
 }
 
 dependencies {
@@ -24,6 +31,10 @@ dependencies {
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   implementation("org.springdoc:springdoc-openapi-ui:1.6.11")
+
+  // SimpleNLG
+  implementation("uk.ac.abdn:SimpleNLG:4.5.0")
+  implementation("gov.nih.nlm.nls.lexaccess:lexaccess-dist:2013")
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("junit:junit:4.13.2")

@@ -1,6 +1,9 @@
 package dev.leonzimmermann.demo.extendablespringdemo.services.assignment.sql
 
-class FromStatement(private val tableName: SQLTable, private val tableAlias: SQLLiteral? = null):
+import simplenlg.framework.NLGElement
+import simplenlg.framework.NLGFactory
+
+class FromStatement(private val tableName: SQLTable, private val tableAlias: SQLLiteral? = null) :
   SQLElement {
   override fun toSQLString(): String {
     var result = "FROM ${tableName.toSQLString()}"
@@ -9,4 +12,7 @@ class FromStatement(private val tableName: SQLTable, private val tableAlias: SQL
     }
     return result
   }
+
+  override fun toStemText(nlgFactory: NLGFactory): NLGElement =
+    nlgFactory.createAdverbPhrase("from the table $tableName")
 }

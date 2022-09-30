@@ -9,7 +9,7 @@ class SelectStatementUnitTest {
   @Test
   fun testToSQLString() {
     val selectStatement = SelectStatement(
-      selectProperties = arrayOf(SQLProperty("street")),
+      selectProperties = SQLEnumeration(SQLProperty("street")),
       fromStatement = FromStatement(SQLTable("Address")),
       whereClause = WhereClause(EqualsExpression(
         BooleanExpressionProperty(SQLProperty("city")),
