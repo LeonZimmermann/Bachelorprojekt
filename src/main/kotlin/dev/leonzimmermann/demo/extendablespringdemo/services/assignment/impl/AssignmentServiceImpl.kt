@@ -35,7 +35,8 @@ class AssignmentServiceImpl : AssignmentService {
       ), validationRules = arrayOf(ResultIsTheSameValidationRule, NumberOfRowsValidationRule)
     )
     logger.debug("Generated new assignment: $assignment")
-    return listOfAssignments.put(counter++, assignment)!!
+    listOfAssignments[counter++] = assignment
+    return assignment
   }
 
   override fun solveAssignmentAndReturnListOfDiscrepancies(
