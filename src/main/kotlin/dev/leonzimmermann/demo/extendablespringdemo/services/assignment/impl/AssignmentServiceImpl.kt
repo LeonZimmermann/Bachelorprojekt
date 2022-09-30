@@ -25,7 +25,7 @@ class AssignmentServiceImpl : AssignmentService {
     val assignment = Assignment(
       stem = "Get all streets in the city of Essen", solution = SelectStatement(
         selectProperties = arrayOf(SQLProperty("street")),
-        tableStatement = TableStatement("Address"),
+        fromStatement = FromStatement(SQLTable("Address")),
         whereClause = WhereClause(
           EqualsExpression(
             BooleanExpressionProperty(SQLProperty("city")),

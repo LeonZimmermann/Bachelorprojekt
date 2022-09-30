@@ -10,10 +10,10 @@ class SelectStatementUnitTest {
   fun testToSQLString() {
     val selectStatement = SelectStatement(
       selectProperties = arrayOf(SQLProperty("street")),
-      tableStatement = TableStatement("Address"),
+      fromStatement = FromStatement(SQLTable("Address")),
       whereClause = WhereClause(EqualsExpression(
         BooleanExpressionProperty(SQLProperty("city")),
-        BooleanExpressionLiteral("'Essen'")))
+        BooleanExpressionLiteral(SQLLiteral("'Essen'"))))
     )
     assertEquals("SELECT street FROM Address WHERE city='Essen'", selectStatement.toSQLString())
   }

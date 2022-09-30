@@ -4,9 +4,9 @@ sealed class SQLExpression: SQLElement
 
 class SelectStatement(
   private val selectProperties: Array<SQLProperty>,
-  private val tableStatement: TableStatement,
+  private val fromStatement: FromStatement,
   private val whereClause: WhereClause? = null
 ) : SQLExpression() {
   override fun toSQLString(): String =
-    "SELECT ${selectProperties.joinToString(",") { it.toSQLString() }} ${tableStatement.toSQLString()} ${whereClause?.toSQLString() ?: ""}"
+    "SELECT ${selectProperties.joinToString(",") { it.toSQLString() }} ${fromStatement.toSQLString()} ${whereClause?.toSQLString() ?: ""}"
 }
