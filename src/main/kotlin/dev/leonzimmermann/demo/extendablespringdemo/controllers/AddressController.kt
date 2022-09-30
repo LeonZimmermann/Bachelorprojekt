@@ -1,6 +1,6 @@
 package dev.leonzimmermann.demo.extendablespringdemo.controllers
 
-import dev.leonzimmermann.demo.extendablespringdemo.models.fixedDatabase.Address
+import dev.leonzimmermann.demo.extendablespringdemo.models.Address
 import dev.leonzimmermann.demo.extendablespringdemo.repositories.AddressRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*

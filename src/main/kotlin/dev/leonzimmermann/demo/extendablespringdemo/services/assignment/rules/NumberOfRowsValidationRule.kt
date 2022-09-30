@@ -1,4 +1,4 @@
-package dev.leonzimmermann.demo.extendablespringdemo.models.rules
+package dev.leonzimmermann.demo.extendablespringdemo.services.assignment.rules
 
 object NumberOfRowsValidationRule: AssignmentValidationRule {
   override fun validate(solutionResult: List<Any?>, usersResult: List<Any?>): List<String> {

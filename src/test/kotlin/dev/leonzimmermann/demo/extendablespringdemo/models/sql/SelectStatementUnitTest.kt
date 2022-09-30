@@ -1,5 +1,6 @@
 package dev.leonzimmermann.demo.extendablespringdemo.models.sql
 
+import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.sql.*
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

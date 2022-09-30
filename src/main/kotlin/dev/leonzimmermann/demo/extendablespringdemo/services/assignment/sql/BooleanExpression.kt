@@ -1,4 +1,4 @@
-package dev.leonzimmermann.demo.extendablespringdemo.models.sql
+package dev.leonzimmermann.demo.extendablespringdemo.services.assignment.sql
 
 sealed class BooleanExpression : SQLElement
 class AndExpression(
@@ -69,8 +69,8 @@ class BooleanExpressionProperty(private val property: SQLProperty) : BooleanExpr
   override fun toSQLString(): String = property.toSQLString()
 }
 
-class BooleanExpressionLiteral(private val literal: String) : BooleanExpression() {
-  override fun toSQLString(): String = literal
+class BooleanExpressionLiteral(private val literal: SQLLiteral) : BooleanExpression() {
+  override fun toSQLString(): String = literal.toSQLString()
 }
 
 object TrueExpression: BooleanExpression() {

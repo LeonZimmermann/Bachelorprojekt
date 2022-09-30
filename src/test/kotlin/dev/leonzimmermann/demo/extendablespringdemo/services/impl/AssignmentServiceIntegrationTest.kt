@@ -1,5 +1,6 @@
 package dev.leonzimmermann.demo.extendablespringdemo.services.impl
 
+import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.impl.AssignmentServiceImpl
 import junit.framework.TestCase.assertNotNull
 import org.junit.Test
 import org.junit.runner.RunWith

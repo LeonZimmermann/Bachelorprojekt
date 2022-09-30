@@ -1,6 +1,4 @@
-package dev.leonzimmermann.demo.extendablespringdemo.services
-
-import dev.leonzimmermann.demo.extendablespringdemo.models.fixedDatabase.Assignment
+package dev.leonzimmermann.demo.extendablespringdemo.services.assignment
 
 interface AssignmentService {
   fun generateNewAssignment(): Assignment
