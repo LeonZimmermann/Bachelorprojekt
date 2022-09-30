@@ -1,6 +1,6 @@
 package dev.leonzimmermann.demo.extendablespringdemo.controllers
 
-import dev.leonzimmermann.demo.extendablespringdemo.models.Person
+import dev.leonzimmermann.demo.extendablespringdemo.models.fixedDatabase.Person
 import dev.leonzimmermann.demo.extendablespringdemo.repositories.PersonRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*

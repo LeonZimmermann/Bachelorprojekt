@@ -1,4 +1,4 @@
-package dev.leonzimmermann.demo.extendablespringdemo.models
+package dev.leonzimmermann.demo.extendablespringdemo.models.fixedDatabase
 
 import dev.leonzimmermann.demo.extendablespringdemo.models.rules.AssignmentValidationRule
 

@@ -1,7 +1,6 @@
 package dev.leonzimmermann.demo.extendablespringdemo.services.impl
 
-import dev.leonzimmermann.demo.extendablespringdemo.models.Assignment
-import dev.leonzimmermann.demo.extendablespringdemo.models.rules.AssignmentValidationRule
+import dev.leonzimmermann.demo.extendablespringdemo.models.fixedDatabase.Assignment
 import dev.leonzimmermann.demo.extendablespringdemo.models.rules.NumberOfRowsValidationRule
 import dev.leonzimmermann.demo.extendablespringdemo.models.rules.ResultIsTheSameValidationRule
 import dev.leonzimmermann.demo.extendablespringdemo.services.AssignmentService
