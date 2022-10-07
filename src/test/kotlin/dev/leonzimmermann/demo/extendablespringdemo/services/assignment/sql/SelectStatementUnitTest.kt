@@ -17,7 +17,7 @@ class SelectStatementUnitTest : AbstractSQLUnitTest() {
   }
 
   @Test
-  fun testToStemTextWithWhereClause() {
+  fun testTextWithWhereClause() {
     val statement = SelectStatement(
       selectProperties = SQLPropertyEnumeration(Pair("postalcode", null)),
       fromStatement = FromStatement(SQLTable("Address")),
@@ -47,7 +47,7 @@ class SelectStatementUnitTest : AbstractSQLUnitTest() {
   }
 
   @Test
-  fun testToStemTextWithWhereClauseAndLimit() {
+  fun testWithWhereClauseAndLimit() {
     val statement = SelectStatement(
       selectProperties = SQLPropertyEnumeration(Pair("postalcode", null)),
       fromStatement = FromStatement(SQLTable("Address")),
@@ -68,6 +68,48 @@ class SelectStatementUnitTest : AbstractSQLUnitTest() {
     assertEquals(
       "SELECT postalcode FROM Address WHERE city='Essen' LIMIT 3",
       statement.toSQLString().trim()
+    )
+  }
+
+  @Test
+  fun testWithJoins() {
+    val statement = SelectStatement(
+      selectProperties = SQLEnumeration(
+        SQLProperty(
+          "lastname",
+          "last name",
+          plural = true,
+          possessor = SQLTable("Person")
+        )
+      ),
+      fromStatement = FromStatement(SQLTable("Person")),
+      joinExpressions = arrayOf(
+        JoinExpression(
+          SQLTable("Address"),
+          SQLTable("Person"),
+          SQLProperty("id"),
+          SQLProperty("address")
+        )
+      ),
+      whereClause = WhereClause(
+        EqualsExpression(
+          BooleanExpressionProperty(SQLProperty("city")),
+          BooleanExpressionLiteral(SQLStringLiteral("Essen")),
+          "be"
+        )
+      ),
+    )
+    val realisedSentence = realiser.realiseSentence(statement.toStemText(nlgFactory))
+    assertEquals(
+      "Query all the Person's last names where the city is Essen.",
+      realisedSentence.trim()
+    )
+    assertEquals(
+      """
+      SELECT lastname FROM Person
+      JOIN Address ON Address.id=Person.address
+      WHERE city='Essen'
+    """.trimIndent(), statement.toSQLString().trim()
     )
   }
 }

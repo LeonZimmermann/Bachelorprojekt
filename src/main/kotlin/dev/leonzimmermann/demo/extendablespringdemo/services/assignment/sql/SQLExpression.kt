@@ -13,12 +13,15 @@ sealed class SQLExpression : SQLElement
 class SelectStatement(
   private val selectProperties: SQLEnumeration<SQLProperty>,
   private val fromStatement: FromStatement,
+  private val joinExpressions: Array<JoinExpression>? = null,
   private val whereClause: WhereClause? = null,
   private val limitExpression: LimitExpression? = null
 ) : SQLExpression() {
   override fun toSQLString(): String =
-    "SELECT ${selectProperties.toSQLString()} ${fromStatement.toSQLString()} ${whereClause?.toSQLString() ?: ""} ${limitExpression?.toSQLString() ?: ""}"
-
+    "SELECT ${selectProperties.toSQLString()} ${fromStatement.toSQLString()}" +
+        "\n${joinExpressions?.joinToString("\n") { it.toSQLString() }}" +
+        "\n${whereClause?.toSQLString() ?: ""}" +
+        "\n${limitExpression?.toSQLString() ?: ""}"
 
   override fun toStemText(nlgFactory: NLGFactory): NLGElement {
     val selectClause = nlgFactory.createClause()
