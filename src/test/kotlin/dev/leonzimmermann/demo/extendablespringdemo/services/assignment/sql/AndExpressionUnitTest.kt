@@ -11,7 +11,7 @@ class AndExpressionUnitTest : AbstractSQLUnitTest() {
       BooleanExpressionProperty(SQLProperty("city"))
     )
     val realisedSentence = realiser.realiseSentence(statement.toStemText(nlgFactory))
-    assertEquals("Street and city.", realisedSentence)
+    assertEquals("The street and the city.", realisedSentence)
   }
 
   @Test
@@ -27,6 +27,6 @@ class AndExpressionUnitTest : AbstractSQLUnitTest() {
       )
     )
     val realisedSentence = realiser.realiseSentence(statement.toStemText(nlgFactory))
-    assertEquals("City equals to 'Essen' and postalcode does not equal 12345.", realisedSentence)
+    assertEquals("The city equals to 'Essen' and the postalcode does not equal 12345.", realisedSentence)
   }
 }

@@ -11,7 +11,7 @@ class EqualsExpressionUnitTest : AbstractSQLUnitTest() {
       BooleanExpressionLiteral(SQLStringLiteral("'Essen'"))
     )
     val realisedSentence = realiser.realiseSentence(statement.toStemText(nlgFactory))
-    assertEquals("City equals to 'Essen'.", realisedSentence)
+    assertEquals("The city equals to 'Essen'.", realisedSentence)
   }
 
   @Test
@@ -22,7 +22,7 @@ class EqualsExpressionUnitTest : AbstractSQLUnitTest() {
       "is"
     )
     val realisedSentence = realiser.realiseSentence(statement.toStemText(nlgFactory))
-    assertEquals("City is 'Essen'.", realisedSentence)
+    assertEquals("The city is 'Essen'.", realisedSentence)
   }
 
   @Test
@@ -32,6 +32,6 @@ class EqualsExpressionUnitTest : AbstractSQLUnitTest() {
       BooleanExpressionLiteral(SQLNumberLiteral(12345))
     )
     val realisedSentence = realiser.realiseSentence(statement.toStemText(nlgFactory))
-    assertEquals("Postalcode equals to 12345.", realisedSentence)
+    assertEquals("The postalcode equals to 12345.", realisedSentence)
   }
 }

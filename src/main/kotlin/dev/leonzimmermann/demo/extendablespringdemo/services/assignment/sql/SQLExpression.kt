@@ -13,24 +13,35 @@ sealed class SQLExpression : SQLElement
 class SelectStatement(
   private val selectProperties: SQLEnumeration<SQLProperty>,
   private val fromStatement: FromStatement,
-  private val whereClause: WhereClause? = null
+  private val whereClause: WhereClause? = null,
+  private val limitExpression: LimitExpression? = null
 ) : SQLExpression() {
   override fun toSQLString(): String =
-    "SELECT ${selectProperties.toSQLString()} ${fromStatement.toSQLString()} ${whereClause?.toSQLString() ?: ""}"
+    "SELECT ${selectProperties.toSQLString()} ${fromStatement.toSQLString()} ${whereClause?.toSQLString() ?: ""} ${limitExpression?.toSQLString() ?: ""}"
+
 
   override fun toStemText(nlgFactory: NLGFactory): NLGElement {
-    val clause = nlgFactory.createClause()
+    val selectClause = nlgFactory.createClause()
     val queryPhrase = nlgFactory.createVerbPhrase("query")
     queryPhrase.addPostModifier("all")
-    clause.setVerb(queryPhrase)
-    clause.setObject(selectProperties.toStemText(nlgFactory))
-    if (whereClause != null) {
+    selectClause.setVerb(queryPhrase)
+    selectClause.setObject(selectProperties.toStemText(nlgFactory))
+    val firstSentence = if (whereClause != null) {
       val whereStemText = whereClause.toStemText(nlgFactory)
-      whereStemText.setFeature(Feature.COMPLEMENTISER, "where")
-      clause.setComplement(whereStemText)
+      val coordinatedPhrase = nlgFactory.createCoordinatedPhrase(selectClause, whereStemText)
+      coordinatedPhrase.conjunction = "where"
+      coordinatedPhrase.setFeature(Feature.PERSON, Person.SECOND)
+      nlgFactory.createSentence(coordinatedPhrase)
+    } else {
+      selectClause.setFeature(Feature.PERSON, Person.SECOND)
+      nlgFactory.createSentence(selectClause)
     }
-    clause.setFeature(Feature.EXCLAMATORY, true)
-    clause.setFeature(Feature.PERSON, Person.SECOND)
-    return clause
+    val paragraph = nlgFactory.createParagraph()
+    paragraph.addComponent(firstSentence)
+    if (limitExpression != null) {
+      val sentence = nlgFactory.createSentence(limitExpression.toStemText(nlgFactory))
+      paragraph.addComponent(sentence)
+    }
+    return paragraph
   }
 }

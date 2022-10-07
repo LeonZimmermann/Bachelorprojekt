@@ -6,43 +6,20 @@ import org.junit.Test
 class SelectStatementUnitTest : AbstractSQLUnitTest() {
 
   @Test
-  fun testToSQL() {
+  fun testWithoutWhereClause() {
     val statement = SelectStatement(
-      selectProperties = SQLEnumeration(SQLProperty("street", plural = true)),
-      fromStatement = FromStatement(SQLTable("Address"))
-    )
-    assertEquals("SELECT street FROM Address", statement.toSQLString().trim())
-  }
-
-  @Test
-  fun testToStemText() {
-    val statement = SelectStatement(
-      selectProperties = SQLEnumeration(SQLProperty("street", plural = true)),
+      selectProperties = SQLPropertyEnumeration(Pair("street", null)),
       fromStatement = FromStatement(SQLTable("Address"))
     )
     val realisedSentence = realiser.realiseSentence(statement.toStemText(nlgFactory))
-    assertEquals("Query all streets!", realisedSentence)
-  }
-
-  @Test
-  fun testToSQLWithWhereClause() {
-    val statement = SelectStatement(
-      selectProperties = SQLEnumeration(SQLProperty("street", plural = true)),
-      fromStatement = FromStatement(SQLTable("Address")),
-      whereClause = WhereClause(
-        EqualsExpression(
-          BooleanExpressionProperty(SQLProperty("city")),
-          BooleanExpressionLiteral(SQLStringLiteral("Essen"))
-        )
-      )
-    )
-    assertEquals("SELECT street FROM Address WHERE city='Essen'", statement.toSQLString().trim())
+    assertEquals("Query all the streets.", realisedSentence.trim())
+    assertEquals("SELECT street FROM Address", statement.toSQLString().trim())
   }
 
   @Test
   fun testToStemTextWithWhereClause() {
     val statement = SelectStatement(
-      selectProperties = SQLEnumeration(SQLProperty("postalcode", plural = true)),
+      selectProperties = SQLPropertyEnumeration(Pair("postalcode", null)),
       fromStatement = FromStatement(SQLTable("Address")),
       whereClause = WhereClause(
         AndExpression(
@@ -60,12 +37,37 @@ class SelectStatementUnitTest : AbstractSQLUnitTest() {
     )
     val realisedSentence = realiser.realiseSentence(statement.toStemText(nlgFactory))
     assertEquals(
-      "Query all postalcodes where city is Essen and the number of streets is greater than 200!",
-      realisedSentence
+      "Query all the postalcodes where the city is Essen and the number of streets are greater than 200.",
+      realisedSentence.trim()
     )
     assertEquals(
       "SELECT postalcode FROM Address WHERE (city='Essen') AND (COUNT(street)>200)",
-      statement.toSQLString()
+      statement.toSQLString().trim()
+    )
+  }
+
+  @Test
+  fun testToStemTextWithWhereClauseAndLimit() {
+    val statement = SelectStatement(
+      selectProperties = SQLPropertyEnumeration(Pair("postalcode", null)),
+      fromStatement = FromStatement(SQLTable("Address")),
+      whereClause = WhereClause(
+        EqualsExpression(
+          BooleanExpressionProperty(SQLProperty("city")),
+          BooleanExpressionLiteral(SQLStringLiteral("Essen")),
+          "be"
+        )
+      ),
+      limitExpression = LimitExpression(3)
+    )
+    val realisedSentence = realiser.realiseSentence(statement.toStemText(nlgFactory))
+    assertEquals(
+      "Query all the postalcodes where the city is Essen. The number of elements should be limited to 3.",
+      realisedSentence.trim()
+    )
+    assertEquals(
+      "SELECT postalcode FROM Address WHERE city='Essen' LIMIT 3",
+      statement.toSQLString().trim()
     )
   }
 }

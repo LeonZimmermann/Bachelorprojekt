@@ -3,26 +3,26 @@ package dev.leonzimmermann.demo.extendablespringdemo.services.assignment.sql
 import org.junit.Assert.*
 import org.junit.Test
 
-class SQLEnumerationUnitTest: AbstractSQLUnitTest() {
+class SQLPropertyEnumerationUnitTest: AbstractSQLUnitTest() {
 
   @Test
   fun testToStemTextWithOneProperty() {
-    val sqlEnumeration = SQLEnumeration(SQLProperty("street"))
+    val sqlEnumeration = SQLPropertyEnumeration(Pair("street", null))
     val realisedSentence = realiser.realiseSentence(sqlEnumeration.toStemText(nlgFactory))
-    assertEquals("Street.", realisedSentence)
+    assertEquals("The streets.", realisedSentence)
   }
 
   @Test
   fun testToStemTextWithTwoProperties() {
-    val sqlEnumeration = SQLEnumeration(SQLProperty("street"), SQLProperty("postalcode"))
+    val sqlEnumeration = SQLPropertyEnumeration(Pair("street", null), Pair("postalcode", null))
     val realisedSentence = realiser.realiseSentence(sqlEnumeration.toStemText(nlgFactory))
-    assertEquals("Street, postalcode.", realisedSentence)
+    assertEquals("The streets and postalcodes.", realisedSentence)
   }
 
   @Test
   fun testToStemTextWithThreeProperties() {
-    val sqlEnumeration = SQLEnumeration(SQLProperty("street"), SQLProperty("postalcode"), SQLProperty("city"))
+    val sqlEnumeration = SQLPropertyEnumeration(Pair("street", null), Pair("postalcode", null), Pair("city", null))
     val realisedSentence = realiser.realiseSentence(sqlEnumeration.toStemText(nlgFactory))
-    assertEquals("Street, postalcode, city.", realisedSentence)
+    assertEquals("The streets, postalcodes and cities.", realisedSentence)
   }
 }
