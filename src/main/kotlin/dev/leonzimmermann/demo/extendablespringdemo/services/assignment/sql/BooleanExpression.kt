@@ -1,5 +1,6 @@
 package dev.leonzimmermann.demo.extendablespringdemo.services.assignment.sql
 
+import simplenlg.features.Feature
 import simplenlg.framework.LexicalCategory
 import simplenlg.framework.NLGElement
 import simplenlg.framework.NLGFactory
@@ -7,7 +8,7 @@ import simplenlg.framework.NLGFactory
 sealed class BooleanExpression : SQLElement
 class AndExpression(private vararg val expressions: BooleanExpression) : BooleanExpression() {
   override fun toSQLString(): String =
-    expressions.joinToString(" AND ", "(", ")") { it.toSQLString() }
+    expressions.joinToString(" AND ") { "(${it.toSQLString()})" }
 
   override fun toStemText(nlgFactory: NLGFactory): NLGElement {
     val coordinatedPhrase = nlgFactory.createCoordinatedPhrase()
@@ -34,36 +35,50 @@ class OrExpression(private vararg val expressions: BooleanExpression) : BooleanE
 }
 
 class EqualsExpression(
-  private val expressionOne: BooleanExpression, private val expressionTwo: BooleanExpression
+  private val expressionOne: BooleanExpression,
+  private val expressionTwo: BooleanExpression,
+  private val relationWord: String = "equals to"
 ) : BooleanExpression() {
   override fun toSQLString(): String =
     "${expressionOne.toSQLString()}=${expressionTwo.toSQLString()}"
 
   override fun toStemText(nlgFactory: NLGFactory): NLGElement = nlgFactory.createClause(
-    expressionOne.toStemText(nlgFactory), "equal to", expressionTwo.toStemText(nlgFactory)
+    expressionOne.toStemText(nlgFactory), relationWord, expressionTwo.toStemText(nlgFactory)
   )
 }
 
 class NotEqualsExpression(
-  private val expressionOne: BooleanExpression, private val expressionTwo: BooleanExpression
+  private val expressionOne: BooleanExpression,
+  private val expressionTwo: BooleanExpression,
+  private val relationWord: String = "do equal"
 ) : BooleanExpression() {
   override fun toSQLString(): String =
     "${expressionOne.toSQLString()}!=${expressionTwo.toSQLString()}"
 
-  override fun toStemText(nlgFactory: NLGFactory): NLGElement = nlgFactory.createClause(
-    expressionOne.toStemText(nlgFactory), "unequal to", expressionTwo.toStemText(nlgFactory)
-  )
+  override fun toStemText(nlgFactory: NLGFactory): NLGElement {
+    val clause = nlgFactory.createClause(
+      expressionOne.toStemText(nlgFactory), relationWord, expressionTwo.toStemText(nlgFactory)
+    )
+    clause.setFeature(Feature.NEGATED, true)
+    return clause
+  }
 }
 
 class GreaterExpression(
-  private val expressionOne: BooleanExpression, private val expressionTwo: BooleanExpression
+  private val expressionOne: BooleanExpression,
+  private val expressionTwo: BooleanExpression,
+  private val relationWord: String = "is greater"
 ) : BooleanExpression() {
   override fun toSQLString(): String =
     "${expressionOne.toSQLString()}>${expressionTwo.toSQLString()}"
 
-  override fun toStemText(nlgFactory: NLGFactory): NLGElement = nlgFactory.createClause(
-    expressionOne.toStemText(nlgFactory), "greater than", expressionTwo.toStemText(nlgFactory)
-  )
+  override fun toStemText(nlgFactory: NLGFactory): NLGElement {
+    val verbPhrase = nlgFactory.createVerbPhrase("$relationWord than")
+    verbPhrase.setFeature(Feature.IS_COMPARATIVE, true)
+    return nlgFactory.createClause(
+      expressionOne.toStemText(nlgFactory), verbPhrase, expressionTwo.toStemText(nlgFactory)
+    )
+  }
 }
 
 class GreaterEqualsExpression(

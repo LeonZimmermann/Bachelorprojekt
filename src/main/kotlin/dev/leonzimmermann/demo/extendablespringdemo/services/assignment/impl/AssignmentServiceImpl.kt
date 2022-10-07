@@ -30,12 +30,12 @@ class AssignmentServiceImpl : AssignmentService {
 
   override fun generateNewAssignment(): Assignment {
     val solution = SelectStatement(
-      selectProperties = SQLEnumeration(SQLProperty("street", "Straße")),
+      selectProperties = SQLEnumeration(SQLProperty("street")),
       fromStatement = FromStatement(SQLTable("Address")),
       whereClause = WhereClause(
         EqualsExpression(
           BooleanExpressionProperty(SQLProperty("city")),
-          BooleanExpressionLiteral(SQLLiteral("'Essen'"))
+          BooleanExpressionLiteral(SQLStringLiteral("Essen"))
         )
       )
     )

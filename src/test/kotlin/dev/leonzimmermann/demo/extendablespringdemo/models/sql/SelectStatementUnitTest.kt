@@ -13,7 +13,7 @@ class SelectStatementUnitTest {
       fromStatement = FromStatement(SQLTable("Address")),
       whereClause = WhereClause(EqualsExpression(
         BooleanExpressionProperty(SQLProperty("city")),
-        BooleanExpressionLiteral(SQLLiteral("'Essen'"))))
+        BooleanExpressionLiteral(SQLStringLiteral("Essen"))))
     )
     assertEquals("SELECT street FROM Address WHERE city='Essen'", selectStatement.toSQLString())
   }
