@@ -29,23 +29,20 @@ open class SQLProperty(
    */
   override fun toStemText(nlgFactory: NLGFactory): NLGElement {
     val word = nlgFactory.createWord(propertyStem ?: propertyName, LexicalCategory.NOUN)
-    if (possessor != null) {
-      word.setFeature(LexicalFeature.PLURAL, plural)
-    }
-    val propertyPhrase = nlgFactory.createNounPhrase(word)
-    val returningPhrase = if (possessor != null) {
+    var phrase = nlgFactory.createNounPhrase(word)
+    if (possessor == null) {
+      phrase.isPlural = plural
+    } else {
       val tableStemText = possessor.toStemText(nlgFactory)
       tableStemText.setFeature(LexicalFeature.PLURAL, plural)
       val tablePhrase = nlgFactory.createNounPhrase(tableStemText)
       tablePhrase.setFeature(Feature.POSSESSIVE, true)
-      tablePhrase.addComplement(propertyPhrase)
-      tablePhrase
-    } else {
-      propertyPhrase
+      tablePhrase.addComplement(phrase)
+      phrase = tablePhrase
     }
     if (withSpecifier) {
-      returningPhrase.setSpecifier("the")
+      phrase.setSpecifier("the")
     }
-    return returningPhrase
+    return phrase
   }
 }

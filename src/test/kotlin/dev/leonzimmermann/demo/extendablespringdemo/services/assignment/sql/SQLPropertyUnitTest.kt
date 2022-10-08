@@ -27,6 +27,13 @@ class SQLPropertyUnitTest: AbstractSQLUnitTest() {
   }
 
   @Test
+  fun testToStemTextPlural() {
+    val property = SQLProperty("postalcode", plural = true)
+    val realisedSentence = realiser.realiseSentence(property.toStemText(nlgFactory))
+    assertEquals("The postalcodes.", realisedSentence.trim())
+  }
+
+  @Test
   fun testToStemTextWithPossessor() {
     val property = SQLProperty("postalcode", possessor = SQLTable("person"))
     val realisedSentence = realiser.realiseSentence(property.toStemText(nlgFactory))
