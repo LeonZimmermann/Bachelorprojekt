@@ -1,5 +1,7 @@
 package dev.leonzimmermann.demo.extendablespringdemo.services.assignment.rules
 
+import dev.leonzimmermann.demo.extendablespringdemo.services.query.QueryResult
+
 interface AssignmentValidationRule {
-  fun validate(solutionResult: List<Any?>, usersResult: List<Any?>): List<String>
+  fun validate(solutionResult: QueryResult, usersResult: QueryResult): List<String>
 }
