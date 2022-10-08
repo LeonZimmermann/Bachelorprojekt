@@ -5,10 +5,12 @@ import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.sql.SQLE
 
 class Assignment(
   val stem: String,
-  val solution: SQLExpression,
+  val sqlExpression: SQLExpression,
   val validationRules: Array<AssignmentValidationRule>
 ) {
+  val solution = sqlExpression.toSQLString().trim()
   override fun toString(): String {
-    return "Assignment(stem='$stem', solution=$solution, validationRules=${validationRules.contentToString()})"
+    return "Assignment(stem='$stem', solution='$solution')"
   }
+
 }

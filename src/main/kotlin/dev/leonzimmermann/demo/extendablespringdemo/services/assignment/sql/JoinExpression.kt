@@ -20,6 +20,9 @@ class JoinExpression(
   override fun toSQLString(): String =
     "${joinType.sql} ${otherTable.toSQLString()} ON ${otherTable.toSQLString()}.${otherTableProperty.toSQLString()}=${fromTable.toSQLString()}.${fromTableProperty.toSQLString()}"
 
+  /**
+   * The Join-Statements are technical details and should not be mentioned in the stem.
+   */
   override fun toStemText(nlgFactory: NLGFactory): NLGElement {
     return nlgFactory.createStringElement("")
   }

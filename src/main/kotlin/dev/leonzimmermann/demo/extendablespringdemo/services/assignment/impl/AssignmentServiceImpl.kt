@@ -29,7 +29,7 @@ class AssignmentServiceImpl : AssignmentService {
   private val realiser = Realiser(lexicon)
 
   override fun generateNewAssignment(): Assignment {
-    val solution = SelectStatement(
+    val sqlExpression = SelectStatement(
       selectProperties = SQLEnumeration(SQLProperty("street")),
       fromStatement = FromStatement(SQLTable("Address")),
       whereClause = WhereClause(
@@ -39,10 +39,10 @@ class AssignmentServiceImpl : AssignmentService {
         )
       )
     )
-    val stem = realiser.realiseSentence(solution.toStemText(nlgFactory))
+    val stem = realiser.realiseSentence(sqlExpression.toStemText(nlgFactory)).trim()
     val assignment = Assignment(
       stem = stem,
-      solution = solution,
+      sqlExpression = sqlExpression,
       validationRules = arrayOf(ResultIsTheSameValidationRule, NumberOfRowsValidationRule)
     )
     logger.debug("Generated new assignment: $assignment")
@@ -56,7 +56,7 @@ class AssignmentServiceImpl : AssignmentService {
     logger.debug("Solving assignment with objectId $objectId")
     val assignment = listOfAssignments[objectId]
       ?: throw IllegalArgumentException("Could not find objectId $objectId")
-    val solutionResult = executeQuery(assignment.solution.toSQLString())
+    val solutionResult = executeQuery(assignment.sqlExpression.toSQLString())
     val usersResult = executeQuery(answer)
     return assignment.validationRules.flatMap { it.validate(solutionResult, usersResult) }
   }

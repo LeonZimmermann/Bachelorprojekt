@@ -17,11 +17,19 @@ class SelectStatement(
   private val whereClause: WhereClause? = null,
   private val limitExpression: LimitExpression? = null
 ) : SQLExpression() {
-  override fun toSQLString(): String =
-    "SELECT ${selectProperties.toSQLString()} ${fromStatement.toSQLString()}" +
-        "\n${joinExpressions?.joinToString("\n") { it.toSQLString() }}" +
-        "\n${whereClause?.toSQLString() ?: ""}" +
-        "\n${limitExpression?.toSQLString() ?: ""}"
+  override fun toSQLString(): String {
+    var sqlString = "SELECT ${selectProperties.toSQLString()} ${fromStatement.toSQLString()}"
+    if (joinExpressions != null) {
+      sqlString += "\n${joinExpressions.joinToString("\n") { it.toSQLString() }}"
+    }
+    if (whereClause != null) {
+      sqlString += "\n${whereClause.toSQLString()}"
+    }
+    if (limitExpression != null) {
+      sqlString += "\n${limitExpression.toSQLString()}"
+    }
+    return sqlString
+  }
 
   override fun toStemText(nlgFactory: NLGFactory): NLGElement {
     val selectClause = nlgFactory.createClause()

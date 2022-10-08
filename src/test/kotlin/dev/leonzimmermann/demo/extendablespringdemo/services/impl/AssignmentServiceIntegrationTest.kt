@@ -19,6 +19,6 @@ class AssignmentServiceIntegrationTest {
   fun `when generateNewAssignment() is called, then the method returns a valid assignment`() {
     val assignment = assignmentService.generateNewAssignment()
     assertNotNull(assignment.stem)
-    assertNotNull(assignment.solution)
+    assertNotNull(assignment.sqlExpression)
   }
 }
