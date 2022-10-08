@@ -41,7 +41,10 @@ class SelectStatementUnitTest : AbstractSQLUnitTest() {
       realisedSentence.trim()
     )
     assertEquals(
-      "SELECT postalcode FROM Address WHERE (city='Essen') AND (COUNT(street)>200)",
+      """
+        SELECT postalcode FROM Address
+        WHERE (city='Essen') AND (COUNT(street)>200)
+      """.trimIndent(),
       statement.toSQLString().trim()
     )
   }
@@ -66,7 +69,11 @@ class SelectStatementUnitTest : AbstractSQLUnitTest() {
       realisedSentence.trim()
     )
     assertEquals(
-      "SELECT postalcode FROM Address WHERE city='Essen' LIMIT 3",
+      """
+        SELECT postalcode FROM Address
+        WHERE city='Essen'
+        LIMIT 3
+      """.trimIndent(),
       statement.toSQLString().trim()
     )
   }
