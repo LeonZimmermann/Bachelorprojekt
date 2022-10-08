@@ -1,5 +1,8 @@
 package dev.leonzimmermann.demo.extendablespringdemo.services.assignment.sql
 
+import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.JoinExpression
+import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.SQLProperty
+import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.SQLTable
 import org.junit.Test
 
 import org.junit.Assert.*

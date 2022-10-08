@@ -17,19 +17,18 @@ class AssignmentController {
   @Autowired
   private lateinit var assignmentService: AssignmentServiceImpl
 
-  @GetMapping("/new")
-  fun getNewAssigment(): ResponseEntity<Any> {
+  @GetMapping("/create")
+  fun createAssignment(): ResponseEntity<Any> {
     return ResponseEntity(assignmentService.generateNewAssignment(), HttpStatus.OK)
   }
 
-  @PostMapping("/solve/{objectId}")
-  fun solveAssignment(
+  @PostMapping("/validate/{objectId}")
+  fun validateAssignment(
     @RequestParam("objectId") objectId: Long,
     @RequestBody solution: String
   ): ResponseEntity<Any> {
     return try {
-      val listOfDiscrepancies =
-        assignmentService.solveAssignmentAndReturnListOfDiscrepancies(objectId, solution)
+      val listOfDiscrepancies = assignmentService.validateSolution(objectId, solution)
       if (listOfDiscrepancies.isEmpty()) {
         ResponseEntity("Correct!", HttpStatus.OK)
       } else {

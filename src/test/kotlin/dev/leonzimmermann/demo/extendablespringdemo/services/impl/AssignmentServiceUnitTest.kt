@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner
 
 @SpringBootTest
 @RunWith(SpringRunner::class)
-class AssignmentServiceIntegrationTest {
+class AssignmentServiceUnitTest {
 
   @Autowired
   private lateinit var assignmentService: AssignmentServiceImpl

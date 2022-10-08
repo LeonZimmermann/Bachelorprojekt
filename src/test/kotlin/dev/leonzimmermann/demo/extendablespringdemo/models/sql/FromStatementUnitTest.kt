@@ -1,9 +1,8 @@
 package dev.leonzimmermann.demo.extendablespringdemo.models.sql
 
-import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.sql.FromStatement
-import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.sql.SQLBasicLiteral
-import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.sql.SQLLiteral
-import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.sql.SQLTable
+import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.FromStatement
+import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.SQLBasicLiteral
+import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.SQLTable
 import org.junit.Test
 
 import org.junit.Assert.*

@@ -1,7 +1,7 @@
 package dev.leonzimmermann.demo.extendablespringdemo.services.assignment
 
 import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.rules.AssignmentValidationRule
-import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.sql.SQLExpression
+import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.SQLExpression
 
 class Assignment(
   val stem: String,

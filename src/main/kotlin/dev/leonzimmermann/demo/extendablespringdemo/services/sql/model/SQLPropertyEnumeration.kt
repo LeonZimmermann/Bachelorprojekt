@@ -1,4 +1,4 @@
-package dev.leonzimmermann.demo.extendablespringdemo.services.assignment.sql
+package dev.leonzimmermann.demo.extendablespringdemo.services.sql.model
 
 class SQLPropertyEnumeration(vararg elements: Pair<String, String?>) : SQLEnumeration<SQLProperty>(
   *elements.mapIndexed { index, value ->

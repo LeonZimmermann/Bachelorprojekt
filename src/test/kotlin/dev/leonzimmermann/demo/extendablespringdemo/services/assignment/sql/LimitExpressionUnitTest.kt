@@ -1,5 +1,6 @@
 package dev.leonzimmermann.demo.extendablespringdemo.services.assignment.sql
 
+import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.LimitExpression
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

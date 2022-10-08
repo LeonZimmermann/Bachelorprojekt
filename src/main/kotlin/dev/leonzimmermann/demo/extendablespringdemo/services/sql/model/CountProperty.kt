@@ -1,7 +1,5 @@
-package dev.leonzimmermann.demo.extendablespringdemo.services.assignment.sql
+package dev.leonzimmermann.demo.extendablespringdemo.services.sql.model
 
-import simplenlg.features.Feature
-import simplenlg.framework.LexicalCategory
 import simplenlg.framework.NLGElement
 import simplenlg.framework.NLGFactory
 
