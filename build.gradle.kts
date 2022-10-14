@@ -52,9 +52,3 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
   useJUnitPlatform()
 }
-
-tasks.register("buildDocker", Exec::class) {
-  exec {
-    commandLine("cmd", "/c", "docker build --build-arg JAR_FILE=build/libs/*.jar -t extendable-spring-demo .")
-  }
-}
