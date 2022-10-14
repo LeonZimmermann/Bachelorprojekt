@@ -36,6 +36,9 @@ dependencies {
   implementation("uk.ac.abdn:SimpleNLG:4.5.0")
   implementation("gov.nih.nlm.nls.lexaccess:lexaccess-dist:2013")
 
+  // Apache Jena
+  implementation("org.apache.jena:jena-core:4.6.1")
+
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("junit:junit:4.13.2")
   testImplementation("org.assertj:assertj-core:3.23.1")
