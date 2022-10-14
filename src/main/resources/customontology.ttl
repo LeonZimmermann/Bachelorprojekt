@@ -1,0 +1,130 @@
+#################################################################
+###  Generated with the experimental alpha version of the TTL exporter of WebVOWL (version 1.1.7)  http://visualdataweb.de/webvowl/   ###
+#################################################################
+
+@prefix : 		<http://visualdataweb.org/newOntology/> .
+@prefix rdf: 		<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: 		<http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: 		<http://www.w3.org/2002/07/owl#> .
+@prefix xsd: 		<http://www.w3.org/2001/XMLSchema#> .
+@prefix dc: 		<http://purl.org/dc/elements/1.1/> .
+@prefix xml: 		<http://www.w3.org/XML/1998/namespace> .
+@prefix wot: 		<http://xmlns.com/wot/0.1/> .
+@prefix vs: 		<http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix foaf: 		<http://xmlns.com/foaf/0.1/> .
+@prefix dcterms: 		<http://purl.org/dc/terms/> .
+@prefix gr: 		<http://purl.org/goodrelations/v1#> .
+@base 			<http://visualdataweb.org/newOntology/> .
+
+<http://visualdataweb.org/newOntology/> rdf:type owl:Ontology ;
+                                        dc:title "CustomOntology"@en;
+                                        dc:description "New ontology description"@en . 
+#################################################################
+
+###  Property Definitions (Number of Property) 18 ###
+#  --------------------------- Property 0------------------------- 
+:firstname rdf:type owl:DatatypeProperty ;
+           rdfs:label "firstname"@en; 
+           rdfs:domain :Person;
+           rdfs:range xsd:string . 
+#  --------------------------- Property 1------------------------- 
+:lastname rdf:type owl:DatatypeProperty ;
+          rdfs:label "lastname"@en; 
+          rdfs:domain :Person;
+          rdfs:range xsd:string . 
+#  --------------------------- Property 2------------------------- 
+:address rdf:type owl:ObjectProperty ;
+         rdfs:label "address"@en; 
+         rdfs:domain :Person;
+         rdfs:range :Address . 
+#  --------------------------- Property 3------------------------- 
+:city rdf:type owl:DatatypeProperty ;
+      rdfs:label "city"@en; 
+      rdfs:domain :Address;
+      rdfs:range xsd:string . 
+#  --------------------------- Property 4------------------------- 
+:streetNumber rdf:type owl:DatatypeProperty ;
+              rdfs:label "streetNumber"@en; 
+              rdfs:domain :Address;
+              rdfs:range xsd:integer . 
+#  --------------------------- Property 5------------------------- 
+:street rdf:type owl:DatatypeProperty ;
+        rdfs:label "street"@en; 
+        rdfs:domain :Address;
+        rdfs:range xsd:string . 
+#  --------------------------- Property 6------------------------- 
+:state rdf:type owl:DatatypeProperty ;
+       rdfs:label "state"@en; 
+       rdfs:domain :Address;
+       rdfs:range xsd:string . 
+#  --------------------------- Property 7------------------------- 
+:country rdf:type owl:DatatypeProperty ;
+         rdfs:label "country"@en; 
+         rdfs:domain :Address;
+         rdfs:range xsd:string . 
+#  --------------------------- Property 8------------------------- 
+:postalCode rdf:type owl:DatatypeProperty ;
+            rdfs:label "postalCode"@en; 
+            rdfs:domain :Address;
+            rdfs:range xsd:integer . 
+#  --------------------------- Property 9------------------------- 
+:name rdf:type owl:DatatypeProperty ;
+      rdfs:label "name"@en; 
+      rdfs:domain :Institution;
+      rdfs:range xsd:string . 
+#  --------------------------- Property 10------------------------- 
+:typeOfInstitution rdf:type owl:DatatypeProperty ;
+                   rdfs:label "typeOfInstitution"@en; 
+                   rdfs:domain :Institution;
+                   rdfs:range xsd:string . 
+#  --------------------------- Property 11------------------------- 
+:typeOfRelationship rdf:type owl:DatatypeProperty ;
+                    rdfs:label "typeOfRelationship"@en; 
+                    rdfs:domain :Relationship;
+                    rdfs:range xsd:string . 
+#  --------------------------- Property 12------------------------- 
+:otherPerson rdf:type owl:ObjectProperty ;
+             rdfs:label "otherPerson"@en; 
+             rdfs:domain :Relationship;
+             rdfs:range :Person . 
+#  --------------------------- Property 13------------------------- 
+:person rdf:type owl:ObjectProperty ;
+        rdfs:label "person"@en; 
+        rdfs:domain :Relationship;
+        rdfs:range :Person . 
+#  --------------------------- Property 14------------------------- 
+:address rdf:type owl:ObjectProperty ;
+         rdfs:label "address"@en; 
+         rdfs:domain :Institution;
+         rdfs:range :Address . 
+#  --------------------------- Property 15------------------------- 
+:institution rdf:type owl:ObjectProperty ;
+             rdfs:label "institution"@en; 
+             rdfs:domain :Occupation;
+             rdfs:range :Institution . 
+#  --------------------------- Property 16------------------------- 
+:person rdf:type owl:ObjectProperty ;
+        rdfs:label "person"@en; 
+        rdfs:domain :Occupation;
+        rdfs:range :Person . 
+#  --------------------------- Property 17------------------------- 
+:name rdf:type owl:DatatypeProperty ;
+      rdfs:label "name"@en; 
+      rdfs:domain :Occupation;
+      rdfs:range xsd:string . 
+###  Class Definitions (Number of Classes) 5 ###
+#  --------------------------- Class  0------------------------- 
+:Person rdf:type owl:Class; 
+        rdfs:label "Person"@en . 
+#  --------------------------- Class  1------------------------- 
+:Address rdf:type owl:Class; 
+         rdfs:label "Address"@en . 
+#  --------------------------- Class  2------------------------- 
+:Institution rdf:type owl:Class; 
+             rdfs:label "Institution"@en . 
+#  --------------------------- Class  3------------------------- 
+:Relationship rdf:type owl:Class; 
+              rdfs:label "Relationship"@en . 
+#  --------------------------- Class  4------------------------- 
+:Occupation rdf:type owl:Class; 
+            rdfs:label "Occupation"@en . 

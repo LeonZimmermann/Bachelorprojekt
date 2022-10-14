@@ -38,6 +38,8 @@ dependencies {
 
   // Apache Jena
   implementation("org.apache.jena:jena-core:4.6.1")
+  implementation("org.apache.jena:jena-rdfconnection:4.6.1")
+
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("junit:junit:4.13.2")
