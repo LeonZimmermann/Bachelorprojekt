@@ -1,7 +1,5 @@
-package dev.leonzimmermann.demo.extendablespringdemo.services.assignment.sql
+package dev.leonzimmermann.demo.extendablespringdemo.services.sql.model
 
-import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.SQLProperty
-import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.SQLTable
 import org.junit.Assert.*
 import org.junit.Test
 

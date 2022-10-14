@@ -1,4 +1,4 @@
-package dev.leonzimmermann.demo.extendablespringdemo.services.assignment.sql
+package dev.leonzimmermann.demo.extendablespringdemo.services.sql.model
 
 import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.JoinExpression
 import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.SQLProperty

@@ -1,4 +1,4 @@
-package dev.leonzimmermann.demo.extendablespringdemo.services.impl
+package dev.leonzimmermann.demo.extendablespringdemo.services.assignment.impl
 
 import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.impl.AssignmentServiceImpl
 import junit.framework.TestCase.assertNotNull
