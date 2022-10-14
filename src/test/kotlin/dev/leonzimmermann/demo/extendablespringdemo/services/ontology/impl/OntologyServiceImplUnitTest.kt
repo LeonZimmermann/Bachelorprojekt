@@ -22,6 +22,6 @@ class OntologyServiceImplUnitTest {
     assertEquals("Person", ontology.getOntClass("${nameSpace}Person").getLabel("EN"))
   }
 
-  
+
 
 }
