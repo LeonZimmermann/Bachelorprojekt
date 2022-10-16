@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner
 
 @SpringBootTest
 @RunWith(SpringRunner::class)
-class OntologyServiceImplUnitTest {
+class OntologyServiceUnitTest {
 
   @Autowired
   private lateinit var ontologyService: OntologyService
