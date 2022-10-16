@@ -6,6 +6,7 @@ package dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme
 data class TableScheme(
   val name: String,
   val primaryKey: PropertyScheme,
+  val foreignKeys: Array<ForeignKeyScheme>,
   val properties: Array<PropertyScheme>,
 ) {
   override fun equals(other: Any?): Boolean {

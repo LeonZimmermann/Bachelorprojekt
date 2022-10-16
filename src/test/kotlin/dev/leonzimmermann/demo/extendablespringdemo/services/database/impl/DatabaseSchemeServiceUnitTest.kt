@@ -2,6 +2,7 @@ package dev.leonzimmermann.demo.extendablespringdemo.services.database.impl
 
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.DatabaseSchemeService
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.DatabaseScheme
+import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.ForeignKeyScheme
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.PropertyScheme
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.TableScheme
 import org.apache.jena.ontology.OntModel
@@ -57,7 +58,9 @@ class DatabaseSchemeServiceUnitTest {
     val expectedDatabaseScheme = DatabaseScheme(
       arrayOf(
         TableScheme(
-          name = "Address", PropertyScheme("objectId", "Long"), arrayOf(
+          name = "Address", PropertyScheme(TABLE_PRIMARY_KEY_IDENTIFIER, "Long"),
+          arrayOf(),
+          arrayOf(
             PropertyScheme(name = "postalCode", datatype = "integer"),
             PropertyScheme(name = "street", datatype = "string"),
             PropertyScheme(name = "streetNumber", datatype = "integer"),
@@ -66,25 +69,43 @@ class DatabaseSchemeServiceUnitTest {
             PropertyScheme(name = "state", datatype = "string")
           )
         ), TableScheme(
-          name = "Institution", PropertyScheme("objectId", "Long"), arrayOf(
+          name = "Institution", PropertyScheme(TABLE_PRIMARY_KEY_IDENTIFIER, "Long"),
+          arrayOf(
+            ForeignKeyScheme("address", "Address", TABLE_PRIMARY_KEY_IDENTIFIER)
+          ),
+          arrayOf(
             PropertyScheme(name = "name", datatype = "string"),
             PropertyScheme(name = "typeOfInstitution", datatype = "string"),
             PropertyScheme(name = "address", datatype = "Address")
           )
         ), TableScheme(
-          name = "Occupation", PropertyScheme("objectId", "Long"), arrayOf(
+          name = "Occupation", PropertyScheme(TABLE_PRIMARY_KEY_IDENTIFIER, "Long"),
+          arrayOf(
+            ForeignKeyScheme("person", "Person", TABLE_PRIMARY_KEY_IDENTIFIER),
+            ForeignKeyScheme("institution", "Institution", TABLE_PRIMARY_KEY_IDENTIFIER)
+          ),
+          arrayOf(
             PropertyScheme(name = "name", datatype = "string"),
             PropertyScheme(name = "person", datatype = "Person"),
             PropertyScheme(name = "institution", datatype = "Institution")
           )
         ), TableScheme(
-          name = "Relationship", PropertyScheme("objectId", "Long"), arrayOf(
+          name = "Relationship", PropertyScheme(TABLE_PRIMARY_KEY_IDENTIFIER, "Long"),
+          arrayOf(
+            ForeignKeyScheme("person", "Person", TABLE_PRIMARY_KEY_IDENTIFIER),
+            ForeignKeyScheme("otherPerson", "Person", TABLE_PRIMARY_KEY_IDENTIFIER)
+          ),
+          arrayOf(
             PropertyScheme(name = "typeOfRelationship", datatype = "string"),
             PropertyScheme(name = "person", datatype = "Person"),
             PropertyScheme(name = "otherPerson", datatype = "Person")
           )
         ), TableScheme(
-          name = "Person", PropertyScheme("objectId", "Long"), arrayOf(
+          name = "Person", PropertyScheme(TABLE_PRIMARY_KEY_IDENTIFIER, "Long"),
+          arrayOf(
+            ForeignKeyScheme("address", "Address", TABLE_PRIMARY_KEY_IDENTIFIER)
+          ),
+          arrayOf(
             PropertyScheme(name = "firstname", datatype = "string"),
             PropertyScheme(name = "lastname", datatype = "string"),
             PropertyScheme(name = "address", datatype = "Address")
@@ -96,5 +117,9 @@ class DatabaseSchemeServiceUnitTest {
     val databaseScheme = databaseSchemeService.createDatabaseSchemeFromOntology(ontModel)
     // Then
     assertThat(databaseScheme).isEqualTo(expectedDatabaseScheme)
+  }
+  
+  companion object {
+    private const val TABLE_PRIMARY_KEY_IDENTIFIER = "objectId"
   }
 }
