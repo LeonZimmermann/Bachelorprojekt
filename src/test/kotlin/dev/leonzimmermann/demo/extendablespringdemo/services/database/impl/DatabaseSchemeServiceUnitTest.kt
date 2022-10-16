@@ -20,7 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner
 
 @SpringBootTest
 @RunWith(SpringRunner::class)
-class DatabaseSchemeServiceIntegrationTest {
+class DatabaseSchemeServiceUnitTest {
 
   private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -57,7 +57,7 @@ class DatabaseSchemeServiceIntegrationTest {
     val expectedDatabaseScheme = DatabaseScheme(
       arrayOf(
         TableScheme(
-          name = "Address", arrayOf(
+          name = "Address", PropertyScheme("objectId", "Long"), arrayOf(
             PropertyScheme(name = "postalCode", datatype = "integer"),
             PropertyScheme(name = "street", datatype = "string"),
             PropertyScheme(name = "streetNumber", datatype = "integer"),
@@ -65,36 +65,33 @@ class DatabaseSchemeServiceIntegrationTest {
             PropertyScheme(name = "city", datatype = "string"),
             PropertyScheme(name = "state", datatype = "string")
           )
-        ),
-        TableScheme(
-          name = "Institution", arrayOf(
+        ), TableScheme(
+          name = "Institution", PropertyScheme("objectId", "Long"), arrayOf(
             PropertyScheme(name = "name", datatype = "string"),
             PropertyScheme(name = "typeOfInstitution", datatype = "string"),
             PropertyScheme(name = "address", datatype = "Address")
           )
-        ),
-        TableScheme(
-          name = "Occupation", arrayOf(
+        ), TableScheme(
+          name = "Occupation", PropertyScheme("objectId", "Long"), arrayOf(
             PropertyScheme(name = "name", datatype = "string"),
             PropertyScheme(name = "person", datatype = "Person"),
             PropertyScheme(name = "institution", datatype = "Institution")
           )
-        ),
-        TableScheme(
-          name = "Relationship", arrayOf(
+        ), TableScheme(
+          name = "Relationship", PropertyScheme("objectId", "Long"), arrayOf(
             PropertyScheme(name = "typeOfRelationship", datatype = "string"),
             PropertyScheme(name = "person", datatype = "Person"),
             PropertyScheme(name = "otherPerson", datatype = "Person")
           )
-        ),
-        TableScheme(
-          name = "Person", arrayOf(
+        ), TableScheme(
+          name = "Person", PropertyScheme("objectId", "Long"), arrayOf(
             PropertyScheme(name = "firstname", datatype = "string"),
             PropertyScheme(name = "lastname", datatype = "string"),
             PropertyScheme(name = "address", datatype = "Address")
           )
         )
-      ))
+      )
+    )
     // When
     val databaseScheme = databaseSchemeService.createDatabaseSchemeFromOntology(ontModel)
     // Then

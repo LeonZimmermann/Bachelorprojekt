@@ -23,11 +23,11 @@ class DatabaseSchemeServiceImpl : DatabaseSchemeService {
   override fun createDatabaseSchemeFromOntology(model: OntModel): DatabaseScheme {
     val datatypeProperties = model.listDatatypeProperties().toList()
     val objectProperties = model.listObjectProperties().toList()
-    val tables = splitPropertiesByDomains(datatypeProperties + objectProperties)
-      .apply { logProperties(this) }
-      .groupBy({ it.first }, { Pair(it.second, it.third) })
-      .apply { logger.debug("Domains: ${this.keys.joinToString(", ")}") }
-      .map(this::mapDataToTableScheme)
+    val tables =
+      splitPropertiesByDomains(datatypeProperties + objectProperties).apply { logProperties(this) }
+        .groupBy({ it.first }, { Pair(it.second, it.third) })
+        .apply { logger.debug("Domains: ${this.keys.joinToString(", ")}") }
+        .map(this::mapDataToTableScheme)
     return DatabaseScheme(tables.toTypedArray())
   }
 
@@ -49,17 +49,16 @@ class DatabaseSchemeServiceImpl : DatabaseSchemeService {
   private fun mapDataToTableScheme(entry: Map.Entry<OntResource, List<Pair<String, OntResource>>>): TableScheme {
     return TableScheme(
       entry.key.localName,
+      PropertyScheme("objectId", "Long"),
       entry.value.map { pair -> PropertyScheme(pair.first, pair.second.localName) }.toTypedArray()
     )
   }
 
   private fun logProperties(list: List<Triple<OntResource, String, OntResource>>) {
-    logger.debug(
-      "Properties:\n${
-        list.joinToString("\n") { element ->
-          "Domain: ${element.first}, Name: ${element.second}, Range: ${element.third.localName}"
-        }
-      }"
-    )
+    logger.debug("Properties:\n${
+      list.joinToString("\n") { element ->
+        "Domain: ${element.first}, Name: ${element.second}, Range: ${element.third.localName}"
+      }
+    }")
   }
 }
