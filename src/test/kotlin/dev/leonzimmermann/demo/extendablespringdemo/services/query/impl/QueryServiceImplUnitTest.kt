@@ -1,6 +1,7 @@
 package dev.leonzimmermann.demo.extendablespringdemo.services.query.impl
 
 import org.junit.Assert.*
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.runner.RunWith
@@ -16,6 +17,7 @@ class QueryServiceImplUnitTest {
   private lateinit var queryServiceImpl: QueryServiceImpl
 
   @Test
+  @Ignore
   fun testQuery() {
     TODO("Implement")
   }

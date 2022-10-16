@@ -9,12 +9,11 @@ import javax.persistence.EntityManager
 import javax.persistence.Tuple
 
 @Service
-class QueryServiceImpl : QueryService {
+class QueryServiceImpl(
+  @Autowired private val entityManager: EntityManager
+) : QueryService {
 
   private val logger = LoggerFactory.getLogger(javaClass.name)
-
-  @Autowired
-  private lateinit var entityManager: EntityManager
 
   override fun executeQuery(queryString: String): QueryResult {
     logger.debug("Executing query: $queryString")

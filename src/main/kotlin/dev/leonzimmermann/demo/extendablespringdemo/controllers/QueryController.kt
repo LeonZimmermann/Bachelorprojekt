@@ -16,12 +16,11 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/query")
-class QueryController {
+class QueryController(
+  @Autowired private val queryService: QueryService
+) {
 
   private val logger = LoggerFactory.getLogger(javaClass.name)
-
-  @Autowired
-  private lateinit var queryService: QueryService
 
   @PostMapping
   fun executeQuery(@RequestBody query: String): ResponseEntity<Any> {

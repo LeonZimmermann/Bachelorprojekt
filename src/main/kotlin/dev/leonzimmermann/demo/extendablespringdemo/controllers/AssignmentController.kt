@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/assignment")
-class AssignmentController {
+class AssignmentController(
+  @Autowired private val assignmentService: AssignmentServiceImpl
+) {
 
   private val logger = LoggerFactory.getLogger(javaClass.name)
-
-  @Autowired
-  private lateinit var assignmentService: AssignmentServiceImpl
 
   @GetMapping("/create")
   fun createAssignment(): ResponseEntity<Any> {

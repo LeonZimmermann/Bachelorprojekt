@@ -14,14 +14,12 @@ import simplenlg.lexicon.Lexicon
 import simplenlg.realiser.english.Realiser
 
 @Service
-class AssignmentServiceImpl : AssignmentService {
+class AssignmentServiceImpl(
+  @Autowired private val sqlService: SQLService,
+  @Autowired private val queryService: QueryService
+) : AssignmentService {
 
   private val logger = LoggerFactory.getLogger(javaClass.name)
-
-  @Autowired
-  private lateinit var sqlService: SQLService
-  @Autowired
-  private lateinit var queryService: QueryService
 
   private var counter = 0L
   private val listOfAssignments = mutableMapOf<Long, Assignment>()
