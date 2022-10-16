@@ -27,90 +27,64 @@
            rdfs:label "firstname"@en; 
            rdfs:domain :Person;
            rdfs:range xsd:string . 
-#  --------------------------- Property 1------------------------- 
 :lastname rdf:type owl:DatatypeProperty ;
           rdfs:label "lastname"@en; 
           rdfs:domain :Person;
           rdfs:range xsd:string . 
-#  --------------------------- Property 2------------------------- 
-:address rdf:type owl:ObjectProperty ;
-         rdfs:label "address"@en; 
-         rdfs:domain :Person;
-         rdfs:range :Address . 
-#  --------------------------- Property 3------------------------- 
 :city rdf:type owl:DatatypeProperty ;
       rdfs:label "city"@en; 
       rdfs:domain :Address;
       rdfs:range xsd:string . 
-#  --------------------------- Property 4------------------------- 
 :streetNumber rdf:type owl:DatatypeProperty ;
               rdfs:label "streetNumber"@en; 
               rdfs:domain :Address;
               rdfs:range xsd:integer . 
-#  --------------------------- Property 5------------------------- 
 :street rdf:type owl:DatatypeProperty ;
         rdfs:label "street"@en; 
         rdfs:domain :Address;
         rdfs:range xsd:string . 
-#  --------------------------- Property 6------------------------- 
 :state rdf:type owl:DatatypeProperty ;
        rdfs:label "state"@en; 
        rdfs:domain :Address;
        rdfs:range xsd:string . 
-#  --------------------------- Property 7------------------------- 
 :country rdf:type owl:DatatypeProperty ;
          rdfs:label "country"@en; 
          rdfs:domain :Address;
          rdfs:range xsd:string . 
-#  --------------------------- Property 8------------------------- 
 :postalCode rdf:type owl:DatatypeProperty ;
             rdfs:label "postalCode"@en; 
             rdfs:domain :Address;
             rdfs:range xsd:integer . 
-#  --------------------------- Property 9------------------------- 
-:name rdf:type owl:DatatypeProperty ;
-      rdfs:label "name"@en; 
-      rdfs:domain :Institution;
-      rdfs:range xsd:string . 
-#  --------------------------- Property 10------------------------- 
 :typeOfInstitution rdf:type owl:DatatypeProperty ;
                    rdfs:label "typeOfInstitution"@en; 
                    rdfs:domain :Institution;
                    rdfs:range xsd:string . 
-#  --------------------------- Property 11------------------------- 
 :typeOfRelationship rdf:type owl:DatatypeProperty ;
                     rdfs:label "typeOfRelationship"@en; 
                     rdfs:domain :Relationship;
                     rdfs:range xsd:string . 
-#  --------------------------- Property 12------------------------- 
 :otherPerson rdf:type owl:ObjectProperty ;
              rdfs:label "otherPerson"@en; 
              rdfs:domain :Relationship;
              rdfs:range :Person . 
-#  --------------------------- Property 13------------------------- 
-:person rdf:type owl:ObjectProperty ;
-        rdfs:label "person"@en; 
-        rdfs:domain :Relationship;
-        rdfs:range :Person . 
-#  --------------------------- Property 14------------------------- 
-:address rdf:type owl:ObjectProperty ;
-         rdfs:label "address"@en; 
-         rdfs:domain :Institution;
-         rdfs:range :Address . 
-#  --------------------------- Property 15------------------------- 
 :institution rdf:type owl:ObjectProperty ;
              rdfs:label "institution"@en; 
              rdfs:domain :Occupation;
-             rdfs:range :Institution . 
-#  --------------------------- Property 16------------------------- 
+             rdfs:range :Institution .
+:address rdf:type owl:ObjectProperty ;
+      rdfs:label "address"@en;
+      rdfs:domain :Institution;
+      rdfs:domain :Person;
+      rdfs:range :Address .
 :person rdf:type owl:ObjectProperty ;
-        rdfs:label "person"@en; 
+        rdfs:label "person"@en;
         rdfs:domain :Occupation;
-        rdfs:range :Person . 
-#  --------------------------- Property 17------------------------- 
+        rdfs:domain :Relationship;
+        rdfs:range :Person .
 :name rdf:type owl:DatatypeProperty ;
       rdfs:label "name"@en; 
       rdfs:domain :Occupation;
+      rdfs:domain :Institution;
       rdfs:range xsd:string . 
 ###  Class Definitions (Number of Classes) 5 ###
 #  --------------------------- Class  0------------------------- 
