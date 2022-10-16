@@ -1,6 +1,6 @@
 package dev.leonzimmermann.demo.extendablespringdemo.services.database.impl
 
-import dev.leonzimmermann.demo.extendablespringdemo.services.database.DatabaseService
+import dev.leonzimmermann.demo.extendablespringdemo.services.database.DatabaseSchemeService
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.DatabaseScheme
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.PropertyScheme
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.TableScheme
@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
-class DatabaseServiceImpl : DatabaseService {
+class DatabaseSchemeServiceImpl : DatabaseSchemeService {
 
   private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -20,7 +20,7 @@ class DatabaseServiceImpl : DatabaseService {
    * can be thought of as basic properties of tables, and owl:ObjectProperties, which can be thought of
    * as foreign keys. The rdfs:domain Property stores the table, which contains the property.
    */
-  override fun createDatabaseFromOntology(model: OntModel): DatabaseScheme {
+  override fun createDatabaseSchemeFromOntology(model: OntModel): DatabaseScheme {
     val datatypeProperties = model.listDatatypeProperties().toList()
     val objectProperties = model.listObjectProperties().toList()
     val tables = splitPropertiesByDomains(datatypeProperties + objectProperties)

@@ -1,6 +1,6 @@
 package dev.leonzimmermann.demo.extendablespringdemo.services.database.impl
 
-import dev.leonzimmermann.demo.extendablespringdemo.services.database.DatabaseService
+import dev.leonzimmermann.demo.extendablespringdemo.services.database.DatabaseSchemeService
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.DatabaseScheme
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.PropertyScheme
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.TableScheme
@@ -20,12 +20,12 @@ import org.springframework.test.context.junit4.SpringRunner
 
 @SpringBootTest
 @RunWith(SpringRunner::class)
-class DatabaseServiceImplIntegrationTest {
+class DatabaseSchemeServiceIntegrationTest {
 
   private val logger = LoggerFactory.getLogger(javaClass)
 
   @Autowired
-  private lateinit var databaseService: DatabaseService
+  private lateinit var databaseSchemeService: DatabaseSchemeService
 
   private lateinit var ontModel: OntModel
 
@@ -96,7 +96,7 @@ class DatabaseServiceImplIntegrationTest {
         )
       ))
     // When
-    val databaseScheme = databaseService.createDatabaseFromOntology(ontModel)
+    val databaseScheme = databaseSchemeService.createDatabaseSchemeFromOntology(ontModel)
     // Then
     assertThat(databaseScheme).isEqualTo(expectedDatabaseScheme)
   }
