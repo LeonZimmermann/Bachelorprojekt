@@ -4,6 +4,7 @@ import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.Assignme
 import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.AssignmentService
 import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.rules.NumberOfRowsValidationRule
 import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.rules.ResultIsTheSameValidationRule
+import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.DatabaseScheme
 import dev.leonzimmermann.demo.extendablespringdemo.services.query.QueryService
 import dev.leonzimmermann.demo.extendablespringdemo.services.sql.SQLService
 import org.slf4j.LoggerFactory
@@ -29,7 +30,8 @@ class AssignmentServiceImpl(
   private val realiser = Realiser(lexicon)
 
   override fun generateNewAssignment(): Assignment {
-    val sqlExpression = sqlService.generateSQLExpression()
+    val databaseScheme = DatabaseScheme(arrayOf())
+    val sqlExpression = sqlService.generateSQLExpression(databaseScheme)
     val stem = realiser.realiseSentence(sqlExpression.toStemText(nlgFactory)).trim()
     val assignment = Assignment(
       stem = stem,
