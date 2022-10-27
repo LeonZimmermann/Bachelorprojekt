@@ -4,5 +4,5 @@ import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.Dat
 import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.SQLExpression
 
 interface SQLService {
-  fun generateSQLExpression(databaseScheme: DatabaseScheme): SQLExpression
+  fun generateSQLExpression(databaseScheme: DatabaseScheme, generationOptions: GenerationOptions): SQLExpression
 }

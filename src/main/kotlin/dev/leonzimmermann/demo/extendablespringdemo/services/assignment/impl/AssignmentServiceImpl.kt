@@ -6,13 +6,16 @@ import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.rules.Nu
 import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.rules.ResultIsTheSameValidationRule
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.DatabaseScheme
 import dev.leonzimmermann.demo.extendablespringdemo.services.query.QueryService
+import dev.leonzimmermann.demo.extendablespringdemo.services.sql.GenerationOptions
 import dev.leonzimmermann.demo.extendablespringdemo.services.sql.SQLService
+import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.SelectStatement
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import simplenlg.framework.NLGFactory
 import simplenlg.lexicon.Lexicon
 import simplenlg.realiser.english.Realiser
+import kotlin.random.Random
 
 @Service
 class AssignmentServiceImpl(
@@ -31,7 +34,8 @@ class AssignmentServiceImpl(
 
   override fun generateNewAssignment(): Assignment {
     val databaseScheme = DatabaseScheme(arrayOf())
-    val sqlExpression = sqlService.generateSQLExpression(databaseScheme)
+    val generationOptions = GenerationOptions(Random(1000), IntRange(1, 5))
+    val sqlExpression = sqlService.generateSQLExpression(databaseScheme, generationOptions)
     val stem = realiser.realiseSentence(sqlExpression.toStemText(nlgFactory)).trim()
     val assignment = Assignment(
       stem = stem,
