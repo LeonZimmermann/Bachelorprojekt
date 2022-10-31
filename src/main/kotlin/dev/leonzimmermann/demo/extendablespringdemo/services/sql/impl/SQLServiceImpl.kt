@@ -1,7 +1,6 @@
 package dev.leonzimmermann.demo.extendablespringdemo.services.sql.impl
 
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.DatabaseScheme
-import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.ForeignKeyScheme
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.PropertyScheme
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.TableScheme
 import dev.leonzimmermann.demo.extendablespringdemo.services.sql.GenerationOptions
@@ -9,9 +8,7 @@ import dev.leonzimmermann.demo.extendablespringdemo.services.sql.SQLService
 import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.*
 import dev.leonzimmermann.demo.extendablespringdemo.util.minus
 import org.springframework.stereotype.Service
-import java.lang.Integer.min
 import kotlin.random.Random
-import kotlin.random.nextInt
 
 @Service
 class SQLServiceImpl : SQLService {
@@ -27,7 +24,7 @@ class SQLServiceImpl : SQLService {
     val propertySelectionPaths = PropertySelectionPathGenerator(databaseScheme, generationOptions)
       .createPropertySelectionPaths(startingTable)
     return SelectStatement(
-      selectProperties = selectRandomPropertiesFromPropertySelectionPaths(
+      selectProperties = selectRandomPropertiesUsingPropertySelectionPaths(
         propertySelectionPaths,
         generationOptions
       ),
@@ -36,7 +33,7 @@ class SQLServiceImpl : SQLService {
     )
   }
 
-  private fun selectRandomPropertiesFromPropertySelectionPaths(
+  private fun selectRandomPropertiesUsingPropertySelectionPaths(
     propertySelectionPaths: Array<PropertySelectionPath>,
     generationOptions: GenerationOptions
   ): SQLEnumeration<SQLProperty> {
