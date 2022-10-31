@@ -24,13 +24,8 @@ class SQLServiceImpl : SQLService {
     require(databaseScheme.tables.isNotEmpty())
     val startingTable =
       generationOptions.startingPoint ?: selectRandomTable(generationOptions.random, databaseScheme)
-
-    val propertySelectionPaths = createPropertySelectionPaths(
-      generationOptions,
-      databaseScheme,
-      startingTable
-    )
-
+    val propertySelectionPaths = PropertySelectionPathGenerator(databaseScheme, generationOptions)
+      .createPropertySelectionPaths(startingTable)
     return SelectStatement(
       selectProperties = selectRandomPropertiesFromPropertySelectionPaths(
         propertySelectionPaths,
@@ -39,48 +34,6 @@ class SQLServiceImpl : SQLService {
       fromStatement = FromStatement(SQLTable(startingTable.name)),
       joinExpressions = createJoinExpressions(propertySelectionPaths)
     )
-  }
-
-  // TODO This algorithm is traversing the tables in depth, but they should be traversed in breadth
-  private fun createPropertySelectionPaths(
-    generationOptions: GenerationOptions,
-    databaseScheme: DatabaseScheme,
-    startingTable: TableScheme
-  ): Array<PropertySelectionPath> {
-    var currentTable = startingTable
-    var numberOfPropertiesToSelect =
-      generationOptions.random.nextInt(generationOptions.possibleNumberOfParameters)
-    val propertySelectionPaths = mutableListOf<PropertySelectionPath>()
-    while (numberOfPropertiesToSelect > 0) {
-      val numberOfPropertiesToSelectForTable = determineNumberOfPropertiesToSelectForTable(
-        generationOptions.random,
-        currentTable,
-        numberOfPropertiesToSelect
-      )
-      numberOfPropertiesToSelect -= numberOfPropertiesToSelectForTable
-      if (numberOfPropertiesToSelect > 0 && currentTable.foreignKeys.isNotEmpty()) {
-        val foreignKey = selectRandomForeignKey(
-          generationOptions.random,
-          currentTable
-        )
-        databaseScheme.tables.find { it.name == foreignKey.referenceTable }?.let {
-          propertySelectionPaths += PropertySelectionPath(
-            currentTable,
-            numberOfPropertiesToSelectForTable,
-            foreignKey
-          )
-          currentTable = it
-        }
-      } else {
-        propertySelectionPaths += PropertySelectionPath(
-          currentTable,
-          numberOfPropertiesToSelectForTable,
-          null
-        )
-        break
-      }
-    }
-    return propertySelectionPaths.toTypedArray()
   }
 
   private fun selectRandomPropertiesFromPropertySelectionPaths(
@@ -116,20 +69,6 @@ class SQLServiceImpl : SQLService {
     )
   }
 
-  data class PropertySelectionPath(
-    val tableScheme: TableScheme,
-    val numberOfPropertiesToSelect: Int,
-    val foreignKey: ForeignKeyScheme? = null,
-  )
-
-  private fun determineNumberOfPropertiesToSelectForTable(
-    random: Random,
-    tableScheme: TableScheme,
-    numberOfPropertiesToSelect: Int
-  ): Int {
-    return min(tableScheme.properties.size, numberOfPropertiesToSelect)
-  }
-
   private fun selectFixedNumberOfRandomPropertiesFromTable(
     random: Random,
     tableScheme: TableScheme,
@@ -150,11 +89,6 @@ class SQLServiceImpl : SQLService {
   private fun selectRandomTable(random: Random, databaseScheme: DatabaseScheme): TableScheme {
     require(databaseScheme.tables.isNotEmpty())
     return databaseScheme.tables[random.nextInt(databaseScheme.tables.size)]
-  }
-
-  private fun selectRandomForeignKey(random: Random, tableScheme: TableScheme): ForeignKeyScheme {
-    require(tableScheme.foreignKeys.isNotEmpty())
-    return tableScheme.foreignKeys[random.nextInt(tableScheme.foreignKeys.size)]
   }
 
   private fun selectRandomProperty(
