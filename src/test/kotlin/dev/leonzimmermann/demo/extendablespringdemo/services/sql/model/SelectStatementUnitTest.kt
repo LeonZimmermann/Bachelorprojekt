@@ -131,4 +131,23 @@ class  SelectStatementUnitTest : AbstractSQLUnitTest() {
     """.trimIndent(), statement.toSQLString().trim()
     )
   }
+
+  @Test
+  fun testSelectStatementWithEmptyJoinExpressionArrayHasNoRedundantNewline() {
+    val statement = SelectStatement(
+      selectProperties = SQLEnumeration(SQLProperty("firstname")),
+      fromStatement = FromStatement(SQLTable("Person")),
+      joinExpressions = emptyArray(),
+      whereClause = WhereClause(EqualsExpression(
+        BooleanExpressionProperty(SQLProperty("firstname")),
+        BooleanExpressionLiteral(SQLStringLiteral("Hans"))
+      ))
+    )
+    assertEquals(
+      """
+      SELECT firstname FROM Person
+      WHERE firstname='Hans'
+    """.trimIndent(), statement.toSQLString().trim()
+    )
+  }
 }
