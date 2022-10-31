@@ -1,4 +1,4 @@
-package dev.leonzimmermann.demo.extendablespringdemo.models.sql
+package dev.leonzimmermann.demo.extendablespringdemo.services.sql.model
 
 import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.FromStatement
 import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.SQLBasicLiteral

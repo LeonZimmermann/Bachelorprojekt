@@ -3,7 +3,19 @@ package dev.leonzimmermann.demo.extendablespringdemo.services.sql.model
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class SelectStatementUnitTest : AbstractSQLUnitTest() {
+class  SelectStatementUnitTest : AbstractSQLUnitTest() {
+
+  @Test
+  fun testToSQLString() {
+    val selectStatement = SelectStatement(
+      selectProperties = SQLEnumeration(SQLProperty("street")),
+      fromStatement = FromStatement(SQLTable("Address")),
+      whereClause = WhereClause(EqualsExpression(
+        BooleanExpressionProperty(SQLProperty("city")),
+        BooleanExpressionLiteral(SQLStringLiteral("Essen"))))
+    )
+    assertEquals("SELECT street FROM Address WHERE city='Essen'", selectStatement.toSQLString())
+  }
 
   @Test
   fun testWithoutWhereClause() {
