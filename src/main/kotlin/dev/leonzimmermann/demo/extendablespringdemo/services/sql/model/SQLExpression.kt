@@ -19,7 +19,7 @@ class SelectStatement(
 ) : SQLExpression() {
   override fun toSQLString(): String {
     var sqlString = "SELECT ${selectProperties.toSQLString()} ${fromStatement.toSQLString()}"
-    if (joinExpressions != null) {
+    if (joinExpressions != null && joinExpressions.isNotEmpty()) {
       sqlString += "\n${joinExpressions.joinToString("\n") { it.toSQLString() }}"
     }
     if (whereClause != null) {
