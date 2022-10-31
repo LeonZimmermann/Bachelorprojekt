@@ -5,9 +5,9 @@ import simplenlg.framework.NLGFactory
 
 class JoinExpression(
   private val otherTable: SQLTable,
-  private val fromTable: SQLTable,
+  private val currentTable: SQLTable,
   private val otherTableProperty: SQLProperty,
-  private val fromTableProperty: SQLProperty,
+  private val currentTableProperty: SQLProperty,
   private val joinType: JoinType = JoinType.INNER_JOIN
 ) : SQLExpression() {
   enum class JoinType(val sql: String) {
@@ -18,7 +18,7 @@ class JoinExpression(
   }
 
   override fun toSQLString(): String =
-    "${joinType.sql} ${otherTable.toSQLString()} ON ${otherTable.toSQLString()}.${otherTableProperty.toSQLString()}=${fromTable.toSQLString()}.${fromTableProperty.toSQLString()}"
+    "${joinType.sql} ${otherTable.toSQLString()} ON ${otherTable.toSQLString()}.${otherTableProperty.toSQLString()}=${currentTable.toSQLString()}.${currentTableProperty.toSQLString()}"
 
   /**
    * The Join-Statements are technical details and should not be mentioned in the stem.

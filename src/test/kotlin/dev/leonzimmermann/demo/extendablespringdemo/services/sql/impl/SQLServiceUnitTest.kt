@@ -48,12 +48,12 @@ class SQLServiceUnitTest {
       // When
       val result = sqlService.generateSQLExpression(databaseScheme, generationOptions)
       // Then
-      logger.debug("generatedSelectStatementHasBetweenOneAndFiveParameters: SQLString=${result.toSQLString()}")
-      assertThat(result.toSQLString()).contains("SELECT")
+      logger.debug("generatedSelectStatementHasBetweenOneAndFiveParameters: SQLString=${result.toSQLString().trim()}")
+      assertThat(result.toSQLString().trim()).contains("SELECT")
       assertThat(
-        result.toSQLString()
-          .matches("^SELECT ([a-zA-Z]*, ){0,4}[a-zA-Z]+ FROM.*\$".toRegex(RegexOption.MULTILINE))
-      ).overridingErrorMessage("Select needs to have between one and five properties. SQL: ${result.toSQLString()}").isTrue
+        result.toSQLString().trim()
+          .matches("SELECT ([a-zA-Z]*, ){0,4}[a-zA-Z]+ FROM.*".toRegex())
+      ).overridingErrorMessage("Select needs to have between one and five properties. SQL: ${result.toSQLString().trim()}").isTrue
     }
   }
 
@@ -84,15 +84,14 @@ class SQLServiceUnitTest {
       // When
       val result = sqlService.generateSQLExpression(databaseScheme, generationOptions)
       // Then
-      logger.debug("generatedSelectStatementHasJoinStatementsWhenMultipleTablesAreUsed: SQLString=${result.toSQLString()}")
-      assertThat(result.toSQLString()).contains("SELECT")
-      assertThat(
-        result.toSQLString()
-          .matches("^SELECT ([a-zA-Z]*, ){2}[a-zA-Z]+ FROM.*\$".toRegex(RegexOption.MULTILINE))
-      ).overridingErrorMessage("Select needs to have exactly three properties. SQL: ${result.toSQLString()}").isTrue
-      assertThat(result.toSQLString())
-        .overridingErrorMessage("The SQL Statement needs to contain a JOIN expression. SQL: ${result.toSQLString()}")
-        .contains("JOIN Address ON Address.objectId = Person.address")
+      logger.debug("generatedSelectStatementHasJoinStatementsWhenMultipleTablesAreUsed: SQLString=${result.toSQLString().trim()}")
+      assertThat(result.toSQLString().trim()).contains("SELECT")
+      assertThat("SELECT ([a-zA-Z]*, ){2}[a-zA-Z]+ FROM".toRegex().containsMatchIn(result.toSQLString().trim()))
+        .overridingErrorMessage("Select needs to have exactly three properties. SQL: ${result.toSQLString().trim()}")
+        .isTrue
+      assertThat(result.toSQLString().trim())
+        .overridingErrorMessage("The SQL Statement needs to contain a JOIN expression. SQL: ${result.toSQLString().trim()}")
+        .contains("JOIN Address ON Address.objectId=Person.address")
     }
   }
 }
