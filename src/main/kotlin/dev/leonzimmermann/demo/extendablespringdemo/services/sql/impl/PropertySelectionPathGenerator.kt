@@ -26,14 +26,11 @@ class PropertySelectionPathGenerator(
       numberOfPropertiesToSelect -= numberOfPropertiesToSelectForTable
 
       if (numberOfPropertiesToSelect > 0 && currentTable.foreignKeys.isNotEmpty()) {
-        val nextTable = findNextTableAndAddCurrentTableToPropertySelectionPath(
+        findNextTableAndAddCurrentTableToPropertySelectionPath(
           propertySelectionPaths,
           currentTable,
           numberOfPropertiesToSelectForTable
-        )
-        if (nextTable != null) {
-          currentTable = nextTable
-        }
+        )?.let { currentTable = it }
       } else {
         addCurrentTableToPropertySelectionPath(
           propertySelectionPaths,
