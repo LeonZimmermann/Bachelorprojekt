@@ -13,11 +13,11 @@ class PropertySelectionPathGenerator(
 
   // TODO This algorithm is traversing the tables in depth, but they should be traversed in breadth
   fun createPropertySelectionPaths(startingTable: TableScheme): Array<PropertySelectionPath> {
-    var currentTable = startingTable
+    var currentTable: TableScheme? = startingTable
     var numberOfPropertiesToSelect =
       generationOptions.random.nextInt(generationOptions.possibleNumberOfParameters)
     val propertySelectionPaths = mutableListOf<PropertySelectionPath>()
-    while (numberOfPropertiesToSelect > 0) {
+    while (currentTable != null && numberOfPropertiesToSelect > 0) {
 
       val numberOfPropertiesToSelectForTable = determineNumberOfPropertiesToSelectForTable(
         currentTable,
@@ -25,22 +25,37 @@ class PropertySelectionPathGenerator(
       )
       numberOfPropertiesToSelect -= numberOfPropertiesToSelectForTable
 
-      if (shouldLookUpNextTable(currentTable, numberOfPropertiesToSelect)) {
-        findNextTableAndAddCurrentTableToPropertySelectionPath(
-          propertySelectionPaths,
-          currentTable,
-          numberOfPropertiesToSelectForTable
-        )?.let { currentTable = it }
-      } else {
-        addCurrentTableToPropertySelectionPath(
-          propertySelectionPaths,
-          currentTable,
-          numberOfPropertiesToSelectForTable,
-          null
-        )
-      }
+      currentTable = traverseOneStep(
+        currentTable,
+        numberOfPropertiesToSelect,
+        propertySelectionPaths,
+        numberOfPropertiesToSelectForTable
+      )
     }
     return propertySelectionPaths.toTypedArray()
+  }
+
+  private fun traverseOneStep(
+    currentTable: TableScheme,
+    numberOfPropertiesToSelect: Int,
+    propertySelectionPaths: MutableList<PropertySelectionPath>,
+    numberOfPropertiesToSelectForTable: Int
+  ): TableScheme? {
+    return if (shouldLookUpNextTable(currentTable, numberOfPropertiesToSelect)) {
+      findNextTableAndAddCurrentTableToPropertySelectionPath(
+        propertySelectionPaths,
+        currentTable,
+        numberOfPropertiesToSelectForTable
+      )
+    } else {
+      addCurrentTableToPropertySelectionPath(
+        propertySelectionPaths,
+        currentTable,
+        numberOfPropertiesToSelectForTable,
+        null
+      )
+      currentTable
+    }
   }
 
   private fun shouldLookUpNextTable(currentTable: TableScheme, numberOfPropertiesToSelect: Int): Boolean =
