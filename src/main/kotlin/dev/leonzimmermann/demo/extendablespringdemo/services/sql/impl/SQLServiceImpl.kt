@@ -23,21 +23,23 @@ class SQLServiceImpl : SQLService {
       generationOptions.startingPoint ?: selectRandomTable(generationOptions.random, databaseScheme)
     val propertySelectionPaths = PropertySelectionPathGenerator(databaseScheme, generationOptions)
       .createPropertySelectionPaths(startingTable)
+    val selectedProperties = selectRandomPropertiesUsingPropertySelectionPaths(
+      propertySelectionPaths,
+      generationOptions
+    )
     return SelectStatement(
-      selectProperties = selectRandomPropertiesUsingPropertySelectionPaths(
-        propertySelectionPaths,
-        generationOptions
-      ),
+      selectProperties = SQLEnumeration(*selectedProperties),
       fromStatement = FromStatement(SQLTable(startingTable.name)),
-      joinExpressions = createJoinExpressions(propertySelectionPaths)
+      joinExpressions = createJoinExpressions(propertySelectionPaths),
+      whereClause = createWhereClause(generationOptions.random, selectedProperties)
     )
   }
 
   private fun selectRandomPropertiesUsingPropertySelectionPaths(
     propertySelectionPaths: Array<PropertySelectionPath>,
     generationOptions: GenerationOptions
-  ): SQLEnumeration<SQLProperty> {
-    val selectedProperties = propertySelectionPaths.flatMap {
+  ): Array<SQLProperty> {
+    return propertySelectionPaths.flatMap {
       selectFixedNumberOfRandomPropertiesFromTable(
         generationOptions.random,
         it.tableScheme,
@@ -45,7 +47,6 @@ class SQLServiceImpl : SQLService {
       ).toList()
     }.map { SQLProperty(it.name) }
       .toTypedArray()
-    return SQLEnumeration(*selectedProperties)
   }
 
   private fun createJoinExpressions(propertySelectionPaths: Array<PropertySelectionPath>): Array<JoinExpression> {
@@ -55,6 +56,21 @@ class SQLServiceImpl : SQLService {
       .toTypedArray()
   }
 
+  private fun createWhereClause(random: Random, properties: Array<SQLProperty>): WhereClause {
+    return WhereClause(
+      EqualsExpression(
+        BooleanExpressionProperty(selectRandomPropertyFromArray(random, properties)),
+        BooleanExpressionLiteral(SQLStringLiteral("Test"))
+      )
+    )
+  }
+
+  private fun selectRandomPropertyFromArray(
+    random: Random,
+    properties: Array<SQLProperty>
+  ): SQLProperty =
+    properties[random.nextInt(properties.size)]
+
   private fun mapPropertySelectionPathToJoinExpression(propertySelectionPath: PropertySelectionPath): JoinExpression {
     requireNotNull(propertySelectionPath.foreignKey)
     return JoinExpression(
@@ -62,7 +78,6 @@ class SQLServiceImpl : SQLService {
       SQLTable(propertySelectionPath.tableScheme.name),
       SQLProperty(propertySelectionPath.foreignKey.referenceField),
       SQLProperty(propertySelectionPath.foreignKey.propertyName)
-
     )
   }
 
