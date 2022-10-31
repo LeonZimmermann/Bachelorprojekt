@@ -26,7 +26,8 @@ class PropertySelectionPathGenerator(
       if (numberOfPropertiesToSelect > 0 && currentTable.foreignKeys.isNotEmpty()) {
         val foreignKey = selectRandomForeignKey(currentTable)
         databaseScheme.tables.find { it.name == foreignKey.referenceTable }?.let {
-          propertySelectionPaths += PropertySelectionPath(
+          addCurrentTableToPropertySelectionPath(
+            propertySelectionPaths,
             currentTable,
             numberOfPropertiesToSelectForTable,
             foreignKey
@@ -34,15 +35,29 @@ class PropertySelectionPathGenerator(
           currentTable = it
         }
       } else {
-        propertySelectionPaths += PropertySelectionPath(
+        addCurrentTableToPropertySelectionPath(
+          propertySelectionPaths,
           currentTable,
           numberOfPropertiesToSelectForTable,
-          null
+        null
         )
         break
       }
     }
     return propertySelectionPaths.toTypedArray()
+  }
+
+  private fun addCurrentTableToPropertySelectionPath(
+    propertySelectionPaths: MutableList<PropertySelectionPath>,
+    currentTable: TableScheme,
+    numberOfPropertiesToSelectForTable: Int,
+    foreignKey: ForeignKeyScheme?
+  ) {
+    propertySelectionPaths += PropertySelectionPath(
+      currentTable,
+      numberOfPropertiesToSelectForTable,
+      foreignKey
+    )
   }
 
   private fun determineNumberOfPropertiesToSelectForTable(
