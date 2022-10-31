@@ -94,4 +94,37 @@ class SQLServiceUnitTest {
         .contains("JOIN Address ON Address.objectId=Person.address")
     }
   }
+
+  @Test
+  fun generatedSelectStatementHasWhereClause() {
+    // Given
+    val addressTableScheme = TableScheme(
+      "Address", PropertyScheme("objectId", "integer"), emptyArray(), arrayOf(
+        PropertyScheme("street", "string"),
+        PropertyScheme("streetNumber", "integer"),
+        PropertyScheme("city", "string"),
+        PropertyScheme("state", "string"),
+        PropertyScheme("country", "string")
+      )
+    )
+    val databaseScheme = DatabaseScheme(arrayOf(addressTableScheme))
+    val generationOptions = GenerationOptions(
+      random = Random(1000),
+      possibleNumberOfParameters = IntRange(3, 3),
+    )
+    repeat(100) {
+      // When
+      val result = sqlService.generateSQLExpression(databaseScheme, generationOptions)
+      // Then
+      logger.debug("generatedSelectStatementHasWhereClause: SQLString=${result.toSQLString().trim()}")
+      assertThat(result.toSQLString().trim()).contains("SELECT")
+      assertThat("SELECT ([a-zA-Z]*, ){2}[a-zA-Z]+ FROM".toRegex().containsMatchIn(result.toSQLString().trim()))
+        .overridingErrorMessage("Select needs to have exactly three properties. SQL: ${result.toSQLString().trim()}")
+        .isTrue
+      // TODO Get params through regex group and check whether at least one is used in WHERE clause
+      assertThat(result.toSQLString().trim())
+        .overridingErrorMessage("The SQL Statement needs to contain a WHERE clause. SQL: ${result.toSQLString().trim()}")
+        .contains("WHERE")
+    }
+  }
 }
