@@ -25,7 +25,7 @@ class PropertySelectionPathGenerator(
       )
       numberOfPropertiesToSelect -= numberOfPropertiesToSelectForTable
 
-      if (numberOfPropertiesToSelect > 0 && currentTable.foreignKeys.isNotEmpty()) {
+      if (shouldLookUpNextTable(currentTable, numberOfPropertiesToSelect)) {
         findNextTableAndAddCurrentTableToPropertySelectionPath(
           propertySelectionPaths,
           currentTable,
@@ -38,11 +38,13 @@ class PropertySelectionPathGenerator(
           numberOfPropertiesToSelectForTable,
           null
         )
-        break
       }
     }
     return propertySelectionPaths.toTypedArray()
   }
+
+  private fun shouldLookUpNextTable(currentTable: TableScheme, numberOfPropertiesToSelect: Int): Boolean =
+    numberOfPropertiesToSelect > 0 && currentTable.foreignKeys.isNotEmpty()
 
   private fun findNextTableAndAddCurrentTableToPropertySelectionPath(
     propertySelectionPaths: MutableList<PropertySelectionPath>,
