@@ -18,33 +18,51 @@ class PropertySelectionPathGenerator(
       generationOptions.random.nextInt(generationOptions.possibleNumberOfParameters)
     val propertySelectionPaths = mutableListOf<PropertySelectionPath>()
     while (numberOfPropertiesToSelect > 0) {
+
       val numberOfPropertiesToSelectForTable = determineNumberOfPropertiesToSelectForTable(
         currentTable,
         numberOfPropertiesToSelect
       )
       numberOfPropertiesToSelect -= numberOfPropertiesToSelectForTable
+
       if (numberOfPropertiesToSelect > 0 && currentTable.foreignKeys.isNotEmpty()) {
-        val foreignKey = selectRandomForeignKey(currentTable)
-        databaseScheme.tables.find { it.name == foreignKey.referenceTable }?.let {
-          addCurrentTableToPropertySelectionPath(
-            propertySelectionPaths,
-            currentTable,
-            numberOfPropertiesToSelectForTable,
-            foreignKey
-          )
-          currentTable = it
+        val nextTable = findNextTableAndAddCurrentTableToPropertySelectionPath(
+          propertySelectionPaths,
+          currentTable,
+          numberOfPropertiesToSelectForTable
+        )
+        if (nextTable != null) {
+          currentTable = nextTable
         }
       } else {
         addCurrentTableToPropertySelectionPath(
           propertySelectionPaths,
           currentTable,
           numberOfPropertiesToSelectForTable,
-        null
+          null
         )
         break
       }
     }
     return propertySelectionPaths.toTypedArray()
+  }
+
+  private fun findNextTableAndAddCurrentTableToPropertySelectionPath(
+    propertySelectionPaths: MutableList<PropertySelectionPath>,
+    currentTable: TableScheme,
+    numberOfPropertiesToSelectForTable: Int
+  ): TableScheme? {
+    val foreignKey = selectRandomForeignKey(currentTable)
+    val nextTable = databaseScheme.tables.find { it.name == foreignKey.referenceTable }
+    if (nextTable != null) {
+      addCurrentTableToPropertySelectionPath(
+        propertySelectionPaths,
+        currentTable,
+        numberOfPropertiesToSelectForTable,
+        foreignKey
+      )
+    }
+    return nextTable
   }
 
   private fun addCurrentTableToPropertySelectionPath(
