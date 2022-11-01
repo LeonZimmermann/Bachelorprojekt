@@ -13,7 +13,6 @@ import kotlin.random.Random
 @Service
 class SQLServiceImpl : SQLService {
 
-  // TODO Implement Where next. Think of the semantic for the query first, then determine the properties and tables
   override fun generateSQLExpression(
     databaseScheme: DatabaseScheme,
     generationOptions: GenerationOptions
@@ -28,26 +27,32 @@ class SQLServiceImpl : SQLService {
       generationOptions
     )
     return SelectStatement(
-      selectProperties = SQLEnumeration(*selectedProperties),
+      selectProperties = SQLEnumeration(*mapPropertySchemesToSQLProperties(selectedProperties)),
       fromStatement = FromStatement(SQLTable(startingTable.name)),
       joinExpressions = createJoinExpressions(propertySelectionPaths),
-      whereClause = createWhereClause(generationOptions.random, selectedProperties)
+      whereClause = if (generationOptions.selectWithWhereClause) createWhereClause(
+        generationOptions.random,
+        selectedProperties
+      ) else null
     )
   }
 
   private fun selectRandomPropertiesUsingPropertySelectionPaths(
     propertySelectionPaths: Array<PropertySelectionPath>,
     generationOptions: GenerationOptions
-  ): Array<SQLProperty> {
+  ): Array<PropertyScheme> {
     return propertySelectionPaths.flatMap {
       selectFixedNumberOfRandomPropertiesFromTable(
         generationOptions.random,
         it.tableScheme,
         it.numberOfPropertiesToSelect
       ).toList()
-    }.map { SQLProperty(it.name) }
-      .toTypedArray()
+    }.toTypedArray()
   }
+
+  private fun mapPropertySchemesToSQLProperties(propertySchemes: Array<PropertyScheme>): Array<SQLProperty> =
+    propertySchemes.map { SQLProperty(it.name) }
+      .toTypedArray()
 
   private fun createJoinExpressions(propertySelectionPaths: Array<PropertySelectionPath>): Array<JoinExpression> {
     return propertySelectionPaths
@@ -56,20 +61,38 @@ class SQLServiceImpl : SQLService {
       .toTypedArray()
   }
 
-  private fun createWhereClause(random: Random, properties: Array<SQLProperty>): WhereClause {
+  private fun createWhereClause(
+    random: Random,
+    propertySchemes: Array<PropertyScheme>
+  ): WhereClause {
+    val propertyScheme = selectRandomPropertySchemeFromArray(random, propertySchemes)
     return WhereClause(
       EqualsExpression(
-        BooleanExpressionProperty(selectRandomPropertyFromArray(random, properties)),
-        BooleanExpressionLiteral(SQLStringLiteral("Test"))
+        BooleanExpressionProperty(SQLProperty(propertyScheme.name)),
+        BooleanExpressionLiteral(
+          SQLStringLiteral(
+            selectRandomValueForProperty(
+              random,
+              propertyScheme
+            )
+          )
+        )
       )
     )
   }
 
-  private fun selectRandomPropertyFromArray(
+  private fun selectRandomValueForProperty(random: Random, propertyScheme: PropertyScheme): String {
+    require(propertyScheme.values.isNotEmpty())
+    return propertyScheme.values[random.nextInt(propertyScheme.values.size)]
+  }
+
+  private fun selectRandomPropertySchemeFromArray(
     random: Random,
-    properties: Array<SQLProperty>
-  ): SQLProperty =
-    properties[random.nextInt(properties.size)]
+    propertySchemes: Array<PropertyScheme>
+  ): PropertyScheme {
+    require(propertySchemes.isNotEmpty())
+    return propertySchemes[random.nextInt(propertySchemes.size)]
+  }
 
   private fun mapPropertySelectionPathToJoinExpression(propertySelectionPath: PropertySelectionPath): JoinExpression {
     requireNotNull(propertySelectionPath.foreignKey)

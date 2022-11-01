@@ -42,7 +42,9 @@ class SQLServiceUnitTest {
       )
     )
     val generationOptions = GenerationOptions(
-      random = Random(1000), possibleNumberOfParameters = IntRange(1, 5)
+      random = Random(1000),
+      possibleNumberOfParameters = IntRange(1, 5),
+      selectWithWhereClause = false
     )
     repeat(100) {
       // When
@@ -78,7 +80,8 @@ class SQLServiceUnitTest {
     val generationOptions = GenerationOptions(
       random = Random(1000),
       possibleNumberOfParameters = IntRange(3, 3),
-      startingPoint = personTableScheme
+      startingPoint = personTableScheme,
+      selectWithWhereClause = false
     )
     repeat(100) {
       // When
@@ -100,17 +103,17 @@ class SQLServiceUnitTest {
     // Given
     val addressTableScheme = TableScheme(
       "Address", PropertyScheme("objectId", "integer"), emptyArray(), arrayOf(
-        PropertyScheme("street", "string"),
-        PropertyScheme("streetNumber", "integer"),
-        PropertyScheme("city", "string"),
-        PropertyScheme("state", "string"),
-        PropertyScheme("country", "string")
+        PropertyScheme("street", "string", arrayOf("Steeler Str.", "Altenessener Str.")),
+        PropertyScheme("streetNumber", "integer", arrayOf("1", "2", "3", "4", "5", "6")),
+        PropertyScheme("city", "string", arrayOf("Essen", "Duesseldorf")),
+        PropertyScheme("state", "string", arrayOf("Nordrhein-Westfalen", "Berlin", "Brandenburg")),
+        PropertyScheme("country", "string", arrayOf("Deutschland", "Oesterreich", "Schweiz"))
       )
     )
     val databaseScheme = DatabaseScheme(arrayOf(addressTableScheme))
     val generationOptions = GenerationOptions(
       random = Random(1000),
-      possibleNumberOfParameters = IntRange(3, 3),
+      possibleNumberOfParameters = IntRange(3, 3)
     )
     repeat(100) {
       // When

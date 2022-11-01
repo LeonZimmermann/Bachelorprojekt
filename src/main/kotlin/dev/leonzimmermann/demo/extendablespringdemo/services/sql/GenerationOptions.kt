@@ -6,5 +6,6 @@ import kotlin.random.Random
 data class GenerationOptions(
   val random: Random,
   val possibleNumberOfParameters: IntRange,
-  val startingPoint: TableScheme? = null
+  val startingPoint: TableScheme? = null,
+  val selectWithWhereClause: Boolean = true
 )
