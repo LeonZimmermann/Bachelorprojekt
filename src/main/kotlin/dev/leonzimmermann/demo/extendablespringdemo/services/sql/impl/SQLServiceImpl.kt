@@ -1,6 +1,7 @@
 package dev.leonzimmermann.demo.extendablespringdemo.services.sql.impl
 
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.DatabaseScheme
+import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.EmptyValueGenerator
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.PropertyScheme
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.TableScheme
 import dev.leonzimmermann.demo.extendablespringdemo.services.sql.GenerationOptions
@@ -82,8 +83,8 @@ class SQLServiceImpl : SQLService {
   }
 
   private fun selectRandomValueForProperty(random: Random, propertyScheme: PropertyScheme): String {
-    require(propertyScheme.values.isNotEmpty())
-    return propertyScheme.values[random.nextInt(propertyScheme.values.size)]
+    require(propertyScheme.valueGenerator != EmptyValueGenerator)
+    return propertyScheme.valueGenerator.generateValue(random)
   }
 
   private fun selectRandomPropertySchemeFromArray(

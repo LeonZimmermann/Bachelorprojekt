@@ -1,9 +1,6 @@
 package dev.leonzimmermann.demo.extendablespringdemo.services.sql.impl
 
-import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.DatabaseScheme
-import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.ForeignKeyScheme
-import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.PropertyScheme
-import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.TableScheme
+import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.*
 import dev.leonzimmermann.demo.extendablespringdemo.services.sql.GenerationOptions
 import dev.leonzimmermann.demo.extendablespringdemo.services.sql.SQLService
 import org.assertj.core.api.Assertions.assertThat
@@ -103,11 +100,11 @@ class SQLServiceUnitTest {
     // Given
     val addressTableScheme = TableScheme(
       "Address", PropertyScheme("objectId", "integer"), emptyArray(), arrayOf(
-        PropertyScheme("street", "string", arrayOf("Steeler Str.", "Altenessener Str.")),
-        PropertyScheme("streetNumber", "integer", arrayOf("1", "2", "3", "4", "5", "6")),
-        PropertyScheme("city", "string", arrayOf("Essen", "Duesseldorf")),
-        PropertyScheme("state", "string", arrayOf("Nordrhein-Westfalen", "Berlin", "Brandenburg")),
-        PropertyScheme("country", "string", arrayOf("Deutschland", "Oesterreich", "Schweiz"))
+        PropertyScheme("street", "string", ValueGeneratorFromList("Steeler Str.", "Altenessener Str.")),
+        PropertyScheme("streetNumber", "integer", IntValueGenerator(IntRange(1, 10))),
+        PropertyScheme("city", "string", ValueGeneratorFromList("Essen", "Duesseldorf")),
+        PropertyScheme("state", "string", ValueGeneratorFromList("Nordrhein-Westfalen", "Berlin", "Brandenburg")),
+        PropertyScheme("country", "string", ValueGeneratorFromList("Deutschland", "Oesterreich", "Schweiz"))
       )
     )
     val databaseScheme = DatabaseScheme(arrayOf(addressTableScheme))
