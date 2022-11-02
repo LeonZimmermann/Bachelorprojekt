@@ -1,10 +1,7 @@
 package dev.leonzimmermann.demo.extendablespringdemo.services.database.impl
 
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.DatabaseSchemeService
-import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.DatabaseScheme
-import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.ForeignKeyScheme
-import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.PropertyScheme
-import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.TableScheme
+import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.*
 import org.apache.jena.ontology.OntModel
 import org.apache.jena.ontology.OntProperty
 import org.apache.jena.ontology.OntResource
@@ -53,11 +50,26 @@ class DatabaseSchemeServiceImpl : DatabaseSchemeService {
       .toTypedArray()
     return TableScheme(
       entry.key.localName,
-      PropertyScheme(TABLE_PRIMARY_KEY_IDENTIFIER, TABLE_PRIMARY_KEY_DATATYPE),
+      PropertyScheme(TABLE_PRIMARY_KEY_IDENTIFIER, ObjectIdGenerator()),
       foreignKeys,
-      entry.value.map { PropertyScheme(it.localName, it.range.localName) }.toTypedArray()
+      entry.value.filter { !it.isObjectProperty }.map {
+        PropertyScheme(
+          it.localName,
+          mapOntRangeToPropertyValueGenerator(it.range)
+        )
+      }.toTypedArray()
     )
   }
+
+  // TODO get values for ValueGeneratorFromList in DatabaseSchemeServiceImpl
+  private fun mapOntRangeToPropertyValueGenerator(range: OntResource): PropertyValueGenerator =
+    when (getDatatypeStringForRange(range)) {
+      "integer" -> IntValueGenerator(IntRange(0, 9999999))
+      "string" -> ValueGeneratorFromStringList("TODO get values for ValueGeneratorFromList in DatabaseSchemeServiceImpl")
+      else -> throw IllegalArgumentException("Invalid datatype: ${getDatatypeStringForRange(range)}")
+    }
+
+  private fun getDatatypeStringForRange(range: OntResource) = range.localName
 
   private fun logProperties(list: List<Pair<OntResource, OntProperty>>) {
     logger.debug("Properties:\n${
@@ -69,6 +81,5 @@ class DatabaseSchemeServiceImpl : DatabaseSchemeService {
 
   companion object {
     private const val TABLE_PRIMARY_KEY_IDENTIFIER = "objectId"
-    private const val TABLE_PRIMARY_KEY_DATATYPE = "Long"
   }
 }

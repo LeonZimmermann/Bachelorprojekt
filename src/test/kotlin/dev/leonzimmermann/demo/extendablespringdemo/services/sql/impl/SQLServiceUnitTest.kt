@@ -27,13 +27,13 @@ class SQLServiceUnitTest {
     val databaseScheme = DatabaseScheme(
       arrayOf(
         TableScheme(
-          "Address", PropertyScheme("objectId", "integer"), emptyArray(), arrayOf(
-            PropertyScheme("street", "string"),
-            PropertyScheme("streetNumber", "integer"),
-            PropertyScheme("postalcode", "integer"),
-            PropertyScheme("city", "string"),
-            PropertyScheme("state", "string"),
-            PropertyScheme("country", "string"),
+          "Address", PropertyScheme("objectId"), emptyArray(), arrayOf(
+            PropertyScheme("street"),
+            PropertyScheme("streetNumber"),
+            PropertyScheme("postalcode"),
+            PropertyScheme("city"),
+            PropertyScheme("state"),
+            PropertyScheme("country"),
           )
         )
       )
@@ -60,17 +60,17 @@ class SQLServiceUnitTest {
   fun generatedSelectStatementHasJoinStatementsWhenMultipleTablesAreUsed() {
     // Given
     val addressTableScheme = TableScheme(
-      "Address", PropertyScheme("objectId", "integer"), emptyArray(), arrayOf(
-        PropertyScheme("street", "string"),
-        PropertyScheme("streetNumber", "integer"),
+      "Address", PropertyScheme("objectId"), emptyArray(), arrayOf(
+        PropertyScheme("street"),
+        PropertyScheme("streetNumber"),
       )
     )
     val personTableScheme = TableScheme(
-      "Person", PropertyScheme("objectId", "integer"), arrayOf(
+      "Person", PropertyScheme("objectId"), arrayOf(
         ForeignKeyScheme("address", "Address", "objectId")
       ), arrayOf(
-        PropertyScheme("firstname", "string"),
-        PropertyScheme("lastname", "string")
+        PropertyScheme("firstname"),
+        PropertyScheme("lastname")
       )
     )
     val databaseScheme = DatabaseScheme(arrayOf(addressTableScheme, personTableScheme))
@@ -99,12 +99,12 @@ class SQLServiceUnitTest {
   fun generatedSelectStatementHasWhereClause() {
     // Given
     val addressTableScheme = TableScheme(
-      "Address", PropertyScheme("objectId", "integer"), emptyArray(), arrayOf(
-        PropertyScheme("street", "string", ValueGeneratorFromList("Steeler Str.", "Altenessener Str.")),
-        PropertyScheme("streetNumber", "integer", IntValueGenerator(IntRange(1, 10))),
-        PropertyScheme("city", "string", ValueGeneratorFromList("Essen", "Duesseldorf")),
-        PropertyScheme("state", "string", ValueGeneratorFromList("Nordrhein-Westfalen", "Berlin", "Brandenburg")),
-        PropertyScheme("country", "string", ValueGeneratorFromList("Deutschland", "Oesterreich", "Schweiz"))
+      "Address", PropertyScheme("objectId", ObjectIdGenerator()), emptyArray(), arrayOf(
+        PropertyScheme("street", ValueGeneratorFromStringList("Steeler Str.", "Altenessener Str.")),
+        PropertyScheme("streetNumber", IntValueGenerator(IntRange(1, 10))),
+        PropertyScheme("city", ValueGeneratorFromStringList("Essen", "Duesseldorf")),
+        PropertyScheme("state", ValueGeneratorFromStringList("Nordrhein-Westfalen", "Berlin", "Brandenburg")),
+        PropertyScheme("country", ValueGeneratorFromStringList("Deutschland", "Oesterreich", "Schweiz"))
       )
     )
     val databaseScheme = DatabaseScheme(arrayOf(addressTableScheme))

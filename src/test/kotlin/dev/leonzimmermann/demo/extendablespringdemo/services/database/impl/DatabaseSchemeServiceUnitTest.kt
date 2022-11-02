@@ -1,10 +1,7 @@
 package dev.leonzimmermann.demo.extendablespringdemo.services.database.impl
 
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.DatabaseSchemeService
-import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.DatabaseScheme
-import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.ForeignKeyScheme
-import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.PropertyScheme
-import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.TableScheme
+import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.*
 import org.apache.jena.ontology.OntModel
 import org.apache.jena.ontology.OntModelSpec
 import org.apache.jena.rdf.model.Model
@@ -58,57 +55,51 @@ class DatabaseSchemeServiceUnitTest {
     val expectedDatabaseScheme = DatabaseScheme(
       arrayOf(
         TableScheme(
-          name = "Address", PropertyScheme(TABLE_PRIMARY_KEY_IDENTIFIER, "Long"),
+          name = "Address", PropertyScheme(TABLE_PRIMARY_KEY_IDENTIFIER, ObjectIdGenerator()),
           arrayOf(),
           arrayOf(
-            PropertyScheme(name = "postalCode", datatype = "integer"),
-            PropertyScheme(name = "street", datatype = "string"),
-            PropertyScheme(name = "streetNumber", datatype = "integer"),
-            PropertyScheme(name = "country", datatype = "string"),
-            PropertyScheme(name = "city", datatype = "string"),
-            PropertyScheme(name = "state", datatype = "string")
+            PropertyScheme(name = "postalCode", IntValueGenerator(IntRange(10000, 99999))),
+            PropertyScheme(name = "street", valueGenerator = ValueGeneratorFromStringList("")),
+            PropertyScheme(name = "streetNumber", IntValueGenerator(IntRange(1, 10000))),
+            PropertyScheme(name = "country", ValueGeneratorFromStringList("")),
+            PropertyScheme(name = "city", ValueGeneratorFromStringList("")),
+            PropertyScheme(name = "state", ValueGeneratorFromStringList(""))
           )
         ), TableScheme(
-          name = "Institution", PropertyScheme(TABLE_PRIMARY_KEY_IDENTIFIER, "Long"),
+          name = "Institution", PropertyScheme(TABLE_PRIMARY_KEY_IDENTIFIER, ObjectIdGenerator()),
           arrayOf(
             ForeignKeyScheme("address", "Address", TABLE_PRIMARY_KEY_IDENTIFIER)
           ),
           arrayOf(
-            PropertyScheme(name = "name", datatype = "string"),
-            PropertyScheme(name = "typeOfInstitution", datatype = "string"),
-            PropertyScheme(name = "address", datatype = "Address")
+            PropertyScheme(name = "name", ValueGeneratorFromStringList("")),
+            PropertyScheme(name = "typeOfInstitution", ValueGeneratorFromStringList("")),
           )
         ), TableScheme(
-          name = "Occupation", PropertyScheme(TABLE_PRIMARY_KEY_IDENTIFIER, "Long"),
+          name = "Occupation", PropertyScheme(TABLE_PRIMARY_KEY_IDENTIFIER, ObjectIdGenerator()),
           arrayOf(
             ForeignKeyScheme("person", "Person", TABLE_PRIMARY_KEY_IDENTIFIER),
             ForeignKeyScheme("institution", "Institution", TABLE_PRIMARY_KEY_IDENTIFIER)
           ),
           arrayOf(
-            PropertyScheme(name = "name", datatype = "string"),
-            PropertyScheme(name = "person", datatype = "Person"),
-            PropertyScheme(name = "institution", datatype = "Institution")
+            PropertyScheme(name = "name", ValueGeneratorFromStringList("")),
           )
         ), TableScheme(
-          name = "Relationship", PropertyScheme(TABLE_PRIMARY_KEY_IDENTIFIER, "Long"),
+          name = "Relationship", PropertyScheme(TABLE_PRIMARY_KEY_IDENTIFIER, ObjectIdGenerator()),
           arrayOf(
             ForeignKeyScheme("person", "Person", TABLE_PRIMARY_KEY_IDENTIFIER),
             ForeignKeyScheme("otherPerson", "Person", TABLE_PRIMARY_KEY_IDENTIFIER)
           ),
           arrayOf(
-            PropertyScheme(name = "typeOfRelationship", datatype = "string"),
-            PropertyScheme(name = "person", datatype = "Person"),
-            PropertyScheme(name = "otherPerson", datatype = "Person")
+            PropertyScheme(name = "typeOfRelationship", ValueGeneratorFromStringList("")),
           )
         ), TableScheme(
-          name = "Person", PropertyScheme(TABLE_PRIMARY_KEY_IDENTIFIER, "Long"),
+          name = "Person", PropertyScheme(TABLE_PRIMARY_KEY_IDENTIFIER, ObjectIdGenerator()),
           arrayOf(
             ForeignKeyScheme("address", "Address", TABLE_PRIMARY_KEY_IDENTIFIER)
           ),
           arrayOf(
-            PropertyScheme(name = "firstname", datatype = "string"),
-            PropertyScheme(name = "lastname", datatype = "string"),
-            PropertyScheme(name = "address", datatype = "Address")
+            PropertyScheme(name = "firstname", ValueGeneratorFromStringList("")),
+            PropertyScheme(name = "lastname", ValueGeneratorFromStringList("")),
           )
         )
       )

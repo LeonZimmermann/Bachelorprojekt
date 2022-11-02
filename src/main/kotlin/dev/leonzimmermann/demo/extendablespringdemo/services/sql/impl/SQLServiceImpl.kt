@@ -1,9 +1,6 @@
 package dev.leonzimmermann.demo.extendablespringdemo.services.sql.impl
 
-import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.DatabaseScheme
-import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.EmptyValueGenerator
-import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.PropertyScheme
-import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.TableScheme
+import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.*
 import dev.leonzimmermann.demo.extendablespringdemo.services.sql.GenerationOptions
 import dev.leonzimmermann.demo.extendablespringdemo.services.sql.SQLService
 import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.*
@@ -71,20 +68,26 @@ class SQLServiceImpl : SQLService {
       EqualsExpression(
         BooleanExpressionProperty(SQLProperty(propertyScheme.name)),
         BooleanExpressionLiteral(
-          SQLStringLiteral(
-            selectRandomValueForProperty(
-              random,
-              propertyScheme
-            )
+          selectRandomValueForProperty(
+            random,
+            propertyScheme
           )
         )
       )
     )
   }
 
-  private fun selectRandomValueForProperty(random: Random, propertyScheme: PropertyScheme): String {
+  private fun selectRandomValueForProperty(
+    random: Random,
+    propertyScheme: PropertyScheme
+  ): SQLLiteral {
     require(propertyScheme.valueGenerator != EmptyValueGenerator)
-    return propertyScheme.valueGenerator.generateValue(random)
+    val value = propertyScheme.valueGenerator.generateValue(random)
+    return when(propertyScheme.datatype) {
+      Datatype.STRING -> SQLStringLiteral(value)
+      Datatype.INTEGER -> SQLNumberLiteral(value.toInt())
+      Datatype.LONG -> SQLNumberLiteral(value.toInt())      // TODO Maybe change, to enable long?
+    }
   }
 
   private fun selectRandomPropertySchemeFromArray(
