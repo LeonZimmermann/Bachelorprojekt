@@ -7,5 +7,5 @@ data class GenerationOptions(
   val random: Random,
   val possibleNumberOfParameters: IntRange,
   val startingPoint: TableScheme? = null,
-  val selectWithWhereClause: Boolean = true
+  val enableWhereClause: Boolean = true
 )

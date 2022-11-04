@@ -41,7 +41,7 @@ class SQLServiceUnitTest {
     val generationOptions = GenerationOptions(
       random = Random(1000),
       possibleNumberOfParameters = IntRange(1, 5),
-      selectWithWhereClause = false
+      enableWhereClause = false
     )
     repeat(100) {
       // When
@@ -78,7 +78,7 @@ class SQLServiceUnitTest {
       random = Random(1000),
       possibleNumberOfParameters = IntRange(3, 3),
       startingPoint = personTableScheme,
-      selectWithWhereClause = false
+      enableWhereClause = false
     )
     repeat(100) {
       // When

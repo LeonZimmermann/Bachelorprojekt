@@ -7,7 +7,6 @@ import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.*
 import dev.leonzimmermann.demo.extendablespringdemo.util.minus
 import org.springframework.stereotype.Service
 import kotlin.random.Random
-import kotlin.random.nextInt
 
 @Service
 class SQLServiceImpl : SQLService {
@@ -29,7 +28,7 @@ class SQLServiceImpl : SQLService {
       selectProperties = SQLEnumeration(*mapPropertySchemesToSQLProperties(selectedProperties)),
       fromStatement = FromStatement(SQLTable(startingTable.name)),
       joinExpressions = createJoinExpressions(propertySelectionPaths),
-      whereClause = if (generationOptions.selectWithWhereClause) createWhereClause(
+      whereClause = if (generationOptions.enableWhereClause) createWhereClause(
         generationOptions.random,
         selectedProperties
       ) else null
