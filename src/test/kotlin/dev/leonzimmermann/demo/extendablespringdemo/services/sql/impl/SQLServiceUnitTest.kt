@@ -127,4 +127,6 @@ class SQLServiceUnitTest {
         .contains("WHERE")
     }
   }
+
+  // TODO Add check to test that there are no SQL Expressions, with an EqualsExpression in the where-clause, whose property is part of the select
 }
