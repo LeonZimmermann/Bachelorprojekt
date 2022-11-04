@@ -8,7 +8,7 @@ plugins {
   kotlin("plugin.jpa") version "1.6.21"
 }
 
-group = "dev.leonzimmermann.demo.extendable"
+group = "dev.leonzimmermann.bachelorprojekt"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
 

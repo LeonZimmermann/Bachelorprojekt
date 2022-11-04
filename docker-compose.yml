@@ -2,7 +2,7 @@ version: '2'
 
 services:
   app:
-    image: 'extendable-spring-demo:latest'
+    image: 'bachelorprojekt:latest'
     build:
       context: .
     container_name: 'api'
