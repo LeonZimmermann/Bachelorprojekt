@@ -1,12 +1,14 @@
 package dev.leonzimmermann.demo.extendablespringdemo.controllers
 
 import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.impl.AssignmentServiceImpl
+import dev.leonzimmermann.demo.extendablespringdemo.services.sql.GenerationOptions
 import org.hibernate.QueryException
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import kotlin.random.Random
 
 @RestController
 @RequestMapping("/assignment")
@@ -18,7 +20,7 @@ class AssignmentController(
 
   @GetMapping("/create")
   fun createAssignment(): ResponseEntity<Any> {
-    return ResponseEntity(assignmentService.generateNewAssignment(), HttpStatus.OK)
+    return ResponseEntity(assignmentService.generateNewAssignment(GenerationOptions(Random(1000), IntRange(1, 5))), HttpStatus.OK)
   }
 
   @PostMapping("/validate/{objectId}")

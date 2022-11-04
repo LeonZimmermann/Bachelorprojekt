@@ -4,7 +4,9 @@ import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.Assignme
 import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.AssignmentService
 import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.rules.NumberOfRowsValidationRule
 import dev.leonzimmermann.demo.extendablespringdemo.services.assignment.rules.ResultIsTheSameValidationRule
+import dev.leonzimmermann.demo.extendablespringdemo.services.database.DatabaseSchemeService
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.DatabaseScheme
+import dev.leonzimmermann.demo.extendablespringdemo.services.ontology.OntologyService
 import dev.leonzimmermann.demo.extendablespringdemo.services.query.QueryService
 import dev.leonzimmermann.demo.extendablespringdemo.services.sql.GenerationOptions
 import dev.leonzimmermann.demo.extendablespringdemo.services.sql.SQLService
@@ -19,8 +21,10 @@ import kotlin.random.Random
 
 @Service
 class AssignmentServiceImpl(
-  @Autowired private val sqlService: SQLService,
-  @Autowired private val queryService: QueryService
+  private val ontologyService: OntologyService,
+  private val databaseSchemeService: DatabaseSchemeService,
+  private val sqlService: SQLService,
+  private val queryService: QueryService
 ) : AssignmentService {
 
   private val logger = LoggerFactory.getLogger(javaClass.name)
@@ -32,10 +36,11 @@ class AssignmentServiceImpl(
   private val nlgFactory = NLGFactory(lexicon)
   private val realiser = Realiser(lexicon)
 
-  override fun generateNewAssignment(): Assignment {
-    val databaseScheme = DatabaseScheme(arrayOf())
-    val generationOptions = GenerationOptions(Random(1000), IntRange(1, 5))
-    val sqlExpression = sqlService.generateSQLExpression(databaseScheme, generationOptions)
+  override fun generateNewAssignment(generationOptions: GenerationOptions): Assignment {
+    val sqlExpression = sqlService.generateSQLExpression(
+      databaseSchemeService.createDatabaseSchemeFromOntology(ontologyService.createOntology()),
+      generationOptions
+    )
     val stem = realiser.realiseSentence(sqlExpression.toStemText(nlgFactory)).trim()
     val assignment = Assignment(
       stem = stem,
