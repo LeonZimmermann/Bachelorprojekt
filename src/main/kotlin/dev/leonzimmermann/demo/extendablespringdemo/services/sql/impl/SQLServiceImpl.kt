@@ -82,11 +82,10 @@ class SQLServiceImpl : SQLService {
     propertyScheme: PropertyScheme
   ): SQLLiteral {
     require(propertyScheme.valueGenerator != EmptyValueGenerator)
-    val value = propertyScheme.valueGenerator.generateValue(random)
     return when(propertyScheme.datatype) {
-      Datatype.STRING -> SQLStringLiteral(value)
-      Datatype.INTEGER -> SQLNumberLiteral(value.toInt())
-      Datatype.LONG -> SQLNumberLiteral(value.toInt())      // TODO Maybe change, to enable long?
+      Datatype.STRING -> SQLStringLiteral(propertyScheme.generateValue(random))
+      Datatype.INTEGER -> SQLNumberLiteral(propertyScheme.generateValue(random).toInt())
+      Datatype.LONG -> SQLNumberLiteral(propertyScheme.generateValue(random).toInt())      // TODO Maybe change, to enable long?
     }
   }
 
