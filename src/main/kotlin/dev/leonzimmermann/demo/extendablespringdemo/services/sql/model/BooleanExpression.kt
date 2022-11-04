@@ -137,3 +137,5 @@ object FalseExpression : BooleanExpression() {
   override fun toStemText(nlgFactory: NLGFactory): NLGElement =
     nlgFactory.createWord("false", LexicalCategory.ADJECTIVE)
 }
+
+// TODO Add RangeExpression, i.e. AndExpression(GreaterEqualsExpression, SmallerEqualsExpression), to enable different stem creation for this case
