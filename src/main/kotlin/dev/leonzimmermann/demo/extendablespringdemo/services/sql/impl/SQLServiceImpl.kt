@@ -7,6 +7,7 @@ import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.*
 import dev.leonzimmermann.demo.extendablespringdemo.util.minus
 import org.springframework.stereotype.Service
 import kotlin.random.Random
+import kotlin.random.nextInt
 
 @Service
 class SQLServiceImpl : SQLService {
@@ -63,38 +64,8 @@ class SQLServiceImpl : SQLService {
     random: Random,
     propertySchemes: Array<PropertyScheme>
   ): WhereClause {
-    val propertyScheme = selectRandomPropertySchemeFromArray(random, propertySchemes)
-    return WhereClause(
-      EqualsExpression(
-        BooleanExpressionProperty(SQLProperty(propertyScheme.name)),
-        BooleanExpressionLiteral(
-          selectRandomValueForProperty(
-            random,
-            propertyScheme
-          )
-        )
-      )
-    )
-  }
-
-  private fun selectRandomValueForProperty(
-    random: Random,
-    propertyScheme: PropertyScheme
-  ): SQLLiteral {
-    require(propertyScheme.valueGenerator != EmptyValueGenerator)
-    return when(propertyScheme.datatype) {
-      Datatype.STRING -> SQLStringLiteral(propertyScheme.generateValue(random))
-      Datatype.INTEGER -> SQLNumberLiteral(propertyScheme.generateValue(random).toInt())
-      Datatype.LONG -> SQLNumberLiteral(propertyScheme.generateValue(random).toInt())      // TODO Maybe change, to enable long?
-    }
-  }
-
-  private fun selectRandomPropertySchemeFromArray(
-    random: Random,
-    propertySchemes: Array<PropertyScheme>
-  ): PropertyScheme {
-    require(propertySchemes.isNotEmpty())
-    return propertySchemes[random.nextInt(propertySchemes.size)]
+    return WhereClause(BooleanExpressionGeneratorFactory().getBooleanExpressionGenerator(random, propertySchemes)
+      .generateBooleanExpression())
   }
 
   private fun mapPropertySelectionPathToJoinExpression(propertySelectionPath: PropertySelectionPath): JoinExpression {

@@ -28,7 +28,7 @@ class ObjectIdGenerator: PropertyValueGenerator {
   }
 }
 
-class IntValueGenerator(private val range: IntRange): PropertyValueGenerator {
+class IntValueGenerator(val range: IntRange): PropertyValueGenerator {
   override val datatype: Datatype
     get() = Datatype.INTEGER
 
