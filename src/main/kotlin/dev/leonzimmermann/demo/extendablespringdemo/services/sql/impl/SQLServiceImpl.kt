@@ -3,6 +3,9 @@ package dev.leonzimmermann.demo.extendablespringdemo.services.sql.impl
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.*
 import dev.leonzimmermann.demo.extendablespringdemo.services.sql.GenerationOptions
 import dev.leonzimmermann.demo.extendablespringdemo.services.sql.SQLService
+import dev.leonzimmermann.demo.extendablespringdemo.services.sql.impl.booleanexpressiongenerator.BooleanExpressionGeneratorFactory
+import dev.leonzimmermann.demo.extendablespringdemo.services.sql.impl.propertyselectionpathgenerator.PropertySelectionPath
+import dev.leonzimmermann.demo.extendablespringdemo.services.sql.impl.propertyselectionpathgenerator.PropertySelectionPathGenerator
 import dev.leonzimmermann.demo.extendablespringdemo.services.sql.model.*
 import dev.leonzimmermann.demo.extendablespringdemo.util.minus
 import org.springframework.stereotype.Service
@@ -63,7 +66,8 @@ class SQLServiceImpl : SQLService {
     random: Random,
     propertySchemes: Array<PropertyScheme>
   ): WhereClause {
-    return WhereClause(BooleanExpressionGeneratorFactory().getBooleanExpressionGenerator(random, propertySchemes)
+    return WhereClause(
+      BooleanExpressionGeneratorFactory().getBooleanExpressionGenerator(random, propertySchemes)
       .generateBooleanExpression())
   }
 

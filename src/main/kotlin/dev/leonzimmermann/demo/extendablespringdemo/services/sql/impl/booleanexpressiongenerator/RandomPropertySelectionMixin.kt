@@ -1,4 +1,4 @@
-package dev.leonzimmermann.demo.extendablespringdemo.services.sql.impl
+package dev.leonzimmermann.demo.extendablespringdemo.services.sql.impl.booleanexpressiongenerator
 
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.PropertyScheme
 import kotlin.random.Random

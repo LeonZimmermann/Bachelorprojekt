@@ -1,4 +1,4 @@
-package dev.leonzimmermann.demo.extendablespringdemo.services.sql.impl
+package dev.leonzimmermann.demo.extendablespringdemo.services.sql.impl.propertyselectionpathgenerator
 
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.ForeignKeyScheme
 import dev.leonzimmermann.demo.extendablespringdemo.services.database.scheme.TableScheme
