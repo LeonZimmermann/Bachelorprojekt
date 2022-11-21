@@ -3,6 +3,7 @@ package dev.leonzimmermann.bachelorprojekt.services.assignment.impl
 import dev.leonzimmermann.bachelorprojekt.services.assignment.impl.AssignmentServiceImpl
 import dev.leonzimmermann.bachelorprojekt.services.database.impl.DatabaseSchemeServiceImpl
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
+import dev.leonzimmermann.bachelorprojekt.services.getAdressTableScheme
 import dev.leonzimmermann.bachelorprojekt.services.ontology.impl.OntologyServiceImpl
 import dev.leonzimmermann.bachelorprojekt.services.query.QueryService
 import dev.leonzimmermann.bachelorprojekt.services.sql.GenerationOptions
@@ -45,22 +46,7 @@ class AssignmentServiceIntegrationTest {
       queryService
     )
     val generationOptions = GenerationOptions(Random(1000), IntRange(1, 5))
-    val addressTableScheme = TableScheme(
-      "Address", PropertyScheme("objectId", ObjectIdGenerator()), emptyArray(), arrayOf(
-        PropertyScheme("street", ValueGeneratorFromStringList("Steeler Str.", "Altenessener Str.")),
-        PropertyScheme("streetNumber", IntValueGenerator(IntRange(1, 10))),
-        PropertyScheme("city", ValueGeneratorFromStringList("Essen", "Duesseldorf")),
-        PropertyScheme(
-          "state",
-          ValueGeneratorFromStringList("Nordrhein-Westfalen", "Berlin", "Brandenburg")
-        ),
-        PropertyScheme(
-          "country",
-          ValueGeneratorFromStringList("Deutschland", "Oesterreich", "Schweiz")
-        )
-      )
-    )
-    val databaseScheme = DatabaseScheme(arrayOf(addressTableScheme))
+    val databaseScheme = DatabaseScheme(arrayOf(getAdressTableScheme()))
     given(ontologyService.createOntology()).willReturn(ModelFactory.createOntologyModel())
     given(databaseSchemeService.createDatabaseSchemeFromOntology(any())).willReturn(databaseScheme)
     // When
