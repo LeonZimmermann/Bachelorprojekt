@@ -1,10 +1,7 @@
 package dev.leonzimmermann.bachelorprojekt.services.database.impl
 
 import dev.leonzimmermann.bachelorprojekt.services.database.DatabaseGenerationService
-import dev.leonzimmermann.bachelorprojekt.services.database.scheme.DatabaseScheme
-import dev.leonzimmermann.bachelorprojekt.services.database.scheme.Datatype
-import dev.leonzimmermann.bachelorprojekt.services.database.scheme.ForeignKeyScheme
-import dev.leonzimmermann.bachelorprojekt.services.database.scheme.PropertyScheme
+import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
 import org.springframework.stereotype.Service
 
 @Service
@@ -12,16 +9,29 @@ class DatabaseGenerationServiceImpl : DatabaseGenerationService {
 
     // TODO Add Value-Constraints
     override fun getDatabaseGenerationQueriesForScheme(databaseScheme: DatabaseScheme): Array<String> {
-        return databaseScheme.tables.map {
-            """
-            |CREATE TABLE ${it.name}(
-            |objectId $INTEGER $NOT_NULL,
-            |${mapArrayToQuery(it.properties, this::mapPropertySchemeToQuery)},
-            |${mapArrayToQuery(it.foreignKeys, this::mapForeignKeySchemeToQuery)},
-            |${mapArrayToQuery(it.foreignKeys, this::mapForeignKeySchemeToReferenceQuery)},
-            |$PRIMARY_KEY(objectId));
-            |""".trimMargin()
-        }.toTypedArray()
+        return databaseScheme.tables.map(this::mapTableSchemeToQuery).toTypedArray()
+    }
+
+    private fun mapTableSchemeToQuery(tableScheme: TableScheme): String {
+        val builder = StringBuilder()
+        builder.appendLine("CREATE TABLE ${tableScheme.name}(")
+        val initializationList = mutableListOf<String>()
+        initializationList += "objectId $INTEGER $NOT_NULL"
+        initializationList += mapArrayToQuery(
+            tableScheme.properties,
+            this::mapPropertySchemeToQuery
+        )
+        initializationList += mapArrayToQuery(
+            tableScheme.foreignKeys,
+            this::mapForeignKeySchemeToQuery
+        )
+        initializationList += mapArrayToQuery(
+            tableScheme.foreignKeys,
+            this::mapForeignKeySchemeToReferenceQuery
+        )
+        builder.appendLine(initializationList.joinToString(separator = ",\n", postfix = ","))
+        builder.appendLine("$PRIMARY_KEY(objectId));")
+        return builder.toString()
     }
 
     private fun mapPropertySchemeToQuery(propertyScheme: PropertyScheme): String =
@@ -33,8 +43,9 @@ class DatabaseGenerationServiceImpl : DatabaseGenerationService {
     private fun mapForeignKeySchemeToReferenceQuery(foreignKeyScheme: ForeignKeyScheme): String =
         "FOREIGN KEY(${foreignKeyScheme.propertyName}) REFERENCES ${foreignKeyScheme.referenceTable}(${foreignKeyScheme.referenceField})"
 
-    private fun <T> mapArrayToQuery(array: Array<T>, mapper: (T) -> String): String =
-        array.joinToString(",\n", transform = mapper)
+    private fun <T> mapArrayToQuery(array: Array<T>, mapper: (T) -> String): Array<String> {
+        return array.map(mapper).toTypedArray()
+    }
 
     companion object {
         private const val PRIMARY_KEY = "PRIMARY KEY"

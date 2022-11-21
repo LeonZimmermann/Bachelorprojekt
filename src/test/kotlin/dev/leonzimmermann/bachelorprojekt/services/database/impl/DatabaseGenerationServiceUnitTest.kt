@@ -41,8 +41,6 @@ class DatabaseGenerationServiceUnitTest {
             city VARCHAR NOT NULL,
             state VARCHAR NOT NULL,
             country VARCHAR NOT NULL,
-            ,
-            ,
             PRIMARY KEY(objectId));
         """.trimIndent()
         val queries = databaseGenerationService.getDatabaseGenerationQueriesForScheme(DatabaseScheme(arrayOf(
