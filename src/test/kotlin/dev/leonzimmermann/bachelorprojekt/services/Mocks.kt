@@ -1,5 +1,6 @@
 package dev.leonzimmermann.bachelorprojekt.services
 
+import dev.leonzimmermann.bachelorprojekt.services.database.impl.DatabaseSchemeServiceUnitTest
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
 
 fun getAdressTableScheme(): TableScheme {
@@ -16,6 +17,17 @@ fun getAdressTableScheme(): TableScheme {
                 "country",
                 ValueGeneratorFromStringList("Deutschland", "Oesterreich", "Schweiz")
             )
+        )
+    )
+}
+
+fun getPersonTableScheme(primaryKeyIdentifier: String): TableScheme {
+    return TableScheme(
+        name = "Person", PropertyScheme(primaryKeyIdentifier, ObjectIdGenerator()),
+        arrayOf(ForeignKeyScheme("address", "Address", primaryKeyIdentifier)),
+        arrayOf(
+            PropertyScheme(name = "firstname", ValueGeneratorFromStringList("")),
+            PropertyScheme(name = "lastname", ValueGeneratorFromStringList("")),
         )
     )
 }

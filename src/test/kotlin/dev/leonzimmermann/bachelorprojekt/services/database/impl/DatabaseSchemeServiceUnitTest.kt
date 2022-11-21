@@ -2,6 +2,7 @@ package dev.leonzimmermann.bachelorprojekt.services.database.impl
 
 import dev.leonzimmermann.bachelorprojekt.services.database.DatabaseSchemeService
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
+import dev.leonzimmermann.bachelorprojekt.services.getPersonTableScheme
 import org.apache.jena.ontology.OntModel
 import org.apache.jena.ontology.OntModelSpec
 import org.apache.jena.rdf.model.Model
@@ -92,16 +93,7 @@ class DatabaseSchemeServiceUnitTest {
           arrayOf(
             PropertyScheme(name = "typeOfRelationship", ValueGeneratorFromStringList("")),
           )
-        ), TableScheme(
-          name = "Person", PropertyScheme(TABLE_PRIMARY_KEY_IDENTIFIER, ObjectIdGenerator()),
-          arrayOf(
-            ForeignKeyScheme("address", "Address", TABLE_PRIMARY_KEY_IDENTIFIER)
-          ),
-          arrayOf(
-            PropertyScheme(name = "firstname", ValueGeneratorFromStringList("")),
-            PropertyScheme(name = "lastname", ValueGeneratorFromStringList("")),
-          )
-        )
+        ), getPersonTableScheme(TABLE_PRIMARY_KEY_IDENTIFIER)
       )
     )
     // When
@@ -109,7 +101,7 @@ class DatabaseSchemeServiceUnitTest {
     // Then
     assertThat(databaseScheme).isEqualTo(expectedDatabaseScheme)
   }
-  
+
   companion object {
     private const val TABLE_PRIMARY_KEY_IDENTIFIER = "objectId"
   }
