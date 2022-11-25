@@ -1,6 +1,6 @@
-package dev.leonzimmermann.bachelorprojekt.services.assignment
+package dev.leonzimmermann.bachelorprojekt.usecases.assignment
 
-import dev.leonzimmermann.bachelorprojekt.services.assignment.rules.AssignmentValidationRule
+import dev.leonzimmermann.bachelorprojekt.usecases.assignment.rules.AssignmentValidationRule
 import dev.leonzimmermann.bachelorprojekt.services.sql.model.SQLExpression
 
 class Assignment(

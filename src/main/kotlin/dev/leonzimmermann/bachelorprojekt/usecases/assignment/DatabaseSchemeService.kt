@@ -1,4 +1,4 @@
-package dev.leonzimmermann.bachelorprojekt.services.database
+package dev.leonzimmermann.bachelorprojekt.usecases.assignment
 
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.DatabaseScheme
 import org.apache.jena.ontology.OntModel

@@ -1,4 +1,4 @@
-package dev.leonzimmermann.bachelorprojekt.services.sql
+package dev.leonzimmermann.bachelorprojekt.usecases.assignment
 
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.DatabaseScheme
 import dev.leonzimmermann.bachelorprojekt.services.sql.model.SQLExpression

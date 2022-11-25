@@ -4,9 +4,10 @@ import dev.leonzimmermann.bachelorprojekt.services.database.impl.DatabaseSchemeS
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
 import dev.leonzimmermann.bachelorprojekt.services.getAdressTableScheme
 import dev.leonzimmermann.bachelorprojekt.services.ontology.impl.OntologyServiceImpl
-import dev.leonzimmermann.bachelorprojekt.services.query.QueryService
-import dev.leonzimmermann.bachelorprojekt.services.sql.GenerationOptions
-import dev.leonzimmermann.bachelorprojekt.services.sql.SQLService
+import dev.leonzimmermann.bachelorprojekt.usecases.assignment.QueryService
+import dev.leonzimmermann.bachelorprojekt.usecases.assignment.GenerationOptions
+import dev.leonzimmermann.bachelorprojekt.usecases.assignment.SQLService
+import dev.leonzimmermann.bachelorprojekt.usecases.assignment.impl.AssignmentServiceImpl
 import org.apache.jena.rdf.model.ModelFactory
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test

@@ -1,4 +1,4 @@
-package dev.leonzimmermann.bachelorprojekt.services.ontology
+package dev.leonzimmermann.bachelorprojekt.usecases.assignment
 
 import org.apache.jena.ontology.OntModel
 

@@ -1,6 +1,4 @@
-package dev.leonzimmermann.bachelorprojekt.services.assignment
-
-import dev.leonzimmermann.bachelorprojekt.services.sql.GenerationOptions
+package dev.leonzimmermann.bachelorprojekt.usecases.assignment
 
 interface AssignmentService {
   fun generateNewAssignment(generationOptions: GenerationOptions): Assignment

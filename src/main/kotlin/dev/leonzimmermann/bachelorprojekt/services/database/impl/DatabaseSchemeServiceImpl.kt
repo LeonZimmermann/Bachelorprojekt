@@ -1,6 +1,6 @@
 package dev.leonzimmermann.bachelorprojekt.services.database.impl
 
-import dev.leonzimmermann.bachelorprojekt.services.database.DatabaseSchemeService
+import dev.leonzimmermann.bachelorprojekt.usecases.assignment.DatabaseSchemeService
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
 import org.apache.jena.ontology.OntModel
 import org.apache.jena.ontology.OntProperty

@@ -3,7 +3,7 @@ package dev.leonzimmermann.bachelorprojekt.services.sql.impl.propertyselectionpa
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.DatabaseScheme
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.ForeignKeyScheme
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.TableScheme
-import dev.leonzimmermann.bachelorprojekt.services.sql.GenerationOptions
+import dev.leonzimmermann.bachelorprojekt.usecases.assignment.GenerationOptions
 import kotlin.random.nextInt
 
 class PropertySelectionPathGenerator(

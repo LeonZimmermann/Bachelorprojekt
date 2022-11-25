@@ -1,7 +1,7 @@
 package dev.leonzimmermann.bachelorprojekt.services.query.impl
 
 import dev.leonzimmermann.bachelorprojekt.services.query.QueryResult
-import dev.leonzimmermann.bachelorprojekt.services.query.QueryService
+import dev.leonzimmermann.bachelorprojekt.usecases.assignment.QueryService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
