@@ -1,6 +1,6 @@
 package dev.leonzimmermann.bachelorprojekt.services.database.impl
 
-import dev.leonzimmermann.bachelorprojekt.services.database.DatabaseGenerationService
+import dev.leonzimmermann.bachelorprojekt.usecases.generation.DatabaseGenerationService
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
 import org.springframework.stereotype.Service
 

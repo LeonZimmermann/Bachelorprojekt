@@ -1,8 +1,6 @@
-package dev.leonzimmermann.bachelorprojekt.services.sql.impl
+package dev.leonzimmermann.bachelorprojekt.usecases.assignment
 
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.GenerationOptions
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.SQLService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith

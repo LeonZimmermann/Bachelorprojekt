@@ -1,6 +1,5 @@
 package dev.leonzimmermann.bachelorprojekt.services
 
-import dev.leonzimmermann.bachelorprojekt.services.database.impl.DatabaseSchemeServiceUnitTest
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
 
 fun getAdressTableScheme(): TableScheme {

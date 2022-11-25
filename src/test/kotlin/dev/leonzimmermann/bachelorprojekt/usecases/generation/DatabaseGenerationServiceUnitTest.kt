@@ -1,6 +1,5 @@
-package dev.leonzimmermann.bachelorprojekt.services.database.impl
+package dev.leonzimmermann.bachelorprojekt.usecases.generation
 
-import dev.leonzimmermann.bachelorprojekt.services.database.DatabaseGenerationService
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.DatabaseScheme
 import dev.leonzimmermann.bachelorprojekt.services.getAdressTableScheme
 import dev.leonzimmermann.bachelorprojekt.services.getPersonTableScheme

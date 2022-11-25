@@ -1,4 +1,4 @@
-package dev.leonzimmermann.bachelorprojekt.services.ontology.impl
+package dev.leonzimmermann.bachelorprojekt.usecases.assignment
 
 import dev.leonzimmermann.bachelorprojekt.usecases.assignment.OntologyService
 import org.junit.Assert.*

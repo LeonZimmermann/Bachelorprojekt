@@ -1,4 +1,4 @@
-package dev.leonzimmermann.bachelorprojekt.services.query.impl
+package dev.leonzimmermann.bachelorprojekt.usecases.assignment
 
 import dev.leonzimmermann.bachelorprojekt.services.query.impl.QueryServiceImpl
 import org.junit.Assert.*

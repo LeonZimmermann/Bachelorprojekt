@@ -1,4 +1,4 @@
-package dev.leonzimmermann.bachelorprojekt.services.assignment.impl
+package dev.leonzimmermann.bachelorprojekt.usecases.assignment.impl
 
 import dev.leonzimmermann.bachelorprojekt.services.database.impl.DatabaseSchemeServiceImpl
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
