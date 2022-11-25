@@ -4,7 +4,6 @@ import dev.leonzimmermann.bachelorprojekt.services.assignment.impl.AssignmentSer
 import dev.leonzimmermann.bachelorprojekt.services.sql.GenerationOptions
 import org.hibernate.QueryException
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -12,9 +11,7 @@ import kotlin.random.Random
 
 @RestController
 @RequestMapping("/assignment")
-class AssignmentController(
-  @Autowired private val assignmentService: AssignmentServiceImpl
-) {
+class AssignmentController(private val assignmentService: AssignmentServiceImpl) {
 
   private val logger = LoggerFactory.getLogger(javaClass.name)
 
