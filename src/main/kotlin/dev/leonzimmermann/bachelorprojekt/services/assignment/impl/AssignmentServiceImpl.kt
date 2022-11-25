@@ -34,7 +34,7 @@ class AssignmentServiceImpl(
 
   override fun generateNewAssignment(generationOptions: GenerationOptions): Assignment {
     val sqlExpression = sqlService.generateSQLExpression(
-      databaseSchemeService.createDatabaseSchemeFromOntology(ontologyService.createOntology()),
+      databaseSchemeService.createDatabaseSchemeFromOntology(ontologyService.createEROntology()),
       generationOptions
     )
     val stem = realiser.realiseSentence(sqlExpression.toStemText(nlgFactory)).trim()

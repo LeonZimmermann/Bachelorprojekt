@@ -18,7 +18,7 @@ class OntologyServiceUnitTest {
   @Test
   fun testCanReadOntologyFromTurtleFile() {
     val nameSpace = "http://visualdataweb.org/newOntology/"
-    val ontology = ontologyService.createOntology()
+    val ontology = ontologyService.createEROntology()
     assertEquals("Person", ontology.getOntClass("${nameSpace}Person").getLabel("EN"))
   }
 

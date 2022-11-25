@@ -1,6 +1,5 @@
 package dev.leonzimmermann.bachelorprojekt.services.assignment.impl
 
-import dev.leonzimmermann.bachelorprojekt.services.assignment.impl.AssignmentServiceImpl
 import dev.leonzimmermann.bachelorprojekt.services.database.impl.DatabaseSchemeServiceImpl
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
 import dev.leonzimmermann.bachelorprojekt.services.getAdressTableScheme
@@ -47,7 +46,7 @@ class AssignmentServiceIntegrationTest {
     )
     val generationOptions = GenerationOptions(Random(1000), IntRange(1, 5))
     val databaseScheme = DatabaseScheme(arrayOf(getAdressTableScheme()))
-    given(ontologyService.createOntology()).willReturn(ModelFactory.createOntologyModel())
+    given(ontologyService.createEROntology()).willReturn(ModelFactory.createOntologyModel())
     given(databaseSchemeService.createDatabaseSchemeFromOntology(any())).willReturn(databaseScheme)
     // When
     val assignment = assignmentService.generateNewAssignment(generationOptions)
