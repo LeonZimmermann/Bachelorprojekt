@@ -17,14 +17,14 @@ import org.springframework.test.context.junit4.SpringRunner
 @RunWith(SpringRunner::class)
 class DatabaseGenerationServiceUnitTest {
 
-    private val logger: Logger = LoggerFactory.getLogger(javaClass)
+  private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
-    @Autowired
-    private lateinit var databaseGenerationService: DatabaseGenerationService
+  @Autowired
+  private lateinit var databaseGenerationService: DatabaseGenerationService
 
-    @Test
-    fun getDatabaseGenerationQueriesForScheme() {
-        val createTablePersonQuery = """
+  @Test
+  fun getDatabaseGenerationQueriesForScheme() {
+    val createTablePersonQuery = """
             CREATE TABLE Person(
             objectId INT NOT NULL,
             firstname VARCHAR NOT NULL,
@@ -33,7 +33,7 @@ class DatabaseGenerationServiceUnitTest {
             FOREIGN KEY(address) REFERENCES Address(objectId),
             PRIMARY KEY(objectId));
         """.trimIndent()
-        val createTableAddressQuery = """
+    val createTableAddressQuery = """
             CREATE TABLE Address(
             objectId INT NOT NULL,
             street VARCHAR NOT NULL,
@@ -43,13 +43,18 @@ class DatabaseGenerationServiceUnitTest {
             country VARCHAR NOT NULL,
             PRIMARY KEY(objectId));
         """.trimIndent()
-        val queries = databaseGenerationService.getDatabaseGenerationQueriesForScheme(DatabaseScheme(arrayOf(
-            getPersonTableScheme("objectId"),
-            getAdressTableScheme())))
-        logger.debug("getDatabaseGenerationQueriesForScheme: queries=${queries.joinToString("\n")}")
-        assertThat(queries)
-            .hasSize(2)
-            .anyMatch { it.contains(createTablePersonQuery) }
-            .anyMatch { it.contains(createTableAddressQuery) }
-    }
+    val queries = databaseGenerationService.getDatabaseGenerationQueriesForScheme(
+      DatabaseScheme(
+        arrayOf(
+          getPersonTableScheme("objectId"),
+          getAdressTableScheme()
+        )
+      )
+    )
+    logger.debug("getDatabaseGenerationQueriesForScheme: queries=${queries.joinToString("\n")}")
+    assertThat(queries)
+      .hasSize(2)
+      .anyMatch { it.contains(createTablePersonQuery) }
+      .anyMatch { it.contains(createTableAddressQuery) }
+  }
 }
