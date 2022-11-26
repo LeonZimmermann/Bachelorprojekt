@@ -3,7 +3,7 @@ package dev.leonzimmermann.bachelorprojekt.services.sql.impl.booleanexpressionge
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.PropertyScheme
 import kotlin.random.Random
 
-interface RandomPropertySelectionMixin {
+internal interface RandomPropertySelectionMixin {
   fun selectRandomPropertySchemeFromArray(
     random: Random,
     propertySchemes: Array<PropertyScheme>

@@ -4,7 +4,7 @@ import dev.leonzimmermann.bachelorprojekt.services.database.scheme.Datatype
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.PropertyScheme
 import kotlin.random.Random
 
-class BooleanExpressionGeneratorFactory {
+internal class BooleanExpressionGeneratorFactory {
 
   // TODO Add other BooleanExpressionGenerator classes
   fun getBooleanExpressionGenerator(random: Random, propertySchemes: Array<PropertyScheme>): BooleanExpressionGenerator {

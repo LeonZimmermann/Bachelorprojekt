@@ -2,6 +2,6 @@ package dev.leonzimmermann.bachelorprojekt.services.sql.impl.booleanexpressionge
 
 import dev.leonzimmermann.bachelorprojekt.services.sql.model.BooleanExpression
 
-interface BooleanExpressionGenerator {
+internal interface BooleanExpressionGenerator {
   fun generateBooleanExpression(): BooleanExpression
 }

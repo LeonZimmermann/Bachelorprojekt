@@ -6,7 +6,7 @@ import dev.leonzimmermann.bachelorprojekt.services.database.scheme.TableScheme
 import dev.leonzimmermann.bachelorprojekt.usecases.assignment.GenerationOptions
 import kotlin.random.nextInt
 
-class PropertySelectionPathGenerator(
+internal class PropertySelectionPathGenerator(
   private val databaseScheme: DatabaseScheme,
   private val generationOptions: GenerationOptions
 ) {

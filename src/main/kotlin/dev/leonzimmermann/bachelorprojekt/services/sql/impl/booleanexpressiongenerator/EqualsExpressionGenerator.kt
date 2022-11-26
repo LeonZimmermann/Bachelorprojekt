@@ -6,7 +6,7 @@ import dev.leonzimmermann.bachelorprojekt.services.database.scheme.PropertySchem
 import dev.leonzimmermann.bachelorprojekt.services.sql.model.*
 import kotlin.random.Random
 
-class EqualsExpressionGenerator(
+internal class EqualsExpressionGenerator(
   private val random: Random,
   private val propertySchemes: Array<PropertyScheme>
 ) : BooleanExpressionGenerator, RandomPropertySelectionMixin {

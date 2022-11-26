@@ -3,7 +3,7 @@ package dev.leonzimmermann.bachelorprojekt.services.sql.impl.propertyselectionpa
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.ForeignKeyScheme
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.TableScheme
 
-data class PropertySelectionPath(
+internal data class PropertySelectionPath(
   val tableScheme: TableScheme,
   val numberOfPropertiesToSelect: Int,
   val foreignKey: ForeignKeyScheme? = null,

@@ -7,7 +7,7 @@ import dev.leonzimmermann.bachelorprojekt.services.sql.model.*
 import kotlin.random.Random
 import kotlin.random.nextInt
 
-class RangeExpressionGenerator(
+internal class RangeExpressionGenerator(
   private val random: Random,
   private val propertySchemes: Array<PropertyScheme>
 ) : BooleanExpressionGenerator, RandomPropertySelectionMixin {
