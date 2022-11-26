@@ -1,4 +1,4 @@
-package dev.leonzimmermann.bachelorprojekt
+package dev.leonzimmermann.bachelorprojekt.main
 
 import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.SpringBootApplication
