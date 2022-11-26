@@ -1,7 +1,7 @@
 package dev.leonzimmermann.bachelorprojekt.external.controllers
 
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.impl.AssignmentServiceImpl
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.GenerationOptions
+import dev.leonzimmermann.bachelorprojekt.assignment.impl.AssignmentServiceImpl
+import dev.leonzimmermann.bachelorprojekt.assignment.GenerationOptions
 import org.hibernate.QueryException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus

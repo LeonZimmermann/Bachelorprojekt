@@ -1,11 +1,11 @@
-package dev.leonzimmermann.bachelorprojekt.usecases.generation.impl
+package dev.leonzimmermann.bachelorprojekt.generation.impl
 
 // TODO No dependencies to usescases.assignment! Put interfaces in corresponding service folders and use bridge pattern
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.DatabaseSchemeService
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.OntologyService
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.QueryService
-import dev.leonzimmermann.bachelorprojekt.usecases.generation.DatabaseGenerationService
-import dev.leonzimmermann.bachelorprojekt.usecases.generation.GenerationService
+import dev.leonzimmermann.bachelorprojekt.assignment.DatabaseSchemeService
+import dev.leonzimmermann.bachelorprojekt.assignment.OntologyService
+import dev.leonzimmermann.bachelorprojekt.assignment.QueryService
+import dev.leonzimmermann.bachelorprojekt.generation.DatabaseGenerationService
+import dev.leonzimmermann.bachelorprojekt.generation.GenerationService
 import org.springframework.stereotype.Service
 
 @Service

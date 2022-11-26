@@ -1,4 +1,4 @@
-package dev.leonzimmermann.bachelorprojekt.usecases.generation
+package dev.leonzimmermann.bachelorprojekt.generation
 
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.DatabaseScheme
 

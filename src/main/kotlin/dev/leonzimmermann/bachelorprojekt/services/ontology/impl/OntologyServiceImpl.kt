@@ -1,6 +1,6 @@
 package dev.leonzimmermann.bachelorprojekt.services.ontology.impl
 
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.OntologyService
+import dev.leonzimmermann.bachelorprojekt.assignment.OntologyService
 import org.apache.jena.ontology.OntModel
 import org.apache.jena.ontology.OntModelSpec
 import org.apache.jena.rdf.model.Model

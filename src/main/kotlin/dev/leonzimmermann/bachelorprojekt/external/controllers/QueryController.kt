@@ -1,7 +1,7 @@
 package dev.leonzimmermann.bachelorprojekt.external.controllers
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.QueryService
+import dev.leonzimmermann.bachelorprojekt.assignment.QueryService
 import org.hibernate.QueryException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus

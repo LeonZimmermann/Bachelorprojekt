@@ -1,6 +1,6 @@
-package dev.leonzimmermann.bachelorprojekt.usecases.assignment
+package dev.leonzimmermann.bachelorprojekt.assignment
 
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.OntologyService
+import dev.leonzimmermann.bachelorprojekt.assignment.OntologyService
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith

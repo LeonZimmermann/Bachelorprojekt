@@ -1,7 +1,8 @@
-package dev.leonzimmermann.bachelorprojekt.usecases.assignment
+package dev.leonzimmermann.bachelorprojekt.assignment
 
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
 import dev.leonzimmermann.bachelorprojekt.services.getPersonTableScheme
+import dev.leonzimmermann.bachelorprojekt.assignment.DatabaseSchemeService
 import org.apache.jena.ontology.OntModel
 import org.apache.jena.ontology.OntModelSpec
 import org.apache.jena.rdf.model.Model

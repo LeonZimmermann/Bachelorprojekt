@@ -1,9 +1,10 @@
-package dev.leonzimmermann.bachelorprojekt.usecases.generation.impl
+package dev.leonzimmermann.bachelorprojekt.generation.impl
 
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.DatabaseSchemeService
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.OntologyService
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.QueryService
-import dev.leonzimmermann.bachelorprojekt.usecases.generation.DatabaseGenerationService
+import dev.leonzimmermann.bachelorprojekt.assignment.DatabaseSchemeService
+import dev.leonzimmermann.bachelorprojekt.assignment.OntologyService
+import dev.leonzimmermann.bachelorprojekt.assignment.QueryService
+import dev.leonzimmermann.bachelorprojekt.generation.DatabaseGenerationService
+import dev.leonzimmermann.bachelorprojekt.generation.impl.GenerationServiceImpl
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock

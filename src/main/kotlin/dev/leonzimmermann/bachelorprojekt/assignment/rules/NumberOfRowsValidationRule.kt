@@ -1,4 +1,4 @@
-package dev.leonzimmermann.bachelorprojekt.usecases.assignment.rules
+package dev.leonzimmermann.bachelorprojekt.assignment.rules
 
 import dev.leonzimmermann.bachelorprojekt.services.query.QueryResult
 

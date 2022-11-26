@@ -1,8 +1,8 @@
 package dev.leonzimmermann.bachelorprojekt.services.sql.impl
 
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.GenerationOptions
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.SQLService
+import dev.leonzimmermann.bachelorprojekt.assignment.GenerationOptions
+import dev.leonzimmermann.bachelorprojekt.assignment.SQLService
 import dev.leonzimmermann.bachelorprojekt.services.sql.impl.booleanexpressiongenerator.BooleanExpressionGeneratorFactory
 import dev.leonzimmermann.bachelorprojekt.services.sql.impl.propertyselectionpathgenerator.PropertySelectionPath
 import dev.leonzimmermann.bachelorprojekt.services.sql.impl.propertyselectionpathgenerator.PropertySelectionPathGenerator

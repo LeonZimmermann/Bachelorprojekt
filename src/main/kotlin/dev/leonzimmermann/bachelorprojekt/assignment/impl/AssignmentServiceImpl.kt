@@ -1,14 +1,14 @@
-package dev.leonzimmermann.bachelorprojekt.usecases.assignment.impl
+package dev.leonzimmermann.bachelorprojekt.assignment.impl
 
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.Assignment
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.AssignmentService
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.rules.NumberOfRowsValidationRule
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.rules.ResultIsTheSameValidationRule
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.DatabaseSchemeService
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.OntologyService
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.QueryService
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.GenerationOptions
-import dev.leonzimmermann.bachelorprojekt.usecases.assignment.SQLService
+import dev.leonzimmermann.bachelorprojekt.assignment.Assignment
+import dev.leonzimmermann.bachelorprojekt.assignment.AssignmentService
+import dev.leonzimmermann.bachelorprojekt.assignment.rules.NumberOfRowsValidationRule
+import dev.leonzimmermann.bachelorprojekt.assignment.rules.ResultIsTheSameValidationRule
+import dev.leonzimmermann.bachelorprojekt.assignment.DatabaseSchemeService
+import dev.leonzimmermann.bachelorprojekt.assignment.OntologyService
+import dev.leonzimmermann.bachelorprojekt.assignment.QueryService
+import dev.leonzimmermann.bachelorprojekt.assignment.GenerationOptions
+import dev.leonzimmermann.bachelorprojekt.assignment.SQLService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import simplenlg.framework.NLGFactory

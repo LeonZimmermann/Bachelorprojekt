@@ -1,4 +1,4 @@
-package dev.leonzimmermann.bachelorprojekt.usecases.assignment
+package dev.leonzimmermann.bachelorprojekt.assignment
 
 interface AssignmentService {
   fun generateNewAssignment(generationOptions: GenerationOptions): Assignment
