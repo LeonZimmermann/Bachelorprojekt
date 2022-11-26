@@ -1,13 +1,14 @@
 package dev.leonzimmermann.bachelorprojekt.services.sql.impl
 
-import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
 import dev.leonzimmermann.bachelorprojekt.assignment.GenerationOptions
 import dev.leonzimmermann.bachelorprojekt.assignment.SQLService
+import dev.leonzimmermann.bachelorprojekt.services.database.scheme.DatabaseScheme
+import dev.leonzimmermann.bachelorprojekt.services.database.scheme.PropertyScheme
+import dev.leonzimmermann.bachelorprojekt.services.database.scheme.TableScheme
 import dev.leonzimmermann.bachelorprojekt.services.sql.impl.booleanexpressiongenerator.BooleanExpressionGeneratorFactory
 import dev.leonzimmermann.bachelorprojekt.services.sql.impl.propertyselectionpathgenerator.PropertySelectionPath
 import dev.leonzimmermann.bachelorprojekt.services.sql.impl.propertyselectionpathgenerator.PropertySelectionPathGenerator
 import dev.leonzimmermann.bachelorprojekt.services.sql.model.*
-import dev.leonzimmermann.bachelorprojekt.util.minus
 import org.springframework.stereotype.Service
 import kotlin.random.Random
 
@@ -109,7 +110,9 @@ class SQLServiceImpl : SQLService {
     exclude: Array<PropertyScheme> = emptyArray()
   ): PropertyScheme {
     require(tableScheme.properties.size - exclude.size > 0)
-    val arrayOfAvailableProperties = tableScheme.properties - exclude
+    val arrayOfAvailableProperties = tableScheme.properties
+      .filter { !exclude.contains(it) }
+      .toTypedArray()
     return arrayOfAvailableProperties[random.nextInt(arrayOfAvailableProperties.size)]
   }
 }
