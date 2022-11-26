@@ -2,6 +2,9 @@ package dev.leonzimmermann.bachelorprojekt.services.database.impl
 
 import dev.leonzimmermann.bachelorprojekt.assignment.DatabaseSchemeService
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
+import dev.leonzimmermann.bachelorprojekt.services.database.scheme.valueGenerators.IntValueGenerator
+import dev.leonzimmermann.bachelorprojekt.services.database.scheme.valueGenerators.ObjectIdGenerator
+import dev.leonzimmermann.bachelorprojekt.services.database.scheme.valueGenerators.ValueGeneratorFromStringList
 import org.apache.jena.ontology.OntModel
 import org.apache.jena.ontology.OntProperty
 import org.apache.jena.ontology.OntResource
@@ -10,7 +13,7 @@ import org.springframework.stereotype.Service
 
 
 @Service
-class DatabaseSchemeServiceImpl : DatabaseSchemeService {
+internal class DatabaseSchemeServiceImpl : DatabaseSchemeService {
 
   private val logger = LoggerFactory.getLogger(javaClass)
 

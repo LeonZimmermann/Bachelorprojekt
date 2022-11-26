@@ -5,7 +5,7 @@ import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
 import org.springframework.stereotype.Service
 
 @Service
-class DatabaseGenerationServiceImpl : DatabaseGenerationService {
+internal class DatabaseGenerationServiceImpl : DatabaseGenerationService {
 
   // TODO Add Value-Constraints
   override fun getDatabaseGenerationQueriesForScheme(databaseScheme: DatabaseScheme): Array<String> {

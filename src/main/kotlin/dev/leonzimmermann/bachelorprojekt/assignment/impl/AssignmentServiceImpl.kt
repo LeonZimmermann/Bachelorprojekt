@@ -16,7 +16,7 @@ import simplenlg.lexicon.Lexicon
 import simplenlg.realiser.english.Realiser
 
 @Service
-class AssignmentServiceImpl(
+internal class AssignmentServiceImpl(
   private val ontologyService: OntologyService,
   private val databaseSchemeService: DatabaseSchemeService,
   private val sqlService: SQLService,

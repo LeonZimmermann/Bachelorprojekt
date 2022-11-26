@@ -1,8 +1,8 @@
 package dev.leonzimmermann.bachelorprojekt.services.sql.impl.booleanexpressiongenerator
 
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.Datatype
-import dev.leonzimmermann.bachelorprojekt.services.database.scheme.IntValueGenerator
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.PropertyScheme
+import dev.leonzimmermann.bachelorprojekt.services.database.scheme.valueGenerators.IntValueGenerator
 import dev.leonzimmermann.bachelorprojekt.services.sql.model.*
 import kotlin.random.Random
 import kotlin.random.nextInt

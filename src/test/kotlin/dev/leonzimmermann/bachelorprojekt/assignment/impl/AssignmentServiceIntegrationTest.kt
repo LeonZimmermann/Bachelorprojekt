@@ -2,12 +2,11 @@ package dev.leonzimmermann.bachelorprojekt.assignment.impl
 
 import dev.leonzimmermann.bachelorprojekt.services.database.impl.DatabaseSchemeServiceImpl
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
-import dev.leonzimmermann.bachelorprojekt.services.getAdressTableScheme
+import dev.leonzimmermann.bachelorprojekt.getAdressTableScheme
 import dev.leonzimmermann.bachelorprojekt.services.ontology.impl.OntologyServiceImpl
 import dev.leonzimmermann.bachelorprojekt.assignment.QueryService
 import dev.leonzimmermann.bachelorprojekt.assignment.GenerationOptions
 import dev.leonzimmermann.bachelorprojekt.assignment.SQLService
-import dev.leonzimmermann.bachelorprojekt.assignment.impl.AssignmentServiceImpl
 import org.apache.jena.rdf.model.ModelFactory
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test

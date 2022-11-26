@@ -9,7 +9,7 @@ import dev.leonzimmermann.bachelorprojekt.generation.GenerationService
 import org.springframework.stereotype.Service
 
 @Service
-class GenerationServiceImpl constructor(
+internal class GenerationServiceImpl constructor(
   private val ontologyService: OntologyService,
   private val databaseSchemeService: DatabaseSchemeService,
   private val databaseGenerationService: DatabaseGenerationService,

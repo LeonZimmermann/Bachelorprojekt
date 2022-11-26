@@ -1,6 +1,11 @@
-package dev.leonzimmermann.bachelorprojekt.services
+package dev.leonzimmermann.bachelorprojekt
 
-import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
+import dev.leonzimmermann.bachelorprojekt.services.database.scheme.ForeignKeyScheme
+import dev.leonzimmermann.bachelorprojekt.services.database.scheme.PropertyScheme
+import dev.leonzimmermann.bachelorprojekt.services.database.scheme.TableScheme
+import dev.leonzimmermann.bachelorprojekt.services.database.scheme.valueGenerators.IntValueGenerator
+import dev.leonzimmermann.bachelorprojekt.services.database.scheme.valueGenerators.ObjectIdGenerator
+import dev.leonzimmermann.bachelorprojekt.services.database.scheme.valueGenerators.ValueGeneratorFromStringList
 
 fun getAdressTableScheme(): TableScheme {
     return TableScheme(

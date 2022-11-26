@@ -1,9 +1,8 @@
 package dev.leonzimmermann.bachelorprojekt.generation
 
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.DatabaseScheme
-import dev.leonzimmermann.bachelorprojekt.services.getAdressTableScheme
-import dev.leonzimmermann.bachelorprojekt.services.getPersonTableScheme
-import dev.leonzimmermann.bachelorprojekt.generation.DatabaseGenerationService
+import dev.leonzimmermann.bachelorprojekt.getAdressTableScheme
+import dev.leonzimmermann.bachelorprojekt.getPersonTableScheme
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.runner.RunWith
 import org.junit.Test

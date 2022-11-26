@@ -1,6 +1,6 @@
 package dev.leonzimmermann.bachelorprojekt.external.controllers
 
-import dev.leonzimmermann.bachelorprojekt.assignment.impl.AssignmentServiceImpl
+import dev.leonzimmermann.bachelorprojekt.assignment.AssignmentService
 import dev.leonzimmermann.bachelorprojekt.assignment.GenerationOptions
 import org.hibernate.QueryException
 import org.slf4j.LoggerFactory
@@ -11,7 +11,7 @@ import kotlin.random.Random
 
 @RestController
 @RequestMapping("/assignment")
-class AssignmentController(private val assignmentService: AssignmentServiceImpl) {
+class AssignmentController(private val assignmentService: AssignmentService) {
 
   private val logger = LoggerFactory.getLogger(javaClass.name)
 
