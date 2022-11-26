@@ -1,4 +1,4 @@
-package dev.leonzimmermann.bachelorprojekt.services.database.scheme.valueGenerators
+package dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators
 
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.Datatype
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.PropertyValueGenerator

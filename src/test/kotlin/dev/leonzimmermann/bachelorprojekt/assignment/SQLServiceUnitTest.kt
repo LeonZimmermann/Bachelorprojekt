@@ -1,9 +1,9 @@
 package dev.leonzimmermann.bachelorprojekt.assignment
 
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
-import dev.leonzimmermann.bachelorprojekt.services.database.scheme.valueGenerators.IntValueGenerator
-import dev.leonzimmermann.bachelorprojekt.services.database.scheme.valueGenerators.ObjectIdGenerator
-import dev.leonzimmermann.bachelorprojekt.services.database.scheme.valueGenerators.ValueGeneratorFromStringList
+import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.IntValueGenerator
+import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.ObjectIdGenerator
+import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.ValueGeneratorFromStringList
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith

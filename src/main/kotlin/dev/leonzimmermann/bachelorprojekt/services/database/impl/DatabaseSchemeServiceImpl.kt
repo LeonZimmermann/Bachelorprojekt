@@ -2,9 +2,9 @@ package dev.leonzimmermann.bachelorprojekt.services.database.impl
 
 import dev.leonzimmermann.bachelorprojekt.assignment.DatabaseSchemeService
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
-import dev.leonzimmermann.bachelorprojekt.services.database.scheme.valueGenerators.IntValueGenerator
-import dev.leonzimmermann.bachelorprojekt.services.database.scheme.valueGenerators.ObjectIdGenerator
-import dev.leonzimmermann.bachelorprojekt.services.database.scheme.valueGenerators.ValueGeneratorFromStringList
+import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.IntValueGenerator
+import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.ObjectIdGenerator
+import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.ValueGeneratorFromStringList
 import org.apache.jena.ontology.OntModel
 import org.apache.jena.ontology.OntProperty
 import org.apache.jena.ontology.OntResource

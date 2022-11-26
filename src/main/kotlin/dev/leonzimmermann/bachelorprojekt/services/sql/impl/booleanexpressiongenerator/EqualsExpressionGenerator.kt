@@ -2,7 +2,7 @@ package dev.leonzimmermann.bachelorprojekt.services.sql.impl.booleanexpressionge
 
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.Datatype
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.PropertyScheme
-import dev.leonzimmermann.bachelorprojekt.services.database.scheme.valueGenerators.EmptyValueGenerator
+import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.EmptyValueGenerator
 import dev.leonzimmermann.bachelorprojekt.services.sql.model.*
 import kotlin.random.Random
 
