@@ -1,4 +1,4 @@
-package dev.leonzimmermann.bachelorprojekt.controllers
+package dev.leonzimmermann.bachelorprojekt.external.controllers
 
 import dev.leonzimmermann.bachelorprojekt.usecases.assignment.impl.AssignmentServiceImpl
 import dev.leonzimmermann.bachelorprojekt.usecases.assignment.GenerationOptions
