@@ -41,47 +41,52 @@ class GenerationServiceIntegrationTest {
 
     verify(queryService).executeQuery(
       """CREATE TABLE Address(
-      objectId INT NOT NULL,
-      postalCode INT NOT NULL,
-      street VARCHAR NOT NULL,
-      streetNumber INT NOT NULL,
-      country VARCHAR NOT NULL,
-      city VARCHAR NOT NULL,
-      state VARCHAR NOT NULL,
-      PRIMARY KEY(objectId));""".trimIndent())
+objectId INT NOT NULL,
+postalCode INT NOT NULL,
+street VARCHAR NOT NULL,
+streetNumber INT NOT NULL,
+country VARCHAR NOT NULL,
+city VARCHAR NOT NULL,
+state VARCHAR NOT NULL,
+PRIMARY KEY(objectId));
+""")
     verify(queryService).executeQuery(
       """CREATE TABLE Institution(
-      objectId INT NOT NULL,
-      name VARCHAR NOT NULL,
-      typeOfInstitution VARCHAR NOT NULL,
-      address INT NOT NULL,
-      FOREIGN KEY(address) REFERENCES Address(objectId),
-      PRIMARY KEY(objectId));""".trimIndent())
+objectId INT NOT NULL,
+name VARCHAR NOT NULL,
+typeOfInstitution VARCHAR NOT NULL,
+address INT NOT NULL,
+FOREIGN KEY(address) REFERENCES Address(objectId),
+PRIMARY KEY(objectId));
+""")
     verify(queryService).executeQuery(
       """CREATE TABLE Occupation(
-      objectId INT NOT NULL,
-      name VARCHAR NOT NULL,
-      person INT NOT NULL,
-      institution INT NOT NULL,
-      FOREIGN KEY(person) REFERENCES Person(objectId),
-      FOREIGN KEY(institution) REFERENCES Institution(objectId),
-      PRIMARY KEY(objectId));""".trimIndent())
+objectId INT NOT NULL,
+name VARCHAR NOT NULL,
+person INT NOT NULL,
+institution INT NOT NULL,
+FOREIGN KEY(person) REFERENCES Person(objectId),
+FOREIGN KEY(institution) REFERENCES Institution(objectId),
+PRIMARY KEY(objectId));
+""")
     verify(queryService).executeQuery(
       """CREATE TABLE Relationship(
-      objectId INT NOT NULL,
-      typeOfRelationship VARCHAR NOT NULL,
-      person INT NOT NULL,
-      otherPerson INT NOT NULL,
-      FOREIGN KEY(person) REFERENCES Person(objectId),
-      FOREIGN KEY(otherPerson) REFERENCES Person(objectId),
-      PRIMARY KEY(objectId));""")
+objectId INT NOT NULL,
+typeOfRelationship VARCHAR NOT NULL,
+person INT NOT NULL,
+otherPerson INT NOT NULL,
+FOREIGN KEY(person) REFERENCES Person(objectId),
+FOREIGN KEY(otherPerson) REFERENCES Person(objectId),
+PRIMARY KEY(objectId));
+""")
     verify(queryService).executeQuery(
       """CREATE TABLE Person(
-      objectId INT NOT NULL,
-      firstname VARCHAR NOT NULL,
-      lastname VARCHAR NOT NULL,
-      address INT NOT NULL,
-      FOREIGN KEY(address) REFERENCES Address(objectId),
-      PRIMARY KEY(objectId));""".trimIndent())
+objectId INT NOT NULL,
+firstname VARCHAR NOT NULL,
+lastname VARCHAR NOT NULL,
+address INT NOT NULL,
+FOREIGN KEY(address) REFERENCES Address(objectId),
+PRIMARY KEY(objectId));
+""")
   }
 }
