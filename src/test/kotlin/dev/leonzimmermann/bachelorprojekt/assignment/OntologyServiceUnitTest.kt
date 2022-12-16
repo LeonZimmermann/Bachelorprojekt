@@ -1,8 +1,8 @@
 package dev.leonzimmermann.bachelorprojekt.assignment
 
-import dev.leonzimmermann.bachelorprojekt.assignment.OntologyService
-import org.junit.Assert.*
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -17,9 +17,13 @@ class OntologyServiceUnitTest {
 
   @Test
   fun testCanReadOntologyFromTurtleFile() {
-    val nameSpace = "http://visualdataweb.org/newOntology/"
-    val ontology = ontologyService.createEROntology()
-    assertEquals("Person", ontology.getOntClass("${nameSpace}Person").getLabel("EN"))
+    val ontology = ontologyService.createEROntology("C:\\Users\\leonz\\Downloads\\wine.rdf")
+    assertEquals("Wine", ontology.getOntClass("Wine").getLabel("EN"))
+    assertEquals("Region", ontology.getOntClass("Region").getLabel("EN"))
+    assertThat(ontology.getOntClass("Wine").listDeclaredProperties().toList())
+      .anyMatch { it.getLabel("EN") == "hasFlavor" }
+    assertThat(ontology.getOntClass("Region").listInstances().toList())
+      .anyMatch { it.getLabel("EN") == "TexasRegion" }
   }
 
 }

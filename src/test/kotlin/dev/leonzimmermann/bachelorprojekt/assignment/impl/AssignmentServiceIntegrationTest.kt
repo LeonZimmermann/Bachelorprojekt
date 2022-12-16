@@ -46,7 +46,7 @@ class AssignmentServiceIntegrationTest {
     )
     val generationOptions = GenerationOptions(Random(1000), IntRange(1, 5))
     val databaseScheme = DatabaseScheme(arrayOf(getAdressTableScheme()))
-    given(ontologyService.createEROntology()).willReturn(ModelFactory.createOntologyModel())
+    given(ontologyService.createEROntology("customontology.ttl")).willReturn(ModelFactory.createOntologyModel())
     given(databaseSchemeService.createDatabaseSchemeFromOntology(any())).willReturn(databaseScheme)
     // When
     val assignment = assignmentService.generateNewAssignment(generationOptions)

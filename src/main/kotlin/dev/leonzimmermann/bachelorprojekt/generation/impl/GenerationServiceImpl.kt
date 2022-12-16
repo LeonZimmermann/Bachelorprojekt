@@ -16,7 +16,7 @@ internal class GenerationServiceImpl constructor(
   private val queryService: QueryService
 ) : GenerationService {
   override fun generate() {
-    ontologyService.createEROntology()
+    ontologyService.createEROntology("customontology.ttl")
       .let { databaseSchemeService.createDatabaseSchemeFromOntology(it) }
       .let { databaseGenerationService.getDatabaseGenerationQueriesForScheme(it) }
       .forEach { queryService.executeQuery(it) }
