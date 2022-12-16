@@ -28,7 +28,7 @@ internal class DatabaseSchemeServiceImpl : DatabaseSchemeService {
     val tables = (datatypeProperties + objectProperties).apply { logProperties(this) }
       .groupBy({ it.first }, { it.second })
       .apply { logger.debug("Domains: ${this.keys.joinToString(", ")}") }
-      .map(this::mapDataToTableScheme)
+      .map { mapDataToTableScheme(model, it) }
     return DatabaseScheme(tables.toTypedArray())
   }
 
@@ -47,7 +47,7 @@ internal class DatabaseSchemeServiceImpl : DatabaseSchemeService {
     return listAfterSplitting.toList()
   }
 
-  private fun mapDataToTableScheme(entry: Map.Entry<OntResource, List<OntProperty>>): TableScheme {
+  private fun mapDataToTableScheme(ontModel: OntModel, entry: Map.Entry<OntResource, List<OntProperty>>): TableScheme {
     val foreignKeys = entry.value.filter { it.isObjectProperty }
       .map { ForeignKeyScheme(it.localName, it.range.localName, TABLE_PRIMARY_KEY_IDENTIFIER) }
       .toTypedArray()
@@ -58,19 +58,22 @@ internal class DatabaseSchemeServiceImpl : DatabaseSchemeService {
       entry.value.filter { !it.isObjectProperty }.map {
         PropertyScheme(
           it.localName,
-          mapOntRangeToPropertyValueGenerator(it.range)
+          mapOntPropertyToPropertyValueGenerator(ontModel, it)
         )
       }.toTypedArray()
     )
   }
 
-  // TODO get values for ValueGeneratorFromList in DatabaseSchemeServiceImpl
-  private fun mapOntRangeToPropertyValueGenerator(range: OntResource): PropertyValueGenerator =
-    when (getDatatypeStringForRange(range)) {
+  private fun mapOntPropertyToPropertyValueGenerator(ontModel: OntModel, property: OntProperty): PropertyValueGenerator =
+    when (getDatatypeStringForRange(property.range)) {
       "integer" -> IntValueGenerator(IntRange(0, 9999999))
-      "string" -> ValueGeneratorFromStringList("TODO get values for ValueGeneratorFromList in DatabaseSchemeServiceImpl")
-      else -> throw IllegalArgumentException("Invalid datatype: ${getDatatypeStringForRange(range)}")
+      "string" -> ValueGeneratorFromStringList(*getPossibleStringValuesForProperty(ontModel, property))
+      else -> throw IllegalArgumentException("Invalid datatype: ${getDatatypeStringForRange(property.range)}")
     }
+
+  private fun getPossibleStringValuesForProperty(ontModel: OntModel, property: OntProperty): Array<String> {
+    return ontModel.getOntClass(property.domain.uri).listInstances().toList().map { it.localName }.toTypedArray()
+  }
 
   private fun getDatatypeStringForRange(range: OntResource) = range.localName
 

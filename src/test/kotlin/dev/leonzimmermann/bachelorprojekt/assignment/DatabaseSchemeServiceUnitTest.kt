@@ -104,6 +104,8 @@ class DatabaseSchemeServiceUnitTest {
     assertThat(databaseScheme).isEqualTo(expectedDatabaseScheme)
   }
 
+  // TODO Test instance generation
+
   companion object {
     private const val TABLE_PRIMARY_KEY_IDENTIFIER = "objectId"
   }
