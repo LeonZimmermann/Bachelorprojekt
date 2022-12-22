@@ -47,17 +47,43 @@ class OntologyServiceImpl : OntologyService {
   }
 
   private fun mapPropertyToResult(property: OntProperty, model: OntModel) {
-    if (property.isObjectProperty) {
-      val referenceToNewObjectProperty = model.createObjectProperty(property.localName)
-      referenceToNewObjectProperty.setLabel(property.getLabel("EN") ?: property.localName, "EN")
-      referenceToNewObjectProperty.setDomain(model.getOntClass(property.domain.localName))
-      referenceToNewObjectProperty.setRange(property.range)
-    } else if (property.isDatatypeProperty) {
-      val referenceToNewDatatypeProperty = model.createDatatypeProperty(property.localName)
-      referenceToNewDatatypeProperty.setLabel(property.getLabel("EN") ?: property.localName, "EN")
-      referenceToNewDatatypeProperty.setDomain(model.getOntClass(property.domain.localName))
-      referenceToNewDatatypeProperty.setRange(property.range)
+    if (property.domain == null ||
+      property.range == null ||
+      property.range.localName == null
+    ) {
+      return
     }
+    if (property.isObjectProperty) {
+      mapObjectPropertyToResult(model, property)
+    } else if (property.isDatatypeProperty) {
+      mapDatatypePropertyToResult(property, model)
+    }
+  }
+
+  private fun mapObjectPropertyToResult(
+    model: OntModel,
+    property: OntProperty
+  ) {
+    val referenceToNewObjectProperty = model.createObjectProperty(property.localName)
+    referenceToNewObjectProperty.setLabel(property.getLabel("EN") ?: property.localName, "EN")
+    referenceToNewObjectProperty.setDomain(
+      model.getOntClass(property.domain.localName) ?: property.domain
+    )
+    referenceToNewObjectProperty.setRange(property.range)
+  }
+
+  private fun mapDatatypePropertyToResult(property: OntProperty, model: OntModel) {
+    if (!property.range.localName.contains("integer") ||
+      !property.range.localName.contains("string")
+    ) {
+      return
+    }
+    val referenceToNewDatatypeProperty = model.createDatatypeProperty(property.localName)
+    referenceToNewDatatypeProperty.setLabel(property.getLabel("EN") ?: property.localName, "EN")
+    referenceToNewDatatypeProperty.setDomain(
+      model.getOntClass(property.domain.localName) ?: property.domain
+    )
+    referenceToNewDatatypeProperty.setRange(property.range)
   }
 
   private fun mapInstanceToResult(ontClass: OntClass, instance: OntResource) {

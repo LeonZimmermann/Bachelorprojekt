@@ -4,10 +4,10 @@ import dev.leonzimmermann.bachelorprojekt.assignment.DatabaseSchemeService
 import dev.leonzimmermann.bachelorprojekt.assignment.OntologyService
 import dev.leonzimmermann.bachelorprojekt.assignment.QueryService
 import dev.leonzimmermann.bachelorprojekt.generation.DatabaseGenerationService
-import dev.leonzimmermann.bachelorprojekt.generation.impl.GenerationServiceImpl
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
+import org.mockito.kotlin.mockingDetails
 import org.mockito.kotlin.verify
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -30,7 +30,7 @@ class GenerationServiceIntegrationTest {
   private lateinit var queryService: QueryService
 
   @Test
-  fun testGenerate() {
+  fun testGenerateForCustomOntologyTtl() {
     val generationService = GenerationServiceImpl(
       ontologyService,
       databaseSchemeService,
@@ -38,7 +38,7 @@ class GenerationServiceIntegrationTest {
       queryService
     )
 
-    generationService.generate()
+    generationService.generate("customontology.ttl")
 
     verify(queryService).executeQuery(
       """CREATE TABLE Address(
@@ -87,6 +87,67 @@ firstname VARCHAR NOT NULL,
 lastname VARCHAR NOT NULL,
 address INT NOT NULL,
 FOREIGN KEY(address) REFERENCES Address(objectId),
+PRIMARY KEY(objectId));
+""")
+  }
+
+  @Test
+  fun testGenerateForWineOntology() {
+    val generationService = GenerationServiceImpl(
+      ontologyService,
+      databaseSchemeService,
+      databaseGenerationService,
+      queryService
+    )
+
+    generationService.generate("C:\\Users\\leonz\\Downloads\\wine.rdf")
+
+    verify(queryService).executeQuery("""CREATE TABLE Vintage(
+objectId INT NOT NULL,
+hasVintageYear INT NOT NULL,
+FOREIGN KEY(hasVintageYear) REFERENCES VintageYear(objectId),
+PRIMARY KEY(objectId));
+""")
+    verify(queryService).executeQuery("""CREATE TABLE ConsumableThing(
+objectId INT NOT NULL,
+madeFromFruit INT NOT NULL,
+FOREIGN KEY(madeFromFruit) REFERENCES Fruit(objectId),
+PRIMARY KEY(objectId));
+""")
+    verify(queryService).executeQuery("""CREATE TABLE wine(
+objectId INT NOT NULL,
+madeFromGrape INT NOT NULL,
+hasWineDescriptor INT NOT NULL,
+hasColor INT NOT NULL,
+FOREIGN KEY(madeFromGrape) REFERENCES WineGrape(objectId),
+FOREIGN KEY(hasWineDescriptor) REFERENCES WineDescriptor(objectId),
+FOREIGN KEY(hasColor) REFERENCES WineColor(objectId),
+PRIMARY KEY(objectId));
+""")
+    verify(queryService).executeQuery("""CREATE TABLE Region(
+objectId INT NOT NULL,
+adjacentRegion INT NOT NULL,
+FOREIGN KEY(adjacentRegion) REFERENCES Region(objectId),
+PRIMARY KEY(objectId));
+""")
+    verify(queryService).executeQuery("""CREATE TABLE Thing(
+objectId INT NOT NULL,
+locatedIn INT NOT NULL,
+FOREIGN KEY(locatedIn) REFERENCES Region(objectId),
+PRIMARY KEY(objectId));
+""")
+    verify(queryService).executeQuery("""CREATE TABLE MealCourse(
+objectId INT NOT NULL,
+hasFood INT NOT NULL,
+hasDrink INT NOT NULL,
+FOREIGN KEY(hasFood) REFERENCES EdibleThing(objectId),
+FOREIGN KEY(hasDrink) REFERENCES PotableLiquid(objectId),
+PRIMARY KEY(objectId));
+""")
+    verify(queryService).executeQuery("""CREATE TABLE Meal(
+objectId INT NOT NULL,
+course INT NOT NULL,
+FOREIGN KEY(course) REFERENCES MealCourse(objectId),
 PRIMARY KEY(objectId));
 """)
   }

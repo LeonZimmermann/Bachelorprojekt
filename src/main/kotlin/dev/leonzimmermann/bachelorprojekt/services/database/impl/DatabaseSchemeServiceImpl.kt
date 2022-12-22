@@ -23,7 +23,8 @@ internal class DatabaseSchemeServiceImpl : DatabaseSchemeService {
    * as foreign keys. The rdfs:domain Property stores the table, which contains the property.
    */
   override fun createDatabaseSchemeFromOntology(model: OntModel): DatabaseScheme {
-    val datatypeProperties = splitPropertiesByDomains(model, model.listDatatypeProperties().toList())
+    val datatypeProperties =
+      splitPropertiesByDomains(model, model.listDatatypeProperties().toList())
     val objectProperties = splitPropertiesByDomains(model, model.listObjectProperties().toList())
     val tables = (datatypeProperties + objectProperties).apply { logProperties(this) }
       .groupBy({ it.first }, { it.second })
@@ -36,7 +37,10 @@ internal class DatabaseSchemeServiceImpl : DatabaseSchemeService {
    * A property can contain multiple domains, when multiple tables have a property with the same name. This method
    * makes sure that the property will be added to each table, and not just one.
    */
-  private fun splitPropertiesByDomains(model: OntModel, properties: List<OntProperty>): List<Pair<OntResource, OntProperty>> {
+  private fun splitPropertiesByDomains(
+    model: OntModel,
+    properties: List<OntProperty>
+  ): List<Pair<OntResource, OntProperty>> {
     val listAfterSplitting = mutableListOf<Pair<OntResource, OntProperty>>()
     properties.forEach {
       it.listDomain().toList().forEach { domain ->
@@ -46,7 +50,10 @@ internal class DatabaseSchemeServiceImpl : DatabaseSchemeService {
     return listAfterSplitting.toList()
   }
 
-  private fun mapDataToTableScheme(ontModel: OntModel, entry: Map.Entry<OntResource, List<OntProperty>>): TableScheme {
+  private fun mapDataToTableScheme(
+    ontModel: OntModel,
+    entry: Map.Entry<OntResource, List<OntProperty>>
+  ): TableScheme {
     val foreignKeys = entry.value.filter { it.isObjectProperty }
       .map { ForeignKeyScheme(it.getLabel("EN"), it.range.localName, TABLE_PRIMARY_KEY_IDENTIFIER) }
       .toTypedArray()
@@ -63,15 +70,29 @@ internal class DatabaseSchemeServiceImpl : DatabaseSchemeService {
     )
   }
 
-  private fun mapOntPropertyToPropertyValueGenerator(ontModel: OntModel, property: OntProperty): PropertyValueGenerator =
-    when (getDatatypeStringForRange(property.range)) {
-      "integer" -> IntValueGenerator(IntRange(0, 9999999))
-      "string" -> ValueGeneratorFromStringList(*getPossibleStringValuesForProperty(ontModel, property))
+  private fun mapOntPropertyToPropertyValueGenerator(
+    ontModel: OntModel,
+    property: OntProperty
+  ): PropertyValueGenerator =
+    when {
+      getDatatypeStringForRange(property.range).lowercase()
+        .contains("integer") -> IntValueGenerator(IntRange(0, 9999999))
+      getDatatypeStringForRange(property.range).lowercase()
+        .contains("string") -> ValueGeneratorFromStringList(
+        *getPossibleStringValuesForProperty(
+          ontModel,
+          property
+        )
+      )
       else -> throw IllegalArgumentException("Invalid datatype: ${getDatatypeStringForRange(property.range)}")
     }
 
-  private fun getPossibleStringValuesForProperty(ontModel: OntModel, property: OntProperty): Array<String> {
-    return ontModel.getOntClass(property.domain.uri).listInstances().toList().map { it.getLabel("EN") }.toTypedArray()
+  private fun getPossibleStringValuesForProperty(
+    ontModel: OntModel,
+    property: OntProperty
+  ): Array<String> {
+    return ontModel.getOntClass(property.domain.uri).listInstances().toList()
+      .map { it.getLabel("EN") }.toTypedArray()
   }
 
   private fun getDatatypeStringForRange(range: OntResource) = range.localName
