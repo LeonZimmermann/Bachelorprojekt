@@ -5,6 +5,7 @@ import org.apache.jena.ontology.*
 import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.riot.RDFDataMgr
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class OntologyServiceImpl : OntologyService {
@@ -26,8 +27,10 @@ class OntologyServiceImpl : OntologyService {
 
   private fun extractTables(ontModel: OntModel) =
     ontModel.listAllOntProperties().toList()
+      .asSequence()
       .mapNotNull { it.domain }
-      .map { ontModel.getOntClass(it.uri) }
+      .mapNotNull { it.uri }
+      .map { ontModel.getOntClass(it) }
       .distinct()
       .toList()
 
@@ -35,7 +38,7 @@ class OntologyServiceImpl : OntologyService {
     val result = ModelFactory.createOntologyModel()
     tables.forEach { table ->
       val ontClass = result.createClass(table.localName)
-      ontClass.setLabel(table.getLabel("EN") ?: table.localName, "EN")
+      ontClass.setLabel(getLabelFor(table).replaceFirstChar { it.titlecase(Locale.getDefault()) }, "EN")
       table.listDeclaredProperties().toList().forEach { property ->
         mapPropertyToResult(property, result)
       }
@@ -65,7 +68,7 @@ class OntologyServiceImpl : OntologyService {
     property: OntProperty
   ) {
     val referenceToNewObjectProperty = model.createObjectProperty(property.localName)
-    referenceToNewObjectProperty.setLabel(property.getLabel("EN") ?: property.localName, "EN")
+    referenceToNewObjectProperty.setLabel(getLabelFor(property), "EN")
     referenceToNewObjectProperty.setDomain(
       model.getOntClass(property.domain.localName) ?: property.domain
     )
@@ -74,12 +77,13 @@ class OntologyServiceImpl : OntologyService {
 
   private fun mapDatatypePropertyToResult(property: OntProperty, model: OntModel) {
     if (!property.range.localName.lowercase().contains("integer") ||
+      !property.range.localName.lowercase().contains("double") ||
       !property.range.localName.lowercase().contains("string")
     ) {
       return
     }
     val referenceToNewDatatypeProperty = model.createDatatypeProperty(property.localName)
-    referenceToNewDatatypeProperty.setLabel(property.getLabel("EN") ?: property.localName, "EN")
+    referenceToNewDatatypeProperty.setLabel(getLabelFor(property), "EN")
     referenceToNewDatatypeProperty.setDomain(
       model.getOntClass(property.domain.localName) ?: property.domain
     )
@@ -88,6 +92,11 @@ class OntologyServiceImpl : OntologyService {
 
   private fun mapInstanceToResult(ontClass: OntClass, instance: OntResource) {
     ontClass.createIndividual(instance.localName)
-      .setLabel(instance.getLabel("EN") ?: instance.localName, "EN")
+      .setLabel(getLabelFor(instance), "EN")
   }
+
+  private fun getLabelFor(resource: OntResource) =
+    (resource.getLabel("EN") ?: resource.localName)
+      .trim()
+      .replace(" ", "_")
 }

@@ -17,9 +17,9 @@ class SQLStringLiteral(private val literalName: String) : SQLLiteral() {
     nlgFactory.createStringElement(literalName)
 }
 
-class SQLNumberLiteral(private val number: Int, private val unit: String? = null) : SQLLiteral() {
+class SQLNumberLiteral(private val number: String, private val unit: String? = null) : SQLLiteral() {
   override fun toSQLString(): String {
-    return number.toString()
+    return number
   }
 
   override fun toStemText(nlgFactory: NLGFactory): NLGElement {

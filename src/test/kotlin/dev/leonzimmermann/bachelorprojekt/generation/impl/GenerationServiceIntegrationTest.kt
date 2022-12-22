@@ -12,6 +12,10 @@ import org.mockito.kotlin.verify
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
+import java.io.File
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @SpringBootTest
 @RunWith(SpringRunner::class)
@@ -150,5 +154,26 @@ course INT NOT NULL,
 FOREIGN KEY(course) REFERENCES MealCourse(objectId),
 PRIMARY KEY(objectId));
 """)
+  }
+
+  @Test
+  fun testGenerateForEcoOwl() {
+    val generationService = GenerationServiceImpl(
+      ontologyService,
+      databaseSchemeService,
+      databaseGenerationService,
+      queryService
+    )
+
+    generationService.generate("C:\\Users\\leonz\\Downloads\\eco.owl")
+
+    val timestamp = DateTimeFormatter.ofPattern("yyyyMMddmmssSSSS").format(LocalDateTime.now())
+    val file = File("results\\${timestamp}_eco.sql")
+    if (!file.exists()) {
+      file.createNewFile()
+    }
+    file.writeText(mockingDetails(queryService).invocations
+      .map { it.toString() }
+      .joinToString("\n\n") { it.subSequence(32, it.length - 5) })
   }
 }

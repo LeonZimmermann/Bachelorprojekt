@@ -1,6 +1,7 @@
 package dev.leonzimmermann.bachelorprojekt.services.database.impl
 
 import dev.leonzimmermann.bachelorprojekt.assignment.DatabaseSchemeService
+import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.DoubleValueGenerator
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
 import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.IntValueGenerator
 import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.ObjectIdGenerator
@@ -77,6 +78,8 @@ internal class DatabaseSchemeServiceImpl : DatabaseSchemeService {
     when {
       getDatatypeStringForRange(property.range).lowercase()
         .contains("integer") -> IntValueGenerator(IntRange(0, 9999999))
+      getDatatypeStringForRange(property.range).lowercase()
+        .contains("double") -> DoubleValueGenerator(IntRange(0, 9999999))
       getDatatypeStringForRange(property.range).lowercase()
         .contains("string") -> ValueGeneratorFromStringList(
         *getPossibleStringValuesForProperty(

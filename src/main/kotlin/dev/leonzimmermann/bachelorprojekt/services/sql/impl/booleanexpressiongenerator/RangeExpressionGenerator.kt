@@ -24,11 +24,11 @@ internal class RangeExpressionGenerator(
     return AndExpression(
       GreaterEqualsExpression(
         BooleanExpressionProperty(SQLProperty(propertyScheme.name)),
-        BooleanExpressionLiteral(SQLNumberLiteral(range.first))
+        BooleanExpressionLiteral(SQLNumberLiteral(range.first.toString()))
       ),
       SmallerEqualsExpression(
         BooleanExpressionProperty(SQLProperty(propertyScheme.name)),
-        BooleanExpressionLiteral(SQLNumberLiteral(range.last))
+        BooleanExpressionLiteral(SQLNumberLiteral(range.last.toString()))
       )
     )
   }

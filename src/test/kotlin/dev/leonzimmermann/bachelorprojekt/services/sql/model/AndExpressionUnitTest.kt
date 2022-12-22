@@ -24,7 +24,7 @@ class AndExpressionUnitTest : AbstractSQLUnitTest() {
       ),
       NotEqualsExpression(
         BooleanExpressionProperty(SQLProperty("postalcode")),
-        BooleanExpressionLiteral(SQLNumberLiteral(12345))
+        BooleanExpressionLiteral(SQLNumberLiteral(12345.toString()))
       )
     )
     val realisedSentence = realiser.realiseSentence(statement.toStemText(nlgFactory))

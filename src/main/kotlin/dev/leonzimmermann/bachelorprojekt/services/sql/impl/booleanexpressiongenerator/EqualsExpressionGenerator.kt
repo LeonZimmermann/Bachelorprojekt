@@ -25,10 +25,9 @@ internal class EqualsExpressionGenerator(
     require(propertyScheme.valueGenerator != EmptyValueGenerator)
     return when (propertyScheme.datatype) {
       Datatype.STRING -> SQLStringLiteral(propertyScheme.generateValue(random))
-      Datatype.INTEGER -> SQLNumberLiteral(propertyScheme.generateValue(random).toInt())
-      Datatype.LONG -> SQLNumberLiteral(
-        propertyScheme.generateValue(random).toInt()
-      )      // TODO Maybe change, to enable long?
+      Datatype.INTEGER -> SQLNumberLiteral(propertyScheme.generateValue(random))
+      Datatype.FLOATING_POINT -> SQLNumberLiteral(propertyScheme.generateValue(random))
+      Datatype.LONG -> SQLNumberLiteral(propertyScheme.generateValue(random))
     }
   }
 }

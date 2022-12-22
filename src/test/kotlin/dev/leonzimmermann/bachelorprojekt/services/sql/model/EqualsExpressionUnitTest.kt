@@ -30,7 +30,7 @@ class EqualsExpressionUnitTest : AbstractSQLUnitTest() {
   fun testToStemTextWithAPropertiesAndAnIntegerLiteral() {
     val statement = EqualsExpression(
       BooleanExpressionProperty(SQLProperty("postalcode")),
-      BooleanExpressionLiteral(SQLNumberLiteral(12345))
+      BooleanExpressionLiteral(SQLNumberLiteral(12345.toString()))
     )
     val realisedSentence = realiser.realiseSentence(statement.toStemText(nlgFactory))
     assertEquals("The postalcode equals to 12345.", realisedSentence)

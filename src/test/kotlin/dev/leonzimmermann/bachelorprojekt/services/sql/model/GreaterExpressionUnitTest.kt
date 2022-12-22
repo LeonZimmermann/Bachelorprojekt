@@ -11,7 +11,7 @@ class GreaterExpressionUnitTest: AbstractSQLUnitTest() {
   fun testWithAPropertyAndALiteral() {
     val statement = GreaterExpression(
       BooleanExpressionProperty(SQLProperty("postalcode")),
-      BooleanExpressionLiteral(SQLNumberLiteral(2000))
+      BooleanExpressionLiteral(SQLNumberLiteral(2000.toString()))
     )
     val realisedSentence = realiser.realiseSentence(statement.toStemText(nlgFactory))
     assertEquals("The postalcode is greater than 2000.", realisedSentence)
@@ -22,7 +22,7 @@ class GreaterExpressionUnitTest: AbstractSQLUnitTest() {
   fun testWithAPropertyALiteralAndARelationWord() {
     val statement = GreaterExpression(
       BooleanExpressionProperty(SQLProperty("mountain")),
-      BooleanExpressionLiteral(SQLNumberLiteral(300, "m")),
+      BooleanExpressionLiteral(SQLNumberLiteral(300.toString(), "m")),
       "be higher"
     )
     val realisedSentence = realiser.realiseSentence(statement.toStemText(nlgFactory))

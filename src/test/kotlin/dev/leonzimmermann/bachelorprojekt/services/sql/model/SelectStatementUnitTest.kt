@@ -46,7 +46,7 @@ class  SelectStatementUnitTest : AbstractSQLUnitTest() {
           ),
           GreaterExpression(
             BooleanExpressionProperty(CountProperty("street")),
-            BooleanExpressionLiteral(SQLNumberLiteral(200))
+            BooleanExpressionLiteral(SQLNumberLiteral(200.toString()))
           ),
         )
       )
