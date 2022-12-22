@@ -23,8 +23,8 @@ internal class DatabaseSchemeServiceImpl : DatabaseSchemeService {
    * as foreign keys. The rdfs:domain Property stores the table, which contains the property.
    */
   override fun createDatabaseSchemeFromOntology(model: OntModel): DatabaseScheme {
-    val datatypeProperties = splitPropertiesByDomains(model.listDatatypeProperties().toList())
-    val objectProperties = splitPropertiesByDomains(model.listObjectProperties().toList())
+    val datatypeProperties = splitPropertiesByDomains(model, model.listDatatypeProperties().toList())
+    val objectProperties = splitPropertiesByDomains(model, model.listObjectProperties().toList())
     val tables = (datatypeProperties + objectProperties).apply { logProperties(this) }
       .groupBy({ it.first }, { it.second })
       .apply { logger.debug("Domains: ${this.keys.joinToString(", ")}") }
@@ -36,12 +36,11 @@ internal class DatabaseSchemeServiceImpl : DatabaseSchemeService {
    * A property can contain multiple domains, when multiple tables have a property with the same name. This method
    * makes sure that the property will be added to each table, and not just one.
    */
-  private fun splitPropertiesByDomains(properties: List<OntProperty>): List<Pair<OntResource, OntProperty>> {
+  private fun splitPropertiesByDomains(model: OntModel, properties: List<OntProperty>): List<Pair<OntResource, OntProperty>> {
     val listAfterSplitting = mutableListOf<Pair<OntResource, OntProperty>>()
     properties.forEach {
-      val domains = it.listDomain().toList()
-      domains.forEach { domain ->
-        listAfterSplitting += Pair(domain, it)
+      it.listDomain().toList().forEach { domain ->
+        listAfterSplitting += Pair(model.getOntClass(domain.uri), it)
       }
     }
     return listAfterSplitting.toList()
@@ -49,15 +48,15 @@ internal class DatabaseSchemeServiceImpl : DatabaseSchemeService {
 
   private fun mapDataToTableScheme(ontModel: OntModel, entry: Map.Entry<OntResource, List<OntProperty>>): TableScheme {
     val foreignKeys = entry.value.filter { it.isObjectProperty }
-      .map { ForeignKeyScheme(it.localName, it.range.localName, TABLE_PRIMARY_KEY_IDENTIFIER) }
+      .map { ForeignKeyScheme(it.getLabel("EN"), it.range.localName, TABLE_PRIMARY_KEY_IDENTIFIER) }
       .toTypedArray()
     return TableScheme(
-      entry.key.localName,
+      entry.key.getLabel("EN"),
       PropertyScheme(TABLE_PRIMARY_KEY_IDENTIFIER, ObjectIdGenerator()),
       foreignKeys,
       entry.value.filter { !it.isObjectProperty }.map {
         PropertyScheme(
-          it.localName,
+          it.getLabel("EN"),
           mapOntPropertyToPropertyValueGenerator(ontModel, it)
         )
       }.toTypedArray()
@@ -72,7 +71,7 @@ internal class DatabaseSchemeServiceImpl : DatabaseSchemeService {
     }
 
   private fun getPossibleStringValuesForProperty(ontModel: OntModel, property: OntProperty): Array<String> {
-    return ontModel.getOntClass(property.domain.uri).listInstances().toList().map { it.localName }.toTypedArray()
+    return ontModel.getOntClass(property.domain.uri).listInstances().toList().map { it.getLabel("EN") }.toTypedArray()
   }
 
   private fun getDatatypeStringForRange(range: OntResource) = range.localName
@@ -80,7 +79,7 @@ internal class DatabaseSchemeServiceImpl : DatabaseSchemeService {
   private fun logProperties(list: List<Pair<OntResource, OntProperty>>) {
     logger.debug("Properties:\n${
       list.joinToString("\n") { element ->
-        "Domain: ${element.first}, Name: ${element.second.localName}, Range: ${element.second.range}"
+        "Domain: ${element.first}, Name: ${element.second.getLabel("EN")}, Range: ${element.second.range}"
       }
     }")
   }

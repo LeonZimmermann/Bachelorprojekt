@@ -46,13 +46,17 @@ class OntologyServiceImpl : OntologyService {
     return result
   }
 
-  private fun mapPropertyToResult(property: OntProperty, result: OntModel) {
+  private fun mapPropertyToResult(property: OntProperty, model: OntModel) {
     if (property.isObjectProperty) {
-      result.createObjectProperty(property.localName)
-        .setLabel(property.localName, "EN")
+      val referenceToNewObjectProperty = model.createObjectProperty(property.localName)
+      referenceToNewObjectProperty.setLabel(property.localName, "EN")
+      referenceToNewObjectProperty.setDomain(model.getOntClass(property.domain.localName))
+      referenceToNewObjectProperty.setRange(property.range)
     } else if (property.isDatatypeProperty) {
-      result.createDatatypeProperty(property.localName)
-        .setLabel(property.localName, "EN")
+      val referenceToNewDatatypeProperty = model.createDatatypeProperty(property.localName)
+      referenceToNewDatatypeProperty.setLabel(property.localName, "EN")
+      referenceToNewDatatypeProperty.setDomain(model.getOntClass(property.domain.localName))
+      referenceToNewDatatypeProperty.setRange(property.range)
     }
   }
 
