@@ -73,8 +73,8 @@ class OntologyServiceImpl : OntologyService {
   }
 
   private fun mapDatatypePropertyToResult(property: OntProperty, model: OntModel) {
-    if (!property.range.localName.contains("integer") ||
-      !property.range.localName.contains("string")
+    if (!property.range.localName.lowercase().contains("integer") ||
+      !property.range.localName.lowercase().contains("string")
     ) {
       return
     }
