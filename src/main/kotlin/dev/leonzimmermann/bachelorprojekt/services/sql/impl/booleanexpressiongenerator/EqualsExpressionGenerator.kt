@@ -26,7 +26,7 @@ internal class EqualsExpressionGenerator(
     return when (propertyScheme.datatype) {
       Datatype.STRING -> SQLStringLiteral(propertyScheme.generateValue(random))
       Datatype.INTEGER -> SQLNumberLiteral(propertyScheme.generateValue(random))
-      Datatype.FLOATING_POINT -> SQLNumberLiteral(propertyScheme.generateValue(random))
+      Datatype.FLOAT -> SQLNumberLiteral(propertyScheme.generateValue(random))
       Datatype.LONG -> SQLNumberLiteral(propertyScheme.generateValue(random))
     }
   }

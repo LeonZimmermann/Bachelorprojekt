@@ -1,7 +1,10 @@
 package dev.leonzimmermann.bachelorprojekt.services.database.impl
 
 import dev.leonzimmermann.bachelorprojekt.assignment.DatabaseSchemeService
-import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.DoubleValueGenerator
+import dev.leonzimmermann.bachelorprojekt.isFloat
+import dev.leonzimmermann.bachelorprojekt.isInt
+import dev.leonzimmermann.bachelorprojekt.isString
+import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.FloatValueGenerator
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
 import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.IntValueGenerator
 import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.ObjectIdGenerator
@@ -76,18 +79,15 @@ internal class DatabaseSchemeServiceImpl : DatabaseSchemeService {
     property: OntProperty
   ): PropertyValueGenerator =
     when {
-      getDatatypeStringForRange(property.range).lowercase()
-        .contains("integer") -> IntValueGenerator(IntRange(0, 9999999))
-      getDatatypeStringForRange(property.range).lowercase()
-        .contains("double") -> DoubleValueGenerator(IntRange(0, 9999999))
-      getDatatypeStringForRange(property.range).lowercase()
-        .contains("string") -> ValueGeneratorFromStringList(
+      isInt(property) -> IntValueGenerator(IntRange(0, 9999999))
+      isFloat(property) -> FloatValueGenerator(IntRange(0, 9999999))
+      isString(property) -> ValueGeneratorFromStringList(
         *getPossibleStringValuesForProperty(
           ontModel,
           property
         )
       )
-      else -> throw IllegalArgumentException("Invalid datatype: ${getDatatypeStringForRange(property.range)}")
+      else -> throw IllegalArgumentException("Invalid datatype: ${property.range.localName}")
     }
 
   private fun getPossibleStringValuesForProperty(
@@ -97,8 +97,6 @@ internal class DatabaseSchemeServiceImpl : DatabaseSchemeService {
     return ontModel.getOntClass(property.domain.uri).listInstances().toList()
       .map { it.getLabel("EN") }.toTypedArray()
   }
-
-  private fun getDatatypeStringForRange(range: OntResource) = range.localName
 
   private fun logProperties(list: List<Pair<OntResource, OntProperty>>) {
     logger.debug("Properties:\n${

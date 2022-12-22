@@ -1,0 +1,98 @@
+CREATE TABLE OBI_0001933(
+objectId INT NOT NULL,
+OBI_0001937 FLOAT(16) NOT NULL,
+PRIMARY KEY(objectId));
+
+CREATE TABLE Specifically_dependent_continuant(
+objectId INT NOT NULL,
+concretizes INT NOT NULL,
+FOREIGN KEY(concretizes) REFERENCES BFO_0000031(objectId),
+PRIMARY KEY(objectId));
+
+CREATE TABLE Occurrent(
+objectId INT NOT NULL,
+precedes INT NOT NULL,
+has_participant INT NOT NULL,
+OBI_1110060 INT NOT NULL,
+preceded_by INT NOT NULL,
+FOREIGN KEY(precedes) REFERENCES BFO_0000003(objectId),
+FOREIGN KEY(has_participant) REFERENCES BFO_0000002(objectId),
+FOREIGN KEY(OBI_1110060) REFERENCES BFO_0000003(objectId),
+FOREIGN KEY(preceded_by) REFERENCES BFO_0000003(objectId),
+PRIMARY KEY(objectId));
+
+CREATE TABLE Information_content_entity(
+objectId INT NOT NULL,
+OBI_0001938 INT NOT NULL,
+FOREIGN KEY(OBI_0001938) REFERENCES OBI_0001933(objectId),
+PRIMARY KEY(objectId));
+
+CREATE TABLE Planned_process(
+objectId INT NOT NULL,
+OBI_0000417 INT NOT NULL,
+FOREIGN KEY(OBI_0000417) REFERENCES IAO_0000005(objectId),
+PRIMARY KEY(objectId));
+
+CREATE TABLE ECO_0000000(
+objectId INT NOT NULL,
+ECO_9000000 INT NOT NULL,
+FOREIGN KEY(ECO_9000000) REFERENCES ECO_0000217(objectId),
+PRIMARY KEY(objectId));
+
+CREATE TABLE Realizable_entity(
+objectId INT NOT NULL,
+realized_in INT NOT NULL,
+FOREIGN KEY(realized_in) REFERENCES BFO_0000015(objectId),
+PRIMARY KEY(objectId));
+
+CREATE TABLE Independent_continuant(
+objectId INT NOT NULL,
+has_function INT NOT NULL,
+has_role INT NOT NULL,
+derives_from INT NOT NULL,
+FOREIGN KEY(has_function) REFERENCES BFO_0000034(objectId),
+FOREIGN KEY(has_role) REFERENCES BFO_0000023(objectId),
+FOREIGN KEY(derives_from) REFERENCES BFO_0000004(objectId),
+PRIMARY KEY(objectId));
+
+CREATE TABLE Measurement_datum(
+objectId INT NOT NULL,
+is_quality_measurement_of INT NOT NULL,
+FOREIGN KEY(is_quality_measurement_of) REFERENCES BFO_0000019(objectId),
+PRIMARY KEY(objectId));
+
+CREATE TABLE Generically_dependent_continuant(
+objectId INT NOT NULL,
+is_concretized_as INT NOT NULL,
+FOREIGN KEY(is_concretized_as) REFERENCES BFO_0000020(objectId),
+PRIMARY KEY(objectId));
+
+CREATE TABLE OBI_0001909(
+objectId INT NOT NULL,
+OBI_0000124 INT NOT NULL,
+FOREIGN KEY(OBI_0000124) REFERENCES IAO_0000027(objectId),
+PRIMARY KEY(objectId));
+
+CREATE TABLE Continuant(
+objectId INT NOT NULL,
+participates_in INT NOT NULL,
+FOREIGN KEY(participates_in) REFERENCES BFO_0000003(objectId),
+PRIMARY KEY(objectId));
+
+CREATE TABLE Objective_specification(
+objectId INT NOT NULL,
+OBI_0000833 INT NOT NULL,
+FOREIGN KEY(OBI_0000833) REFERENCES OBI_0000011(objectId),
+PRIMARY KEY(objectId));
+
+CREATE TABLE Process(
+objectId INT NOT NULL,
+realizes INT NOT NULL,
+FOREIGN KEY(realizes) REFERENCES BFO_0000017(objectId),
+PRIMARY KEY(objectId));
+
+CREATE TABLE Material_entity(
+objectId INT NOT NULL,
+OBI_1110119 INT NOT NULL,
+FOREIGN KEY(OBI_1110119) REFERENCES BFO_0000040(objectId),
+PRIMARY KEY(objectId));
