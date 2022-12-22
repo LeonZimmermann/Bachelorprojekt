@@ -35,7 +35,7 @@ class OntologyServiceImpl : OntologyService {
     val result = ModelFactory.createOntologyModel()
     tables.forEach { table ->
       val ontClass = result.createClass(table.localName)
-      ontClass.setLabel(table.localName, "EN")
+      ontClass.setLabel(table.getLabel("EN") ?: table.localName, "EN")
       table.listDeclaredProperties().toList().forEach { property ->
         mapPropertyToResult(property, result)
       }
@@ -49,12 +49,12 @@ class OntologyServiceImpl : OntologyService {
   private fun mapPropertyToResult(property: OntProperty, model: OntModel) {
     if (property.isObjectProperty) {
       val referenceToNewObjectProperty = model.createObjectProperty(property.localName)
-      referenceToNewObjectProperty.setLabel(property.localName, "EN")
+      referenceToNewObjectProperty.setLabel(property.getLabel("EN") ?: property.localName, "EN")
       referenceToNewObjectProperty.setDomain(model.getOntClass(property.domain.localName))
       referenceToNewObjectProperty.setRange(property.range)
     } else if (property.isDatatypeProperty) {
       val referenceToNewDatatypeProperty = model.createDatatypeProperty(property.localName)
-      referenceToNewDatatypeProperty.setLabel(property.localName, "EN")
+      referenceToNewDatatypeProperty.setLabel(property.getLabel("EN") ?: property.localName, "EN")
       referenceToNewDatatypeProperty.setDomain(model.getOntClass(property.domain.localName))
       referenceToNewDatatypeProperty.setRange(property.range)
     }
@@ -62,6 +62,6 @@ class OntologyServiceImpl : OntologyService {
 
   private fun mapInstanceToResult(ontClass: OntClass, instance: OntResource) {
     ontClass.createIndividual(instance.localName)
-      .setLabel(instance.localName, "EN")
+      .setLabel(instance.getLabel("EN") ?: instance.localName, "EN")
   }
 }

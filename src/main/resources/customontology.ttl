@@ -71,21 +71,30 @@
              rdfs:label "institution"@en; 
              rdfs:domain :Occupation;
              rdfs:range :Institution .
-:address rdf:type owl:ObjectProperty ;
+:addressOfInstitution rdf:type owl:ObjectProperty ;
       rdfs:label "address"@en;
       rdfs:domain :Institution;
-      rdfs:domain :Person;
       rdfs:range :Address .
-:person rdf:type owl:ObjectProperty ;
+:addressOfPerson rdf:type owl:ObjectProperty ;
+    rdfs:label "address"@en;
+    rdfs:domain :Person;
+    rdfs:range :Address .
+:personWithOccupation rdf:type owl:ObjectProperty ;
         rdfs:label "person"@en;
         rdfs:domain :Occupation;
+        rdfs:range :Person .
+:personInRelationship rdf:type owl:ObjectProperty ;
+        rdfs:label "person"@en;
         rdfs:domain :Relationship;
         rdfs:range :Person .
-:name rdf:type owl:DatatypeProperty ;
+:nameOfOccupation rdf:type owl:DatatypeProperty ;
       rdfs:label "name"@en; 
       rdfs:domain :Occupation;
-      rdfs:domain :Institution;
-      rdfs:range xsd:string . 
+      rdfs:range xsd:string .
+:nameOfInstitution rdf:type owl:DatatypeProperty ;
+        rdfs:label "name"@en;
+        rdfs:domain :Institution;
+        rdfs:range xsd:string .
 ###  Class Definitions (Number of Classes) 5 ###
 #  --------------------------- Class  0------------------------- 
 :Person rdf:type owl:Class; 

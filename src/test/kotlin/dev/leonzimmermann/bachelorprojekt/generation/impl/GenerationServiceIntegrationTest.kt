@@ -43,19 +43,19 @@ class GenerationServiceIntegrationTest {
     verify(queryService).executeQuery(
       """CREATE TABLE Address(
 objectId INT NOT NULL,
+country VARCHAR NOT NULL,
+state VARCHAR NOT NULL,
 postalCode INT NOT NULL,
 street VARCHAR NOT NULL,
-streetNumber INT NOT NULL,
-country VARCHAR NOT NULL,
 city VARCHAR NOT NULL,
-state VARCHAR NOT NULL,
+streetNumber INT NOT NULL,
 PRIMARY KEY(objectId));
 """)
     verify(queryService).executeQuery(
       """CREATE TABLE Institution(
 objectId INT NOT NULL,
-name VARCHAR NOT NULL,
 typeOfInstitution VARCHAR NOT NULL,
+name VARCHAR NOT NULL,
 address INT NOT NULL,
 FOREIGN KEY(address) REFERENCES Address(objectId),
 PRIMARY KEY(objectId));
