@@ -2,7 +2,6 @@ package dev.leonzimmermann.bachelorprojekt.services.ontology.impl
 
 import dev.leonzimmermann.bachelorprojekt.isNumber
 import dev.leonzimmermann.bachelorprojekt.isString
-import org.apache.jena.ontology.OntClass
 import org.apache.jena.ontology.OntModel
 import org.apache.jena.ontology.OntProperty
 import org.apache.jena.ontology.OntResource
@@ -30,22 +29,22 @@ class PropertyMapper(private val model: OntModel) {
   }
 
   private fun mapObjectPropertyToResult(property: OntProperty) {
-    val referenceToNewObjectProperty = model.createObjectProperty(property.localName)
-    referenceToNewObjectProperty.setLabel(getLabelFor(property), "EN")
-    referenceToNewObjectProperty.setDomain(domainOfProperty(property))
-    referenceToNewObjectProperty.setRange(property.range)
+    model.createObjectProperty(property.localName).apply {
+      setLabel(getLabelFor(property), "EN")
+      setDomain(domainOfProperty(property))
+      setRange(property.range)
+    }
   }
 
   private fun mapDatatypePropertyToResult(property: OntProperty) {
     if (!isNumber(property) && !isString(property)) {
       return
     }
-    val referenceToNewDatatypeProperty = model.createDatatypeProperty(property.localName)
-    referenceToNewDatatypeProperty.setLabel(getLabelFor(property), "EN")
-    referenceToNewDatatypeProperty.setDomain(
-      model.getOntClass(property.domain.localName) ?: property.domain
-    )
-    referenceToNewDatatypeProperty.setRange(property.range)
+    model.createDatatypeProperty(property.localName).apply {
+      setLabel(getLabelFor(property), "EN")
+      setDomain(domainOfProperty(property))
+      setRange(property.range)
+    }
   }
 
   private fun domainOfProperty(property: OntProperty): OntResource =
