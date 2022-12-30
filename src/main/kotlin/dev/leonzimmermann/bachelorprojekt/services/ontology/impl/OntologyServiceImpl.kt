@@ -1,8 +1,6 @@
 package dev.leonzimmermann.bachelorprojekt.services.ontology.impl
 
-import dev.leonzimmermann.bachelorprojekt.assignment.OntologyService
-import dev.leonzimmermann.bachelorprojekt.isNumber
-import dev.leonzimmermann.bachelorprojekt.isString
+import dev.leonzimmermann.bachelorprojekt.generation.OntologyService
 import org.apache.jena.ontology.*
 import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.riot.RDFDataMgr

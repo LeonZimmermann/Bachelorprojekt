@@ -1,6 +1,6 @@
 package dev.leonzimmermann.bachelorprojekt.services.database.impl
 
-import dev.leonzimmermann.bachelorprojekt.assignment.DatabaseSchemeService
+import dev.leonzimmermann.bachelorprojekt.generation.DatabaseSchemeService
 import dev.leonzimmermann.bachelorprojekt.isFloat
 import dev.leonzimmermann.bachelorprojekt.isInt
 import dev.leonzimmermann.bachelorprojekt.isString

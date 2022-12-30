@@ -4,11 +4,11 @@ import dev.leonzimmermann.bachelorprojekt.assignment.Assignment
 import dev.leonzimmermann.bachelorprojekt.assignment.AssignmentService
 import dev.leonzimmermann.bachelorprojekt.assignment.rules.NumberOfRowsValidationRule
 import dev.leonzimmermann.bachelorprojekt.assignment.rules.ResultIsTheSameValidationRule
-import dev.leonzimmermann.bachelorprojekt.assignment.DatabaseSchemeService
-import dev.leonzimmermann.bachelorprojekt.assignment.OntologyService
 import dev.leonzimmermann.bachelorprojekt.assignment.QueryService
 import dev.leonzimmermann.bachelorprojekt.assignment.GenerationOptions
 import dev.leonzimmermann.bachelorprojekt.assignment.SQLService
+// TODO No external dependencies
+import dev.leonzimmermann.bachelorprojekt.services.database.scheme.DatabaseScheme
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import simplenlg.framework.NLGFactory
@@ -17,8 +17,6 @@ import simplenlg.realiser.english.Realiser
 
 @Service
 internal class AssignmentServiceImpl(
-  private val ontologyService: OntologyService,
-  private val databaseSchemeService: DatabaseSchemeService,
   private val sqlService: SQLService,
   private val queryService: QueryService
 ) : AssignmentService {
@@ -32,11 +30,8 @@ internal class AssignmentServiceImpl(
   private val nlgFactory = NLGFactory(lexicon)
   private val realiser = Realiser(lexicon)
 
-  override fun generateNewAssignment(generationOptions: GenerationOptions): Assignment {
-    val sqlExpression = sqlService.generateSQLExpression(
-      databaseSchemeService.createDatabaseSchemeFromOntology(ontologyService.createEROntology("customontology.ttl")),
-      generationOptions
-    )
+  override fun generateNewAssignment(databaseScheme: DatabaseScheme, generationOptions: GenerationOptions): Assignment {
+    val sqlExpression = sqlService.generateSQLExpression(databaseScheme, generationOptions)
     val stem = realiser.realiseSentence(sqlExpression.toStemText(nlgFactory)).trim()
     val assignment = Assignment(
       stem = stem,

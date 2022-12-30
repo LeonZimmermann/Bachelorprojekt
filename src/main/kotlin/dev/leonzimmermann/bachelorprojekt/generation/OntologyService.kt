@@ -1,4 +1,4 @@
-package dev.leonzimmermann.bachelorprojekt.assignment
+package dev.leonzimmermann.bachelorprojekt.generation
 
 import org.apache.jena.ontology.OntModel
 
