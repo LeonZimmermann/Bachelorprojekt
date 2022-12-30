@@ -39,8 +39,6 @@ class AssignmentServiceIntegrationTest {
   fun `when generateNewAssignment() is called, then the method returns a valid assignment`() {
     // Given
     val assignmentService = AssignmentServiceImpl(
-      ontologyService,
-      databaseSchemeService,
       sqlService,
       queryService
     )
