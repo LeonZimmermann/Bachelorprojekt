@@ -7,6 +7,7 @@ import dev.leonzimmermann.bachelorprojekt.assignment.QueryService
 import dev.leonzimmermann.bachelorprojekt.generation.DatabaseGenerationService
 import dev.leonzimmermann.bachelorprojekt.generation.GenerationService
 import dev.leonzimmermann.bachelorprojekt.generation.OntologyReductionService
+import dev.leonzimmermann.bachelorprojekt.services.ontology.OntologyReductionOptions
 import org.springframework.stereotype.Service
 
 @Service
@@ -17,9 +18,9 @@ internal class GenerationServiceImpl constructor(
   private val databaseGenerationService: DatabaseGenerationService,
   private val queryService: QueryService
 ) : GenerationService {
-  override fun generate(ontologyUri: String) {
+  override fun generate(ontologyUri: String, ontologyReductionOptions: OntologyReductionOptions) {
     ontologyService.createEROntology(ontologyUri)
-      .let { ontologyReductionService.reduceOntology(it) }
+      .let { ontologyReductionService.reduceOntology(it, ontologyReductionOptions) }
       .let { databaseSchemeService.createDatabaseSchemeFromOntology(it) }
       .let { databaseGenerationService.getDatabaseGenerationQueriesForScheme(it) }
       .forEach { queryService.executeQuery(it) }
