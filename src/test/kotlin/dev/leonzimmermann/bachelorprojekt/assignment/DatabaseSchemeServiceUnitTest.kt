@@ -1,5 +1,6 @@
 package dev.leonzimmermann.bachelorprojekt.assignment
 
+import dev.leonzimmermann.bachelorprojekt.generation.DatabaseSchemeService
 import dev.leonzimmermann.bachelorprojekt.getPersonTableScheme
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
 import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.IntValueGenerator

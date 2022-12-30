@@ -1,5 +1,6 @@
 package dev.leonzimmermann.bachelorprojekt.assignment
 
+import dev.leonzimmermann.bachelorprojekt.generation.OntologyService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.assertEquals

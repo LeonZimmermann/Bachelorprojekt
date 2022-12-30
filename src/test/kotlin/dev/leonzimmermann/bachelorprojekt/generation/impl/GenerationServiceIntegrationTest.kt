@@ -1,9 +1,10 @@
 package dev.leonzimmermann.bachelorprojekt.generation.impl
 
-import dev.leonzimmermann.bachelorprojekt.assignment.DatabaseSchemeService
-import dev.leonzimmermann.bachelorprojekt.assignment.OntologyService
+import dev.leonzimmermann.bachelorprojekt.generation.DatabaseSchemeService
+import dev.leonzimmermann.bachelorprojekt.generation.OntologyService
 import dev.leonzimmermann.bachelorprojekt.assignment.QueryService
 import dev.leonzimmermann.bachelorprojekt.generation.DatabaseGenerationService
+import dev.leonzimmermann.bachelorprojekt.generation.OntologyReductionService
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
 import java.io.File
-import java.time.Instant
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -23,6 +23,9 @@ class GenerationServiceIntegrationTest {
 
   @Autowired
   private lateinit var ontologyService: OntologyService
+
+  @Autowired
+  private lateinit var ontologyReductionService: OntologyReductionService
 
   @Autowired
   private lateinit var databaseSchemeService: DatabaseSchemeService
@@ -37,6 +40,7 @@ class GenerationServiceIntegrationTest {
   fun testGenerateForCustomOntologyTtl() {
     val generationService = GenerationServiceImpl(
       ontologyService,
+      ontologyReductionService,
       databaseSchemeService,
       databaseGenerationService,
       queryService
@@ -99,6 +103,7 @@ PRIMARY KEY(objectId));
   fun testGenerateForWineOntology() {
     val generationService = GenerationServiceImpl(
       ontologyService,
+      ontologyReductionService,
       databaseSchemeService,
       databaseGenerationService,
       queryService
@@ -157,18 +162,19 @@ PRIMARY KEY(objectId));
   }
 
   @Test
-  fun testGenerateForEcoOwl() {
+  fun printResultOfGenerateToFile() {
     val generationService = GenerationServiceImpl(
       ontologyService,
+      ontologyReductionService,
       databaseSchemeService,
       databaseGenerationService,
       queryService
     )
 
-    generationService.generate("C:\\Users\\leonz\\Downloads\\eco.owl")
+    generationService.generate("C:\\Users\\leonz\\Downloads\\cbo.owl")
 
     val timestamp = DateTimeFormatter.ofPattern("yyyyMMddmmssSSSS").format(LocalDateTime.now())
-    val file = File("results\\${timestamp}_eco.sql")
+    val file = File("results\\${timestamp}_cbo.sql")
     if (!file.exists()) {
       file.createNewFile()
     }
