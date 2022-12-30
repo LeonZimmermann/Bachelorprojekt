@@ -59,7 +59,7 @@ internal class DatabaseSchemeServiceImpl : DatabaseSchemeService {
     entry: Map.Entry<OntResource, List<OntProperty>>
   ): TableScheme {
     val foreignKeys = entry.value.filter { it.isObjectProperty }
-      .map { ForeignKeyScheme(it.getLabel("EN"), it.range.localName, TABLE_PRIMARY_KEY_IDENTIFIER) }
+      .map { ForeignKeyScheme(it.getLabel("EN"), it.range.getLabel("EN") ?: it.range.localName, TABLE_PRIMARY_KEY_IDENTIFIER) }
       .toTypedArray()
     return TableScheme(
       entry.key.getLabel("EN"),

@@ -29,10 +29,13 @@ class PropertyMapper(private val model: OntModel) {
   }
 
   private fun mapObjectPropertyToResult(property: OntProperty) {
+    if (objectPropertyIsSelfReferencing(property)) {
+      return
+    }
     model.createObjectProperty(property.localName).apply {
       setLabel(getLabelFor(property), "EN")
       setDomain(domainOfProperty(property))
-      setRange(property.range)
+      setRange(rangeOfProperty(property))
     }
   }
 
@@ -43,12 +46,18 @@ class PropertyMapper(private val model: OntModel) {
     model.createDatatypeProperty(property.localName).apply {
       setLabel(getLabelFor(property), "EN")
       setDomain(domainOfProperty(property))
-      setRange(property.range)
+      setRange(rangeOfProperty(property))
     }
   }
 
+  private fun objectPropertyIsSelfReferencing(property: OntProperty) =
+    domainOfProperty(property) == rangeOfProperty(property)
+
   private fun domainOfProperty(property: OntProperty): OntResource =
     model.getOntClass(property.domain.localName) ?: property.domain
+
+  private fun rangeOfProperty(property: OntProperty): OntResource =
+    model.getOntClass(property.range.localName) ?: property.range
 
   private fun getLabelFor(resource: OntResource) =
     (resource.getLabel("EN") ?: resource.localName)
