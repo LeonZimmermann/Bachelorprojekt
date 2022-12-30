@@ -41,52 +41,12 @@ class OntologyServiceImpl : OntologyService {
     tables.forEach { table ->
       val ontClass = result.createClass(table.localName)
       ontClass.setLabel(getLabelFor(table).replaceFirstChar { it.titlecase(Locale.getDefault()) }, "EN")
-      table.listDeclaredProperties().toList().forEach { property ->
-        mapPropertyToResult(property, result)
-      }
+      PropertyMapper(result).mapPropertiesToResult(table.listDeclaredProperties().toList())
       table.listInstances().toList().forEach { instance ->
         mapInstanceToResult(ontClass, instance)
       }
     }
     return result
-  }
-
-  private fun mapPropertyToResult(property: OntProperty, model: OntModel) {
-    if (property.domain == null ||
-      property.range == null ||
-      property.range.localName == null
-    ) {
-      return
-    }
-    if (property.isObjectProperty) {
-      mapObjectPropertyToResult(model, property)
-    } else if (property.isDatatypeProperty) {
-      mapDatatypePropertyToResult(property, model)
-    }
-  }
-
-  private fun mapObjectPropertyToResult(
-    model: OntModel,
-    property: OntProperty
-  ) {
-    val referenceToNewObjectProperty = model.createObjectProperty(property.localName)
-    referenceToNewObjectProperty.setLabel(getLabelFor(property), "EN")
-    referenceToNewObjectProperty.setDomain(
-      model.getOntClass(property.domain.localName) ?: property.domain
-    )
-    referenceToNewObjectProperty.setRange(property.range)
-  }
-
-  private fun mapDatatypePropertyToResult(property: OntProperty, model: OntModel) {
-    if (!isNumber(property) && !isString(property)) {
-      return
-    }
-    val referenceToNewDatatypeProperty = model.createDatatypeProperty(property.localName)
-    referenceToNewDatatypeProperty.setLabel(getLabelFor(property), "EN")
-    referenceToNewDatatypeProperty.setDomain(
-      model.getOntClass(property.domain.localName) ?: property.domain
-    )
-    referenceToNewDatatypeProperty.setRange(property.range)
   }
 
   private fun mapInstanceToResult(ontClass: OntClass, instance: OntResource) {
