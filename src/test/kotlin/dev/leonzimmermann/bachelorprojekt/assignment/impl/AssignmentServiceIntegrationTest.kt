@@ -23,10 +23,10 @@ import kotlin.random.Random
 @RunWith(SpringRunner::class)
 class AssignmentServiceIntegrationTest {
 
-  @MockBean
+  @Autowired
   private lateinit var ontologyService: OntologyServiceImpl
 
-  @MockBean
+  @Autowired
   private lateinit var databaseSchemeService: DatabaseSchemeServiceImpl
 
   @Autowired
@@ -44,10 +44,8 @@ class AssignmentServiceIntegrationTest {
     )
     val generationOptions = GenerationOptions(Random(1000), IntRange(1, 5))
     val databaseScheme = DatabaseScheme(arrayOf(getAdressTableScheme()))
-    given(ontologyService.createEROntology("customontology.ttl")).willReturn(ModelFactory.createOntologyModel())
-    given(databaseSchemeService.createDatabaseSchemeFromOntology(any())).willReturn(databaseScheme)
     // When
-    val assignment = assignmentService.generateNewAssignment(generationOptions)
+    val assignment = assignmentService.generateNewAssignment(databaseScheme, generationOptions)
     // Then
     // TODO If the where-clause contains an equals expression, the property should not be part of the select
     assertThat(assignment.stem).isEqualTo("Query all the state where the state equals to Brandenburg.")
