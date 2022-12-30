@@ -2,6 +2,7 @@ package dev.leonzimmermann.bachelorprojekt.external.controllers
 
 import dev.leonzimmermann.bachelorprojekt.assignment.AssignmentService
 import dev.leonzimmermann.bachelorprojekt.assignment.GenerationOptions
+import dev.leonzimmermann.bachelorprojekt.services.database.scheme.DatabaseScheme
 import org.hibernate.QueryException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -17,7 +18,7 @@ class AssignmentController(private val assignmentService: AssignmentService) {
 
   @GetMapping("/create")
   fun createAssignment(): ResponseEntity<Any> {
-    return ResponseEntity(assignmentService.generateNewAssignment(GenerationOptions(Random(1000), IntRange(1, 5))), HttpStatus.OK)
+    return ResponseEntity(assignmentService.generateNewAssignment(DatabaseScheme(arrayOf()), GenerationOptions(Random(1000), IntRange(1, 5))), HttpStatus.OK)
   }
 
   @PostMapping("/validate/{objectId}")
