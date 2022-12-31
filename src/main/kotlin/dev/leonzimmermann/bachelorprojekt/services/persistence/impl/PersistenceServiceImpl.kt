@@ -1,5 +1,6 @@
 package dev.leonzimmermann.bachelorprojekt.services.persistence.impl
 
+import com.google.gson.Gson
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.DatabaseScheme
 import dev.leonzimmermann.bachelorprojekt.services.persistence.PersistenceService
 import kotlinx.coroutines.Dispatchers
@@ -10,9 +11,6 @@ import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.riot.RDFDataMgr
 import org.springframework.stereotype.Service
 import java.io.File
-import java.io.IOException
-import java.io.ObjectInputStream
-import java.io.ObjectOutputStream
 import java.nio.file.Files
 import kotlin.io.path.Path
 import kotlin.io.path.name
@@ -21,7 +19,7 @@ import kotlin.streams.toList
 @Service
 class PersistenceServiceImpl : PersistenceService {
 
-  override suspend fun saveOntologyToDisk(fileName: String, ontology: OntModel) =
+  override suspend fun saveOntologyToDisk(fileName: String, ontology: OntModel): Boolean =
     withContext(Dispatchers.IO) {
       createDirIfItDoesntExist()
       val file = File("$DIRECTORY$fileName.xml")
@@ -35,26 +33,24 @@ class PersistenceServiceImpl : PersistenceService {
       fileCreated
     }
 
-  override suspend fun saveDatabaseSchemeToDisk(fileName: String, databaseScheme: DatabaseScheme) =
+  override suspend fun saveDatabaseSchemeToDisk(fileName: String, databaseScheme: DatabaseScheme): Boolean =
     withContext(Dispatchers.IO) {
       createDirIfItDoesntExist()
       val file = File("$DIRECTORY$fileName.json")
       throwExceptionIfAlreadyExists(file, fileName)
-      var successful = file.createNewFile()
-      if (successful) {
-        ObjectOutputStream(file.outputStream()).use {
-          try {
-            it.writeObject(databaseScheme)
-          } catch (e: IOException) {
-            removeFile(file.name)
-            successful = false
-          }
-        }
+      try {
+        if (file.createNewFile()) {
+          file.writeText(Gson().toJson(databaseScheme))
+          true
+        } else false
+      } catch (e: Exception) {
+        e.printStackTrace()
+        removeFile(file.name)
+        false
       }
-      successful
     }
 
-  override suspend fun saveSQLToDisk(fileName: String, queries: List<String>) =
+  override suspend fun saveSQLToDisk(fileName: String, queries: List<String>): Boolean =
     withContext(Dispatchers.IO) {
       createDirIfItDoesntExist()
       val file = File("$DIRECTORY$fileName.sql")
@@ -66,7 +62,7 @@ class PersistenceServiceImpl : PersistenceService {
       fileCreated
     }
 
-  override suspend fun loadOntologyFromDisk(fileName: String) = withContext(Dispatchers.IO) {
+  override suspend fun loadOntologyFromDisk(fileName: String): OntModel = withContext(Dispatchers.IO) {
     val file = File("$DIRECTORY$fileName.xml")
     throwExceptionIfFileDoesntExist(file, fileName)
     ModelFactory.createOntologyModel(
@@ -75,15 +71,13 @@ class PersistenceServiceImpl : PersistenceService {
     )
   }
 
-  override suspend fun loadDatabaseSchemeFromDisk(fileName: String) = withContext(Dispatchers.IO) {
-    val file = File("$DIRECTORY$fileName.sql")
+  override suspend fun loadDatabaseSchemeFromDisk(fileName: String): DatabaseScheme = withContext(Dispatchers.IO) {
+    val file = File("$DIRECTORY$fileName.json")
     throwExceptionIfFileDoesntExist(file, fileName)
-    ObjectInputStream(file.inputStream()).use {
-      it.readObject() as DatabaseScheme
-    }
+    Gson().fromJson(file.readText(), DatabaseScheme::class.java)
   }
 
-  override suspend fun loadSQLFromDisk(fileName: String) = withContext(Dispatchers.IO) {
+  override suspend fun loadSQLFromDisk(fileName: String): List<String> = withContext(Dispatchers.IO) {
     val file = File("$DIRECTORY$fileName.sql")
     throwExceptionIfFileDoesntExist(file, fileName)
     file.readLines().joinToString().split(QUERY_SEPERATOR)
@@ -126,7 +120,7 @@ class PersistenceServiceImpl : PersistenceService {
   }
 
   companion object {
-    private const val DIRECTORY = "./persistence/"
+    private const val DIRECTORY = ".\\persistence\\"
     private const val QUERY_SEPERATOR = "\n\n"
   }
 
