@@ -31,6 +31,7 @@ dependencies {
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   implementation("org.springdoc:springdoc-openapi-ui:1.6.14")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 
   // SimpleNLG
   implementation("uk.ac.abdn:SimpleNLG:4.5.0")

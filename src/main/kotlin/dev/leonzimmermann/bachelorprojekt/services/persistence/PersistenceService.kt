@@ -4,13 +4,15 @@ import dev.leonzimmermann.bachelorprojekt.services.database.scheme.DatabaseSchem
 import org.apache.jena.ontology.OntModel
 
 interface PersistenceService {
-  fun saveOntologyToDisk(fileName: String, ontology: OntModel)
-  fun saveDatabaseSchemeToDisk(fileName: String, databaseScheme: DatabaseScheme)
-  fun saveSQLToDisk(fileName: String, queries: List<String>)
+  suspend fun saveOntologyToDisk(fileName: String, ontology: OntModel): Boolean
+  suspend fun saveDatabaseSchemeToDisk(fileName: String, databaseScheme: DatabaseScheme): Boolean
+  suspend fun saveSQLToDisk(fileName: String, queries: List<String>): Boolean
 
-  fun loadOntologyFromDisk(fileName: String): OntModel
-  fun loadDatabaseSchemeFromDisk(fileName: String): DatabaseScheme
-  fun loadSQLFromDisk(fileName: String): List<String>
+  suspend fun loadOntologyFromDisk(fileName: String): OntModel
+  suspend fun loadDatabaseSchemeFromDisk(fileName: String): DatabaseScheme
+  suspend fun loadSQLFromDisk(fileName: String): List<String>
 
-  fun listFiles(): List<String>
+  suspend fun removeFile(fileName: String): Boolean
+
+  suspend fun listFiles(): List<String>
 }
