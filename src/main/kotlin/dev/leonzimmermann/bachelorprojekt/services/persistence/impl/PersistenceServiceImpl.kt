@@ -4,7 +4,6 @@ import dev.leonzimmermann.bachelorprojekt.services.database.scheme.DatabaseSchem
 import dev.leonzimmermann.bachelorprojekt.services.persistence.PersistenceService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.Json
 import org.apache.jena.ontology.OntModel
 import org.apache.jena.ontology.OntModelSpec
 import org.apache.jena.rdf.model.ModelFactory
