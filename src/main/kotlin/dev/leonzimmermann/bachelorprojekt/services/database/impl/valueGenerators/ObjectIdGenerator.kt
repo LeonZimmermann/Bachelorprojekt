@@ -5,7 +5,8 @@ import dev.leonzimmermann.bachelorprojekt.services.database.scheme.PropertyValue
 import kotlin.random.Random
 
 internal class ObjectIdGenerator: PropertyValueGenerator {
-  private var nextObjectId: Long = 0
+  var nextObjectId: Long = 0
+    private set
 
   override val datatype: Datatype
     get() = Datatype.LONG

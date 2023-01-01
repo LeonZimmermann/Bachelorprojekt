@@ -9,15 +9,18 @@ import org.apache.jena.ontology.OntModel
 import org.apache.jena.ontology.OntModelSpec
 import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.riot.RDFDataMgr
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.io.File
 import java.nio.file.Files
 import kotlin.io.path.Path
 import kotlin.io.path.name
-import kotlin.streams.toList
 
 @Service
 class PersistenceServiceImpl : PersistenceService {
+
+  private val logger: Logger = LoggerFactory.getLogger(javaClass)
 
   override suspend fun saveOntologyToDisk(fileName: String, ontology: OntModel): Boolean =
     withContext(Dispatchers.IO) {
@@ -29,6 +32,7 @@ class PersistenceServiceImpl : PersistenceService {
         file.outputStream().use {
           ontology.write(it)
         }
+        logger.debug("PersistenceServiceImpl: saved $fileName")
       }
       fileCreated
     }
@@ -41,10 +45,12 @@ class PersistenceServiceImpl : PersistenceService {
       try {
         if (file.createNewFile()) {
           file.writeText(Gson().toJson(databaseScheme))
+          logger.debug("PersistenceServiceImpl: saved $fileName")
           true
         } else false
       } catch (e: Exception) {
         e.printStackTrace()
+        logger.error("PersistenceServiceImpl: could not save $fileName. Removing file...")
         removeFile(file.name)
         false
       }
@@ -58,6 +64,7 @@ class PersistenceServiceImpl : PersistenceService {
       val fileCreated = file.createNewFile()
       if (fileCreated) {
         file.writeText(queries.joinToString(QUERY_SEPERATOR))
+        logger.debug("PersistenceServiceImpl: saved $fileName")
       }
       fileCreated
     }
@@ -65,27 +72,31 @@ class PersistenceServiceImpl : PersistenceService {
   override suspend fun loadOntologyFromDisk(fileName: String): OntModel = withContext(Dispatchers.IO) {
     val file = File("$DIRECTORY$fileName.xml")
     throwExceptionIfFileDoesntExist(file, fileName)
+    logger.debug("PersistenceServiceImpl: loading $fileName")
     ModelFactory.createOntologyModel(
       OntModelSpec(OntModelSpec.OWL_MEM),
-      RDFDataMgr.loadModel(file.path)
+      RDFDataMgr.loadModel(file.absolutePath)
     )
   }
 
   override suspend fun loadDatabaseSchemeFromDisk(fileName: String): DatabaseScheme = withContext(Dispatchers.IO) {
     val file = File("$DIRECTORY$fileName.json")
     throwExceptionIfFileDoesntExist(file, fileName)
-    Gson().fromJson(file.readText(), DatabaseScheme::class.java)
+    logger.debug("PersistenceServiceImpl: loading $fileName")
+    DatabaseScheme.fromJson(file.readText())
   }
 
   override suspend fun loadSQLFromDisk(fileName: String): List<String> = withContext(Dispatchers.IO) {
     val file = File("$DIRECTORY$fileName.sql")
     throwExceptionIfFileDoesntExist(file, fileName)
+    logger.debug("PersistenceServiceImpl: loading $fileName")
     file.readLines().joinToString().split(QUERY_SEPERATOR)
   }
 
   override suspend fun removeFile(fileName: String) = withContext(Dispatchers.IO) {
     val file = File("$DIRECTORY$fileName")
     throwExceptionIfFileDoesntExist(file, fileName)
+    logger.debug("PersistenceServiceImpl: removing file \"$fileName\"")
     file.delete()
   }
 
@@ -98,7 +109,7 @@ class PersistenceServiceImpl : PersistenceService {
       if (file.exists()) {
         throw IllegalArgumentException(
           "File $fileName already exists! List of files: " +
-              listFiles().joinToString(", ")
+              listFiles().joinToString(", ").ifEmpty { "no files found" }
         )
       }
     }
@@ -108,19 +119,20 @@ class PersistenceServiceImpl : PersistenceService {
       if (!file.exists()) {
         throw IllegalArgumentException(
           "File $fileName was not found! List of files: " +
-              listFiles().joinToString(", ")
+              listFiles().joinToString(", ").ifEmpty { "no files found" }
         )
       }
     }
 
   private fun createDirIfItDoesntExist() {
     if (Files.notExists(Path(DIRECTORY))) {
+      logger.debug("PersistenceServiceImpl: creating directory $DIRECTORY")
       Files.createDirectory(Path(DIRECTORY))
     }
   }
 
   companion object {
-    private const val DIRECTORY = ".\\persistence\\"
+    private const val DIRECTORY = "./persistence/"
     private const val QUERY_SEPERATOR = "\n\n"
   }
 
