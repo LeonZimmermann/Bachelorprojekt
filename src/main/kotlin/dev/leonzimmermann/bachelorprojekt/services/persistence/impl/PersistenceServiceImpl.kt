@@ -44,7 +44,7 @@ class PersistenceServiceImpl : PersistenceService {
       throwExceptionIfAlreadyExists(file, fileName)
       try {
         if (file.createNewFile()) {
-          file.writeText(Gson().toJson(databaseScheme))
+          file.writeText(databaseScheme.toJson())
           logger.debug("PersistenceServiceImpl: saved $fileName")
           true
         } else false
