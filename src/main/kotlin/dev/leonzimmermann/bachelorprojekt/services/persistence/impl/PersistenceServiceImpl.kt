@@ -56,7 +56,7 @@ class PersistenceServiceImpl : PersistenceService {
       }
     }
 
-  override suspend fun saveSQLToDisk(fileName: String, queries: List<String>): Boolean =
+  override suspend fun saveSQLToDisk(fileName: String, queries: Array<String>): Boolean =
     withContext(Dispatchers.IO) {
       createDirIfItDoesntExist()
       val file = File("$DIRECTORY$fileName.sql")
@@ -86,11 +86,11 @@ class PersistenceServiceImpl : PersistenceService {
     DatabaseScheme.fromJson(file.readText())
   }
 
-  override suspend fun loadSQLFromDisk(fileName: String): List<String> = withContext(Dispatchers.IO) {
+  override suspend fun loadSQLFromDisk(fileName: String): Array<String> = withContext(Dispatchers.IO) {
     val file = File("$DIRECTORY$fileName.sql")
     throwExceptionIfFileDoesntExist(file, fileName)
     logger.debug("PersistenceServiceImpl: loading $fileName")
-    file.readLines().joinToString().split(QUERY_SEPERATOR)
+    file.readLines().joinToString("\n").split(QUERY_SEPERATOR).toTypedArray()
   }
 
   override suspend fun removeFile(fileName: String) = withContext(Dispatchers.IO) {
@@ -100,15 +100,18 @@ class PersistenceServiceImpl : PersistenceService {
     file.delete()
   }
 
-  override suspend fun listFiles() = withContext(Dispatchers.IO) {
-    Files.list(Path(DIRECTORY)).toList().map { it.fileName.name }
+  override suspend fun listFiles(): Array<String> = withContext(Dispatchers.IO) {
+    Files.list(Path(DIRECTORY))
+      .map { it.fileName.name }
+      .toList()
+      .toTypedArray()
   }
 
   private suspend fun throwExceptionIfAlreadyExists(file: File, fileName: String) =
     withContext(Dispatchers.IO) {
       if (file.exists()) {
         throw IllegalArgumentException(
-          "File $fileName already exists! List of files: " +
+          "File $fileName already exists! Array of files: " +
               listFiles().joinToString(", ").ifEmpty { "no files found" }
         )
       }
@@ -118,7 +121,7 @@ class PersistenceServiceImpl : PersistenceService {
     withContext(Dispatchers.IO) {
       if (!file.exists()) {
         throw IllegalArgumentException(
-          "File $fileName was not found! List of files: " +
+          "File $fileName was not found! Array of files: " +
               listFiles().joinToString(", ").ifEmpty { "no files found" }
         )
       }

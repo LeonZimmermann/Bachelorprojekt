@@ -44,6 +44,36 @@ class PersistenceServiceUnitTest {
         }
     }
 
+    @Test
+    fun testPersistenceForSQL() {
+        val queries = arrayOf(
+            """
+                CREATE TABLE Address(
+                objectId INT NOT NULL,
+                city VARCHAR NOT NULL,
+                streetNumber VARCHAR NOT NULL,
+                state VARCHAR NOT NULL,
+                country VARCHAR NOT NULL,
+                street VARCHAR NOT NULL,
+                postalCode VARCHAR NOT NULL,
+                PRIMARY KEY(objectId));
+            """.trimIndent(),
+            """
+                CREATE TABLE Person(
+                objectId INT NOT NULL,
+                firstname VARCHAR NOT NULL,
+                lastname VARCHAR NOT NULL,
+                address VARCHAR NOT NULL,
+                PRIMARY KEY(objectId));
+            """.trimIndent()
+        )
+        val fileName = "testPersistenceForSQL"
+        runBlocking {
+            assertThat(persistenceService.saveSQLToDisk(fileName, queries)).isTrue
+            assertThat(persistenceService.loadSQLFromDisk(fileName)).isEqualTo(queries)
+        }
+    }
+
     @After
     fun teardown() {
         logger.debug("PersistenceServiceUnitTest: teardown")

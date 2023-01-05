@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Path
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -56,6 +58,9 @@ class GenerationServiceIntegrationTest {
   private fun logToFile(name: String) {
     val timestamp = DateTimeFormatter.ofPattern("yyyyMMddmmssSSSS").format(LocalDateTime.now())
     val file = File("results\\${timestamp}_$name.sql")
+    if (!Files.exists(Path.of("results"))) {
+      Files.createDirectory(Path.of("results"))
+    }
     if (!file.exists()) {
       file.createNewFile()
     }
