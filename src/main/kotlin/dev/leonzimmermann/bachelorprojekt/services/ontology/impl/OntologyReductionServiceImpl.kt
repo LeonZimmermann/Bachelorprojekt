@@ -1,7 +1,7 @@
 package dev.leonzimmermann.bachelorprojekt.services.ontology.impl
 
 import dev.leonzimmermann.bachelorprojekt.generation.OntologyReductionService
-import dev.leonzimmermann.bachelorprojekt.services.ontology.OntologyReductionOptions
+import dev.leonzimmermann.bachelorprojekt.generation.OntologyReductionOptions
 import org.apache.jena.ontology.OntClass
 import org.apache.jena.ontology.OntModel
 import org.apache.jena.ontology.OntProperty
@@ -26,9 +26,9 @@ class OntologyReductionServiceImpl : OntologyReductionService {
   }
 
   private fun replaceReferencesToSmallerEntitiesWithPrimitiveDatatype(
-    sortedClasses: List<OntClass>,
-    ontologyReductionOptions: OntologyReductionOptions,
-    ontModel: OntModel
+      sortedClasses: List<OntClass>,
+      ontologyReductionOptions: OntologyReductionOptions,
+      ontModel: OntModel
   ) {
     val largestEntities = sortedClasses.subList(0, ontologyReductionOptions.numberOfTables)
     largestEntities.forEach { entity ->

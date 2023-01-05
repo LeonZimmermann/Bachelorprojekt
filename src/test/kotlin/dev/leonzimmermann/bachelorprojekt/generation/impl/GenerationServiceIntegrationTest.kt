@@ -5,12 +5,11 @@ import dev.leonzimmermann.bachelorprojekt.generation.OntologyService
 import dev.leonzimmermann.bachelorprojekt.assignment.QueryService
 import dev.leonzimmermann.bachelorprojekt.generation.DatabaseGenerationService
 import dev.leonzimmermann.bachelorprojekt.generation.OntologyReductionService
-import dev.leonzimmermann.bachelorprojekt.services.ontology.OntologyReductionOptions
+import dev.leonzimmermann.bachelorprojekt.generation.OntologyReductionOptions
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.kotlin.mockingDetails
-import org.mockito.kotlin.verify
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
