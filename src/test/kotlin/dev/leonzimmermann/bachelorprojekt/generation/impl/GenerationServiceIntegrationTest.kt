@@ -45,7 +45,6 @@ class GenerationServiceIntegrationTest {
       ontologyReductionService,
       databaseSchemeService,
       databaseGenerationService,
-      queryService
     )
     val ontologyUri = "customontology.ttl"
 
