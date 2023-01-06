@@ -10,6 +10,11 @@ import simplenlg.framework.NLGFactory
 import simplenlg.lexicon.Lexicon
 import simplenlg.realiser.english.Realiser
 
+/**
+ * The AssignmentService manages the interaction with a student. It creates a database and assignments
+ * that correspond to the created database. The user can give a solution for an assignment that is
+ * then validated by the AssignmentService.
+ */
 @Service
 internal class AssignmentServiceImpl(
     private val generationDataReader: GenerationDataReader,
