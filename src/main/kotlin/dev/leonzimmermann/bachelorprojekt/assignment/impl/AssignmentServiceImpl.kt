@@ -25,9 +25,12 @@ internal class AssignmentServiceImpl(
     private val lexicon = Lexicon.getDefaultLexicon()
     private val nlgFactory = NLGFactory(lexicon)
     private val realiser = Realiser(lexicon)
+
     override fun setupDatabase(fileName: String) {
-        val queries = runBlocking { generationDataReader.loadSQLFromDisk(fileName) }
-        // TODO Start new DBMS and open connection
+        queryService.executeQuery("DROP DATABASE AssignmentDatabase")
+        queryService.executeQuery("CREATE DATABASE AssignmentDatabase")
+        runBlocking { generationDataReader.loadSQLFromDisk(fileName) }
+            .forEach { queryService.executeQuery(it) }
     }
 
     override fun generateNewAssignment(
