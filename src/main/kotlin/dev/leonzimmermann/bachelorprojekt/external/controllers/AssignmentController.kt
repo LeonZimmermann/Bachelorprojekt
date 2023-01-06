@@ -14,32 +14,40 @@ import kotlin.random.Random
 @RequestMapping("/assignment")
 class AssignmentController(private val assignmentService: AssignmentService) {
 
-  private val logger = LoggerFactory.getLogger(javaClass.name)
+    private val logger = LoggerFactory.getLogger(javaClass.name)
 
-  @GetMapping("/create")
-  fun createAssignment(): ResponseEntity<Any> {
-    return ResponseEntity(assignmentService.generateNewAssignment(DatabaseScheme(arrayOf()), GenerationOptions(Random(1000), IntRange(1, 5))), HttpStatus.OK)
-  }
-
-  @PostMapping("/validate/{objectId}")
-  fun validateAssignment(
-    @RequestParam("objectId") objectId: Long,
-    @RequestBody solution: String
-  ): ResponseEntity<Any> {
-    return try {
-      val listOfDiscrepancies = assignmentService.validateSolution(objectId, solution)
-      if (listOfDiscrepancies.isEmpty()) {
-        ResponseEntity("Correct!", HttpStatus.OK)
-      } else {
-        ResponseEntity(listOfDiscrepancies.joinToString(". ", "False... [", "]"), HttpStatus.OK)
-      }
-    } catch (e: QueryException) {
-      logger.error(e.stackTraceToString())
-      ResponseEntity("Invalid query", HttpStatus.BAD_REQUEST)
-    } catch (e: Exception) {
-      logger.error(e.stackTraceToString())
-      ResponseEntity(e.localizedMessage, HttpStatus.BAD_REQUEST)
+    @GetMapping("/create")
+    fun createAssignment(): ResponseEntity<Any> {
+        return ResponseEntity(
+            assignmentService.generateNewAssignment(
+                "createAssignmentTest",
+                GenerationOptions(Random(1000), IntRange(1, 5))
+            ), HttpStatus.OK
+        )
     }
-  }
+
+    @PostMapping("/validate/{objectId}")
+    fun validateAssignment(
+        @RequestParam("objectId") objectId: Long,
+        @RequestBody solution: String
+    ): ResponseEntity<Any> {
+        return try {
+            val listOfDiscrepancies = assignmentService.validateSolution(objectId, solution)
+            if (listOfDiscrepancies.isEmpty()) {
+                ResponseEntity("Correct!", HttpStatus.OK)
+            } else {
+                ResponseEntity(
+                    listOfDiscrepancies.joinToString(". ", "False... [", "]"),
+                    HttpStatus.OK
+                )
+            }
+        } catch (e: QueryException) {
+            logger.error(e.stackTraceToString())
+            ResponseEntity("Invalid query", HttpStatus.BAD_REQUEST)
+        } catch (e: Exception) {
+            logger.error(e.stackTraceToString())
+            ResponseEntity(e.localizedMessage, HttpStatus.BAD_REQUEST)
+        }
+    }
 
 }

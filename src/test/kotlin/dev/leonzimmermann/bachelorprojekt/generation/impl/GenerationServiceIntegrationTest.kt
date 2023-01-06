@@ -1,15 +1,12 @@
 package dev.leonzimmermann.bachelorprojekt.generation.impl
 
-import dev.leonzimmermann.bachelorprojekt.generation.DatabaseSchemeService
-import dev.leonzimmermann.bachelorprojekt.generation.OntologyService
 import dev.leonzimmermann.bachelorprojekt.assignment.QueryService
-import dev.leonzimmermann.bachelorprojekt.generation.DatabaseGenerationService
-import dev.leonzimmermann.bachelorprojekt.generation.OntologyReductionService
-import dev.leonzimmermann.bachelorprojekt.generation.OntologyReductionOptions
+import dev.leonzimmermann.bachelorprojekt.generation.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.kotlin.mockingDetails
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
@@ -23,49 +20,36 @@ import java.time.format.DateTimeFormatter
 @RunWith(SpringRunner::class)
 class GenerationServiceIntegrationTest {
 
-  @Autowired
-  private lateinit var ontologyService: OntologyService
+    private val logger = LoggerFactory.getLogger(javaClass)
 
-  @Autowired
-  private lateinit var ontologyReductionService: OntologyReductionService
+    @Autowired
+    private lateinit var ontologyService: OntologyService
 
-  @Autowired
-  private lateinit var databaseSchemeService: DatabaseSchemeService
+    @Autowired
+    private lateinit var ontologyReductionService: OntologyReductionService
 
-  @Autowired
-  private lateinit var databaseGenerationService: DatabaseGenerationService
+    @Autowired
+    private lateinit var databaseSchemeService: DatabaseSchemeService
 
-  @Mock
-  private lateinit var queryService: QueryService
+    @Autowired
+    private lateinit var databaseGenerationService: DatabaseGenerationService
 
-  @Test
-  fun testGenerateForCustomOntologyTtl() {
-    val generationService = GenerationServiceImpl(
-      ontologyService,
-      ontologyReductionService,
-      databaseSchemeService,
-      databaseGenerationService,
-    )
-    val ontologyUri = "customontology.ttl"
+    @Mock
+    private lateinit var generationDataWriter: GenerationDataWriter
 
-    generationService.generate(ontologyUri, OntologyReductionOptions(3))
+    @Test
+    fun testGenerateForCustomOntologyTtl() {
+        val generationService = GenerationServiceImpl(
+            ontologyService,
+            ontologyReductionService,
+            databaseSchemeService,
+            databaseGenerationService,
+            generationDataWriter
+        )
+        val ontologyUri = "customontology.ttl"
 
-    logToFile("customontology")
-  }
+        val generationData = generationService.generate(ontologyUri, OntologyReductionOptions(3))
 
-  private fun logToFile(name: String) {
-    val timestamp = DateTimeFormatter.ofPattern("yyyyMMddmmssSSSS").format(LocalDateTime.now())
-    val file = File("results\\${timestamp}_$name.sql")
-    if (!Files.exists(Path.of("results"))) {
-      Files.createDirectory(Path.of("results"))
+        logger.debug(generationData.toString())
     }
-    if (!file.exists()) {
-      file.createNewFile()
-    }
-    file.writeText(invocationsToSQLText())
-  }
-
-  private fun invocationsToSQLText() = mockingDetails(queryService).invocations
-    .map { it.toString() }
-    .joinToString("\n\n") { it.subSequence(32, it.length - 5) }
 }

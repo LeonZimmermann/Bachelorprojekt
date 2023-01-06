@@ -1,4 +1,4 @@
-package dev.leonzimmermann.bachelorprojekt.assignment.rules
+package dev.leonzimmermann.bachelorprojekt.assignment.impl.rules
 
 import dev.leonzimmermann.bachelorprojekt.assignment.AssignmentValidationRule
 import dev.leonzimmermann.bachelorprojekt.services.query.QueryResult
