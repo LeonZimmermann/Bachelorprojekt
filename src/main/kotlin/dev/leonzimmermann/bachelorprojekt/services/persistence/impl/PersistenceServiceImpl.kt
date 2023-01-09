@@ -1,6 +1,5 @@
 package dev.leonzimmermann.bachelorprojekt.services.persistence.impl
 
-import com.google.gson.Gson
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.DatabaseScheme
 import dev.leonzimmermann.bachelorprojekt.services.persistence.PersistenceService
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +15,7 @@ import java.io.File
 import java.nio.file.Files
 import kotlin.io.path.Path
 import kotlin.io.path.name
+import kotlin.streams.toList
 
 @Service
 class PersistenceServiceImpl : PersistenceService {
