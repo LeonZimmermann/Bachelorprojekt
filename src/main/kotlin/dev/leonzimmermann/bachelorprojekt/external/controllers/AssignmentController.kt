@@ -2,7 +2,6 @@ package dev.leonzimmermann.bachelorprojekt.external.controllers
 
 import dev.leonzimmermann.bachelorprojekt.assignment.AssignmentService
 import dev.leonzimmermann.bachelorprojekt.assignment.GenerationOptions
-import dev.leonzimmermann.bachelorprojekt.services.database.scheme.DatabaseScheme
 import org.hibernate.QueryException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -15,13 +14,16 @@ import kotlin.random.Random
 class AssignmentController(private val assignmentService: AssignmentService) {
 
     private val logger = LoggerFactory.getLogger(javaClass.name)
-
+    private val random = Random(1000)
     @GetMapping("/create")
-    fun createAssignment(): ResponseEntity<Any> {
+    fun createAssignment(@RequestParam(defaultValue = "") fileName: String): ResponseEntity<*> {
+        if (fileName.isBlank()) {
+            return ResponseEntity<String>("No filename supplied!", HttpStatus.BAD_REQUEST)
+        }
         return ResponseEntity(
             assignmentService.generateNewAssignment(
-                "createAssignmentTest",
-                GenerationOptions(Random(1000), IntRange(1, 5))
+                fileName,
+                GenerationOptions(random, IntRange(1, 5))
             ), HttpStatus.OK
         )
     }
@@ -30,7 +32,7 @@ class AssignmentController(private val assignmentService: AssignmentService) {
     fun validateAssignment(
         @RequestParam("objectId") objectId: Long,
         @RequestBody solution: String
-    ): ResponseEntity<Any> {
+    ): ResponseEntity<*> {
         return try {
             val listOfDiscrepancies = assignmentService.validateSolution(objectId, solution)
             if (listOfDiscrepancies.isEmpty()) {

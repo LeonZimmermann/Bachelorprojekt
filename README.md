@@ -45,4 +45,5 @@ First things first, the DBMS needs to be setup.
 
 ## Further Development
 
-TODO
+Rebuild and restart application: `./gradlew clean build -x test && docker build 
+--build-arg JAR_FILE=build/libs/\*.jar -t bachelorprojekt . && docker-compose up`
