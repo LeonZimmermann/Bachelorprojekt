@@ -1,7 +1,7 @@
 package dev.leonzimmermann.bachelorprojekt.services.ontology.impl
 
+import dev.leonzimmermann.bachelorprojekt.generation.DatabaseOptions
 import dev.leonzimmermann.bachelorprojekt.generation.OntologyReductionService
-import dev.leonzimmermann.bachelorprojekt.generation.OntologyReductionOptions
 import org.apache.jena.ontology.OntClass
 import org.apache.jena.ontology.OntModel
 import org.apache.jena.ontology.OntProperty
@@ -12,25 +12,25 @@ class OntologyReductionServiceImpl : OntologyReductionService {
 
   override fun reduceOntology(
     ontModel: OntModel,
-    ontologyReductionOptions: OntologyReductionOptions
+    databaseOptions: DatabaseOptions
   ): OntModel {
     // IMPORTANT! Fetching of OntClasses is expensive!
     val ontClasses = ontModel.listClasses().toList()
-    if (ontologyReductionOptions.numberOfTables > ontClasses.size) {
+    if (databaseOptions.numberOfTables > ontClasses.size) {
       return ontModel
     }
     val sortedClasses = ontClasses.sortedByDescending { it.listDeclaredProperties().toList().size }
-    replaceReferencesToSmallerEntitiesWithPrimitiveDatatype(sortedClasses, ontologyReductionOptions, ontModel)
-    removeSmallerEntities(sortedClasses, ontologyReductionOptions)
+    replaceReferencesToSmallerEntitiesWithPrimitiveDatatype(sortedClasses, databaseOptions, ontModel)
+    removeSmallerEntities(sortedClasses, databaseOptions)
     return ontModel
   }
 
   private fun replaceReferencesToSmallerEntitiesWithPrimitiveDatatype(
-      sortedClasses: List<OntClass>,
-      ontologyReductionOptions: OntologyReductionOptions,
-      ontModel: OntModel
+    sortedClasses: List<OntClass>,
+    databaseOptions: DatabaseOptions,
+    ontModel: OntModel
   ) {
-    val largestEntities = sortedClasses.subList(0, ontologyReductionOptions.numberOfTables)
+    val largestEntities = sortedClasses.subList(0, databaseOptions.numberOfTables)
     largestEntities.forEach { entity ->
         entity.listDeclaredProperties().toList()
           .filter {
@@ -51,9 +51,9 @@ class OntologyReductionServiceImpl : OntologyReductionService {
 
   private fun removeSmallerEntities(
     sortedClasses: List<OntClass>,
-    ontologyReductionOptions: OntologyReductionOptions
+    databaseOptions: DatabaseOptions
   ) {
-    sortedClasses.subList(ontologyReductionOptions.numberOfTables, sortedClasses.size).forEach {
+    sortedClasses.subList(databaseOptions.numberOfTables, sortedClasses.size).forEach {
       it.remove()
     }
   }

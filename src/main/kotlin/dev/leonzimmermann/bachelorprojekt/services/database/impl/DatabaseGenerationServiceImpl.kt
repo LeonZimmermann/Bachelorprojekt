@@ -1,15 +1,20 @@
 package dev.leonzimmermann.bachelorprojekt.services.database.impl
 
 import dev.leonzimmermann.bachelorprojekt.generation.DatabaseGenerationService
+import dev.leonzimmermann.bachelorprojekt.generation.DatabaseOptions
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
 import org.springframework.stereotype.Service
+import kotlin.random.Random
 
 @Service
 internal class DatabaseGenerationServiceImpl : DatabaseGenerationService {
 
+  private val random: Random = Random(1000)
+
   // TODO Add Value-Constraints
-  override fun getDatabaseGenerationQueriesForScheme(databaseScheme: DatabaseScheme): Array<String> {
-    return databaseScheme.tables.map(this::mapTableSchemeToQuery).toTypedArray()
+  override fun getDatabaseGenerationQueriesForScheme(databaseScheme: DatabaseScheme, databaseOptions: DatabaseOptions): Array<String> {
+    return databaseScheme.tables.map(this::mapTableSchemeToQuery).toTypedArray() +
+            DatabaseTableValueInserter(random).createInsertStatements(databaseScheme, databaseOptions.numberOfRows)
   }
 
   private fun mapTableSchemeToQuery(tableScheme: TableScheme): String {

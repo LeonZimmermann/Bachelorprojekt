@@ -6,6 +6,12 @@ import dev.leonzimmermann.bachelorprojekt.services.database.scheme.TableScheme
 import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.IntValueGenerator
 import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.ObjectIdGenerator
 import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.ValueGeneratorFromStringList
+import dev.leonzimmermann.bachelorprojekt.services.database.scheme.DatabaseScheme
+
+fun getDatabaseScheme(): DatabaseScheme = DatabaseScheme(arrayOf(
+    getPersonTableScheme("objectId"),
+    getAdressTableScheme()
+))
 
 fun getAdressTableScheme(): TableScheme {
     return TableScheme(
@@ -30,8 +36,8 @@ fun getPersonTableScheme(primaryKeyIdentifier: String): TableScheme {
         name = "Person", PropertyScheme(primaryKeyIdentifier, ObjectIdGenerator()),
         arrayOf(ForeignKeyScheme("address", "Address", primaryKeyIdentifier)),
         arrayOf(
-            PropertyScheme(name = "firstname", ValueGeneratorFromStringList("")),
-            PropertyScheme(name = "lastname", ValueGeneratorFromStringList("")),
+            PropertyScheme(name = "firstname", ValueGeneratorFromStringList("Leon", "Paul", "Lukas", "Max")),
+            PropertyScheme(name = "lastname", ValueGeneratorFromStringList("Zimmermann", "Mustermann", "Schreiner", "Mueller")),
         )
     )
 }

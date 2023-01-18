@@ -48,7 +48,7 @@ class GenerationServiceIntegrationTest {
         )
         val ontologyUri = "customontology.ttl"
 
-        val generationData = generationService.generate(ontologyUri, OntologyReductionOptions(3))
+        val generationData = generationService.generate(ontologyUri, DatabaseOptions(3, 10))
 
         logger.debug(generationData.toString())
     }

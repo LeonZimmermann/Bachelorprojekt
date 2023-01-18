@@ -1,7 +1,7 @@
 package dev.leonzimmermann.bachelorprojekt.external.controllers
 
+import dev.leonzimmermann.bachelorprojekt.generation.DatabaseOptions
 import dev.leonzimmermann.bachelorprojekt.generation.GenerationService
-import dev.leonzimmermann.bachelorprojekt.generation.OntologyReductionOptions
 import kotlinx.coroutines.runBlocking
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController
 class GenerationController(private val generationService: GenerationService) {
 
   @PostMapping("/generateAndPersist")
-  fun generateAndPersist(@RequestParam fileName: String, @RequestParam ontologyUri: String, @RequestParam numberOfTables: Int) = runBlocking {
+  fun generateAndPersist(@RequestParam fileName: String, @RequestParam ontologyUri: String, @RequestParam numberOfTables: Int, @RequestParam numberOfRows: Int) = runBlocking {
     try {
       generationService.persistGenerationData(
         fileName,
-        generationService.generate(ontologyUri, OntologyReductionOptions(numberOfTables))
+        generationService.generate(ontologyUri, DatabaseOptions(numberOfTables, numberOfRows))
       )
       ResponseEntity<Unit>(HttpStatus.OK)
     } catch (e: Exception) {

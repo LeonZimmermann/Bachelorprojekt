@@ -19,6 +19,8 @@ data class DatabaseScheme(val tables: Array<TableScheme>) {
     return tables.contentHashCode()
   }
 
+  fun getTableForName(tableName: String): TableScheme = tables.find { it.name == tableName }!!
+
   fun toJson(): String = Gson().newBuilder()
     .registerTypeAdapter(PropertyValueGenerator::class.java, PropertyValueGeneratorAdapter())
     .create()

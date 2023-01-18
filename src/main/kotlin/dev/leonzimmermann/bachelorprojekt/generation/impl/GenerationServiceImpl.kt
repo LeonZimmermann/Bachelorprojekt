@@ -15,15 +15,15 @@ internal class GenerationServiceImpl constructor(
 ) : GenerationService {
     override fun generate(
         ontologyUri: String,
-        ontologyReductionOptions: OntologyReductionOptions
+        databaseOptions: DatabaseOptions
     ): GenerationData {
         val generationData = GenerationData()
         ontologyService.createEROntology(ontologyUri)
-            .let { ontologyReductionService.reduceOntology(it, ontologyReductionOptions) }
+            .let { ontologyReductionService.reduceOntology(it, databaseOptions) }
             .let { generationData.setOntology(it) }
             .let { databaseSchemeService.createDatabaseSchemeFromOntology(it) }
             .let { generationData.setDatabaseScheme(it) }
-            .let { databaseGenerationService.getDatabaseGenerationQueriesForScheme(it) }
+            .let { databaseGenerationService.getDatabaseGenerationQueriesForScheme(it, databaseOptions) }
             .let { generationData.setQueries(it) }
         return generationData
     }
