@@ -138,4 +138,19 @@ object FalseExpression : BooleanExpression() {
     nlgFactory.createWord("false", LexicalCategory.ADJECTIVE)
 }
 
-// TODO Add RangeExpression, i.e. AndExpression(GreaterEqualsExpression, SmallerEqualsExpression), to enable different stem creation for this case
+class RangeExpression(
+  private val expression: BooleanExpression,
+  private val lowerBoundary: SQLNumberLiteral,
+  private val upperBoundary: SQLNumberLiteral
+) : BooleanExpression() {
+  override fun toSQLString(): String =
+    "${expression.toSQLString()}>=${lowerBoundary.toSQLString()} AND ${expression.toSQLString()}<=${upperBoundary.toSQLString()}"
+
+  override fun toStemText(nlgFactory: NLGFactory): NLGElement {
+    val rangeStem = nlgFactory.createCoordinatedPhrase()
+    rangeStem.addCoordinate(lowerBoundary.toStemText(nlgFactory))
+    rangeStem.addCoordinate(upperBoundary.toStemText(nlgFactory))
+    rangeStem.setFeature(Feature.CONJUNCTION, "and")
+    return nlgFactory.createClause(expression.toStemText(nlgFactory), "is between", rangeStem)
+  }
+}
