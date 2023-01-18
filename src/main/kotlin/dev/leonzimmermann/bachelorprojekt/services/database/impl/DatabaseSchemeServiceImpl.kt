@@ -115,7 +115,7 @@ internal class DatabaseSchemeServiceImpl : DatabaseSchemeService {
         (0 until NUMBER_OF_RANDOM_FALLBACK_STRINGS).map {
             (0 until LENGTH_OF_RANDOM_FALLBACK_STRINGS).map {
                 (('a'..'z') + ('A'..'Z') + ('0'..'9')).random()
-            }.joinToString()
+            }.joinToString("")
         }.toTypedArray()
 
     private fun logProperties(list: List<Pair<OntResource, OntProperty>>) {
