@@ -14,7 +14,14 @@ is actually running.
 
 ## Postman
 
-TODO
+You can automatically import the API for the application with the following steps:
+1. Start the application and open Postman
+2. Go to Import > Link
+3. Type http://localhost:8080/api-docs
+4. Import the API
+
+Once you imported the applications API, you can find it under the API tab and use the predefined
+requests to interact with the application.
 
 ## Using the application
 
