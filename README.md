@@ -50,6 +50,8 @@ solution, which the students answer will be compared to.
 
 First things first, the DBMS needs to be setup. 
 
+TODO
+
 ## Further Development
 
 Rebuild and restart application: `./gradlew clean build -x test && docker build 
