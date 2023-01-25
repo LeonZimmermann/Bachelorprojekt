@@ -2,6 +2,8 @@ package dev.leonzimmermann.bachelorprojekt.services.sql.impl.booleanexpressionge
 
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.Datatype
 import dev.leonzimmermann.bachelorprojekt.services.database.scheme.PropertyScheme
+import dev.leonzimmermann.bachelorprojekt.services.sql.model.AndExpression
+import dev.leonzimmermann.bachelorprojekt.services.sql.model.EqualsExpression
 import kotlin.random.Random
 
 internal class BooleanExpressionGeneratorFactory {
@@ -12,7 +14,11 @@ internal class BooleanExpressionGeneratorFactory {
     return if (getPropertySchemesWithIntegerType(propertySchemes).isNotEmpty()) {
       RangeExpressionGenerator(random, getPropertySchemesWithIntegerType(propertySchemes))
     } else {
-      EqualsExpressionGenerator(random, propertySchemes)
+      when (random.nextInt(2)) {
+        1 -> AndExpressionGenerator(random, propertySchemes)
+        else -> EqualsExpressionGenerator(random, propertySchemes)
+      }
+
     }
   }
 
