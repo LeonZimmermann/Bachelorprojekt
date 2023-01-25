@@ -46,10 +46,10 @@ class GenerationServiceIntegrationTest {
             databaseGenerationService,
             generationDataWriter
         )
-        val ontologyUri = "customontology.ttl"
+        val ontologyUri = "https://archivo.dbpedia.org/download?o=http%3A//bdi.si.ehu.es/bdi/ontologies/ExtruOnt/3D4ExtruOnt&f=owl"
 
         val generationData = generationService.generate(ontologyUri, DatabaseOptions(3, 10))
 
-        logger.debug(generationData.toString())
+        logger.debug(generationData.getQueries().joinToString("\n"))
     }
 }

@@ -54,5 +54,4 @@ TODO
 
 ## Further Development
 
-Rebuild and restart application: `./gradlew clean build -x test && docker build 
---build-arg JAR_FILE=build/libs/\*.jar -t bachelorprojekt . && docker-compose up`
+Rebuild and restart application: `./gradlew clean build -x test && docker build --build-arg JAR_FILE=build/libs/\*.jar -t bachelorprojekt . && docker-compose up`
