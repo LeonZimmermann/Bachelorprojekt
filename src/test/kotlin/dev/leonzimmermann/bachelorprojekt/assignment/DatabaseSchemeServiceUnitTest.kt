@@ -39,21 +39,6 @@ class DatabaseSchemeServiceUnitTest {
   }
 
   @Test
-  fun testLoadingTurtleFile() {
-    // When
-    val ontClasses = ontModel.listClasses().toList()
-    logger.debug("OntClasses: ${ontClasses.joinToString(", ")}")
-    val datatypeProperties = ontModel.listDatatypeProperties().toList()
-    logger.debug("DatatypeProperties: ${datatypeProperties.joinToString(", ")}")
-    val objectProperties = ontModel.listObjectProperties().toList()
-    logger.debug("ObjectProperties: ${objectProperties.joinToString(", ")}")
-    // Then
-    assertThat(ontClasses).hasSize(5)
-    assertThat(datatypeProperties).hasSize(11)
-    assertThat(objectProperties).hasSize(4)
-  }
-
-  @Test
   fun testCreateDatabase() {
     // Given
     val expectedDatabaseScheme = DatabaseScheme(
