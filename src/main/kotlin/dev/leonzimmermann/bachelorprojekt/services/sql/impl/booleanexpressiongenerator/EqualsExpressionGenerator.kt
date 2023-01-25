@@ -28,6 +28,7 @@ internal class EqualsExpressionGenerator(
       Datatype.INTEGER -> SQLNumberLiteral(propertyScheme.generateValue(random))
       Datatype.FLOAT -> SQLNumberLiteral(propertyScheme.generateValue(random))
       Datatype.LONG -> SQLNumberLiteral(propertyScheme.generateValue(random))
+      Datatype.BOOLEAN -> SQLNumberLiteral(propertyScheme.generateValue(random))
     }
   }
 }

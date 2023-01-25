@@ -4,5 +4,6 @@ enum class Datatype(val databaseIdentifier: String) {
   STRING("VARCHAR"),
   INTEGER("INT"),
   FLOAT("FLOAT(16)"),
-  LONG("LONG");
+  LONG("LONG"),
+  BOOLEAN("BOOLEAN");
 }

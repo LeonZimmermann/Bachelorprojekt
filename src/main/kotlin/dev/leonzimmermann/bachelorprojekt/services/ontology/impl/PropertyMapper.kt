@@ -1,5 +1,6 @@
 package dev.leonzimmermann.bachelorprojekt.services.ontology.impl
 
+import dev.leonzimmermann.bachelorprojekt.isBoolean
 import dev.leonzimmermann.bachelorprojekt.isNumber
 import dev.leonzimmermann.bachelorprojekt.isString
 import org.apache.jena.ontology.OntModel
@@ -40,7 +41,7 @@ class PropertyMapper(private val model: OntModel) {
   }
 
   private fun mapDatatypePropertyToResult(property: OntProperty) {
-    if (!isNumber(property) && !isString(property)) {
+    if (!isNumber(property) && !isString(property) && !isBoolean(property)) {
       return
     }
     model.createDatatypeProperty(property.localName).apply {

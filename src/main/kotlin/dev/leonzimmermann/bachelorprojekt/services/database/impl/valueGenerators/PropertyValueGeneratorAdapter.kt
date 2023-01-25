@@ -89,6 +89,7 @@ class PropertyValueGeneratorAdapter : TypeAdapter<PropertyValueGenerator>() {
         FloatValueGenerator::class.java.canonicalName -> FloatValueGenerator(IntRange(from, to))
         IntValueGenerator::class.java.canonicalName -> IntValueGenerator(IntRange(from, to))
         ValueGeneratorFromStringList::class.java.canonicalName -> ValueGeneratorFromStringList(*strings)
+        BooleanValueGenerator::class.java.canonicalName -> BooleanValueGenerator()
         else -> throw IOException()
     }
 

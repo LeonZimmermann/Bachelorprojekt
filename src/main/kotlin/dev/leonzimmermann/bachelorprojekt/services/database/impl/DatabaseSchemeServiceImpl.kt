@@ -1,14 +1,16 @@
 package dev.leonzimmermann.bachelorprojekt.services.database.impl
 
 import dev.leonzimmermann.bachelorprojekt.generation.DatabaseSchemeService
+import dev.leonzimmermann.bachelorprojekt.isBoolean
 import dev.leonzimmermann.bachelorprojekt.isFloat
 import dev.leonzimmermann.bachelorprojekt.isInt
 import dev.leonzimmermann.bachelorprojekt.isString
+import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.*
 import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.FloatValueGenerator
-import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
 import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.IntValueGenerator
 import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.ObjectIdGenerator
 import dev.leonzimmermann.bachelorprojekt.services.database.impl.valueGenerators.ValueGeneratorFromStringList
+import dev.leonzimmermann.bachelorprojekt.services.database.scheme.*
 import org.apache.jena.ontology.OntModel
 import org.apache.jena.ontology.OntProperty
 import org.apache.jena.ontology.OntResource
@@ -88,6 +90,7 @@ internal class DatabaseSchemeServiceImpl : DatabaseSchemeService {
         when {
             isInt(property) -> IntValueGenerator(IntRange(0, 9999999))
             isFloat(property) -> FloatValueGenerator(IntRange(0, 9999999))
+            isBoolean(property) -> BooleanValueGenerator()
             isString(property) -> ValueGeneratorFromStringList(
                 *getPossibleStringValuesForProperty(
                     ontModel,

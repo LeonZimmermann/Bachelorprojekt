@@ -16,6 +16,8 @@ fun isInt(property: OntProperty): Boolean =
     "unsignedShort", "unsignedByte"
   ).contains(property.range.localName)
 
+fun isBoolean(property: OntProperty): Boolean = "boolean".equals(property.range.localName)
+
 fun isFloat(property: OntProperty): Boolean =
   arrayOf("real", "rational", "decimal").contains(property.range.localName)
 
