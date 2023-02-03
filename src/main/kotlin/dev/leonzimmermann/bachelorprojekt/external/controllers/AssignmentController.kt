@@ -15,6 +15,17 @@ class AssignmentController(private val assignmentService: AssignmentService) {
 
     private val logger = LoggerFactory.getLogger(javaClass.name)
     private val random = Random(1000)
+
+    @PostMapping("/setupDatabase")
+    fun setupDatabase(@RequestParam(defaultValue = "") fileName: String): ResponseEntity<Unit> {
+        return try {
+            assignmentService.setupDatabase(fileName)
+            ResponseEntity(HttpStatus.OK)
+        } catch (exception: Exception) {
+            ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
+    }
+
     @GetMapping("/create")
     fun createAssignment(@RequestParam(defaultValue = "") fileName: String): ResponseEntity<*> {
         if (fileName.isBlank()) {

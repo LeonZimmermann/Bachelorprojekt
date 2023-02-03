@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service
 import simplenlg.framework.NLGFactory
 import simplenlg.lexicon.Lexicon
 import simplenlg.realiser.english.Realiser
+import javax.transaction.Transactional
 
 /**
  * The AssignmentService manages the interaction with a student. It creates a database and assignments
